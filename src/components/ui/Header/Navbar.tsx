@@ -11,7 +11,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="mt-3 flex justify-between text-base">
+    <div className="mt-3 flex justify-between text-sm">
       <ul className="flex items-center justify-around gap-x-5 p-2 border-2 border-black basis-[70%]">
         {navbarLinks.map((link) => (
           <li key={link.name}>
