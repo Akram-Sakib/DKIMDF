@@ -11,18 +11,21 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="mt-3 flex justify-between text-sm">
-      <ul className="flex items-center justify-around gap-x-5 p-2 border-2 border-black basis-[70%]">
+    <div className="flex justify-between text-sm border-b-2 border-[#8CC641] bg-[#efefef]">
+      <ul className="flex items-center justify-between basis-[65%] divide-x divide-[#ccc] p-0 [&>*]:m-0">
         {navbarLinks.map((link) => (
-          <li key={link.name}>
+          <li
+            key={link.name}
+            className="hover:bg-[#8CC641] hover:text-white p-2 transition text-center w-full"
+          >
             <a href={link.link}>{link.name}</a>
           </li>
         ))}
       </ul>
-      <ul className="basis-[30%] [&>*]:border-2 [&>*]:border-black [&>*]:p-2 [&>*]:px-4 flex items-center text-center justify-end gap-x-5">
-        <li>Bn</li>
-        <li>Donate Now</li>
-        <li>Registration</li>
+      <ul className="basis-[35%] [&>*]:px-4 flex items-center text-center [&>*]:m-0 text-sm">
+        <li className="hover:underline cursor-pointer w-full">Bn</li>
+        <li className="hover:underline cursor-pointer w-full">Donate Now</li>
+        <li className="hover:underline cursor-pointer w-full">Registration</li>
       </ul>
     </div>
   );

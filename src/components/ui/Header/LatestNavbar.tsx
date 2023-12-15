@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const LatestNavbar = () => {
@@ -12,10 +13,13 @@ const LatestNavbar = () => {
 
   return (
     <div>
-      <ul className="flex items-center justify-around gap-x-5 p-2 border-2 border-black mt-3 text-lg">
+      <ul className="flex items-center justify-between border-b-2  text-white text-base bg-[#9E5BBA] divide-x divide-[#ccc]">
         {navbarLinks.map((link) => (
-          <li key={link.name}>
-            <a href={link.link}>{link.name}</a>
+          <li
+            key={link.name}
+            className="hover:bg-[#62247c] p-2 hover:text-white transition w-full text-center"
+          >
+            <Link href={link.link}>{link.name}</Link>
           </li>
         ))}
       </ul>

@@ -10,7 +10,7 @@ import LatestNavbar from "@/components/ui/Header/LatestNavbar";
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-6xl">
+    <main className="mx-auto max-w-5xl">
       <Header />
       <Banner />
       <LatestNavbar />

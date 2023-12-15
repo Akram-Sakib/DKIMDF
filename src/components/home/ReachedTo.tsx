@@ -21,14 +21,14 @@ const ReachedTo = () => {
         We Reach To
       </h2>
       {/* card should be 12 card */}
-      <div className="grid grid-cols-4 gap-5 mt-5 [&>*]:text-2xl">
+      <div className="grid grid-cols-4 gap-5 mt-10 [&>*]:text-2xl">
         {/*  card */}
         {reachedTo.map((reach) => (
           <div
             key={reach.id}
-            className="border-2 border-black h-[4rem] flex flex-col justify-center items-center relative"
+            className="border-2 border-green-600 h-[4rem] flex flex-col justify-center items-center relative text-center hover:shadow-2xl transition-all duration-300 ease-in-out cursor-pointer hover:bg-green-600 hover:text-white"
           >
-            <h2>{reach.name}</h2>
+            <h2 className="text-lg">{reach.name}</h2>
           </div>
         ))}
       </div>

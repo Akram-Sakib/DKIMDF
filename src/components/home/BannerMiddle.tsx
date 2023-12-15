@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const BannerMiddle = () => {
   return (
-    <div className="w-full mt-3">
+    <div className="w-full mt-10">
       <Image
         src={PrimeMinisterImage}
         width={1500}
