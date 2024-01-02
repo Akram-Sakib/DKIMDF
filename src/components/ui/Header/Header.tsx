@@ -1,10 +1,10 @@
-import { CalendarForm } from "./HeaderCalender";
-import Navbar from "./Navbar";
+import { CalendarForm } from "./header-calender";
+import Navbar from "./navbar";
 
 const Header = () => {
   return (
     <>
-      <div className="flex justify-between items-center [&>*]:p-2 [&>*]:px-5 text-base bg-[#9E5BBA] text-white border-b border-red-600">
+      <div className="flex justify-between items-center [&>*]:p-2 [&>*]:px-5 text-base text-primary border-t-2 border-primary shadow-lg font-semibold">
         <h2 className="basis-[30%] text-green">Shamadhan Foundation</h2>
         <h2 className="basis-[60%] text-center">
           Dynamic Krishok & Imam Muazzin Development Foundation

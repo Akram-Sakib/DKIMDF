@@ -13,11 +13,14 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: #169916;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
+    --secondary: #df1921;
     --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --brick: #fd4d21;
+    --brick-foreground: 210 40% 98%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -72,7 +75,8 @@
   }
   body {
     @apply bg-background text-foreground;
-    background: url("../assets/images/bg_main.gif") repeat scroll center top
-      rgba(0, 0, 0, 0);
+    /* background: url("../assets/images/bg_main.gif") repeat scroll center top
+      rgba(0, 0, 0, 0); */
+    /* background: #f7fafd; */
   }
 }

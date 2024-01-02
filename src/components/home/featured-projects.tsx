@@ -1,5 +1,5 @@
 import React from "react";
-import FeaturedProject from "./FeaturedProject";
+import FeaturedProject from "./featured-project";
 import lawRulesImg from "@/assets/images/Law Rules.png";
 import PledgedImg from "@/assets/images/প্রদান প্রতিশ্রুতি (সিটিজেন্_স চার্টার).png";
 import grsImg from "@/assets/images/GRS.png";
