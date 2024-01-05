@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import Container from "../container";
 
 const LatestNavbar = () => {
   const navbarLinks = [
@@ -12,18 +13,20 @@ const LatestNavbar = () => {
   ];
 
   return (
-    <div>
-      <ul className="flex items-center justify-between border-b-2  text-white text-base bg-primary divide-x divide-[#ccc]">
-        {navbarLinks.map((link) => (
-          <li
-            key={link.name}
-            className="hover:bg-secondary p-2 hover:text-white transition w-full text-center"
-          >
-            <Link href={link.link}>{link.name}</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <section className="bg-white text-black border-b-2">
+      <Container>
+        <ul className="flex items-center justify-between text-base divide-x divide-[#ccc]">
+          {navbarLinks.map((link) => (
+            <li
+              key={link.name}
+              className="font-bold p-2 transition w-full text-center"
+            >
+              <Link href={link.link}>{link.name}</Link>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </section>
   );
 };
 

@@ -1,3 +1,6 @@
+import { IconContext } from "react-icons";
+import { FaAdjust } from "react-icons/fa";
+
 import {
   AlertTriangle,
   ArrowRight,
@@ -79,4 +82,5 @@ export const Icons = {
   ),
   twitter: Twitter,
   check: Check,
+  adjust: FaAdjust,
 };

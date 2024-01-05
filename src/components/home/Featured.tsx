@@ -1,8 +1,14 @@
-import React from "react";
-import Image from "next/image";
+"use client"
+
+import grsImg from "@/assets/images/GRS.png";
 import aboutusImg from "@/assets/images/aboutus.png";
 import apaImg from "@/assets/images/apa.png";
-import grsImg from "@/assets/images/GRS.png";
+import { cn } from "@/lib/utils";
+import { IconContext } from "react-icons";
+import { FaNetworkWired } from "react-icons/fa";
+import { FaChevronRight } from "react-icons/fa6";
+import { LuGoal } from "react-icons/lu";
+import { FaEye } from "react-icons/fa6";
 
 const Featured = () => {
   const featuredList = [
@@ -11,40 +17,46 @@ const Featured = () => {
       title: "How We Work",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
-      image: aboutusImg,
+      icon: <FaNetworkWired size={24} />,
     },
     {
       id: 2,
       title: "Our Mission",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
-      image: apaImg,
+      icon: <LuGoal size={24} />,
     },
     {
       id: 3,
       title: "Our Vision",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
-      image: grsImg,
+      icon: <FaEye size={24} />,
     },
   ];
 
   return (
-    <div className="mt-3 flex justify-between items-center gap-x-5 text-center [&>*]:text-2xl">
+    <section className="mt-3 grid grid-cols-3 gap-x-20 text-center [&>*]:text-2xl py-20">
       {featuredList.map((item) => (
         <div
           key={item.id}
-          className="shadow-xl basis-1/3 h-72 flex flex-col justify-center items-center relative hover:shadow-2xl transition-all duration-300 ease-in-out cursor-pointer"
+          className={cn("shadow-xl py-10 pb-16 px-8 flex flex-col justify-center items-center relative hover:shadow-2xl transition-all duration-300 ease-in-out cursor-pointer bg-white rounded-lg hover:scale-105 hover:bg-[#0056b3] group")}
         >
-          <Image src={item.image} alt={item.title} width={150} height={150} />
-          <h3 className="font-bold mt-3 text-base">{item.title}</h3>
-          <p className="mt-3 text-sm">{item.description}</p>
-          <button className="text-sm text-right font-bold self-end mr-5 mt-2 hover:underline underline-offset-2">
-            More
-          </button>
+          <div className="mb-3 h-16 w-16 flex justify-center items-center rounded-md bg-[#f6f4fd] group-hover:bg-white ">
+            <IconContext.Provider value={{ className: "text-[#4f42d2]" }}>
+              {item.icon}
+            </IconContext.Provider>
+          </div>
+          <h3 className="font-bold mb-3 text-lg text-black group-hover:text-white">{item.title}</h3>
+          <p className="text-sm font-semibold text-[#6f8ba4] group-hover:text-white">{item.description}</p>
+          <div style={{
+            background:"linear-gradient(135deg,#3a2cc2,#695de5)"
+          }} className="absolute inset-x-auto -bottom-6 w-12 h-12 transition-all duration-300 ease-in-out rounded-full flex items-center justify-center text-white">
+            <FaChevronRight size={20}/>
+          </div>
         </div>
       ))}
-    </div>
+    </section>
   );
 };
 

@@ -4,13 +4,11 @@ import React from "react";
 
 const PublicLayoutPage = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
-      <main className="mx-auto container">
-        <Header />
-        {children}
-        <Footer />
-      </main>
-    </>
+    <main className="relative">
+      <Header />
+      {children}
+      <Footer />
+    </main>
   );
 };
 

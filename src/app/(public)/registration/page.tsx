@@ -16,6 +16,7 @@ import { FaUser } from "react-icons/fa";
 import { FaLocationDot, FaUsers } from "react-icons/fa6";
 import { GiSevenPointedStar } from "react-icons/gi";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import Container from "@/components/ui/container";
 
 const RegistrationPage = () => {
   const onSubmit = (values: { [x: string]: any }): void => {
@@ -66,73 +67,70 @@ const RegistrationPage = () => {
       value: "personIntro",
       subtitle: "নিবন্ধনাধীন ব্যক্তির পরিচিতি",
       content: (
-        <div className={cn("grid grid-cols-2 gap-x-10 gap-y-4")}>
-          <FormInput
-            name="firstName"
-            label="First Name"
-            placeholder="First Name"
-            required
-          />
-          <FormInput
-            name="lastName"
-            label="Last Name"
-            placeholder="Last Name"
-            required
-          />
-          <FormInput
-            name="email"
-            label="Email Address"
-            placeholder="Email Address"
-            required
-          />
-          <FormSelect
-            name="gender"
-            label="Gender"
-            placeholder="Select Your Gender"
-            options={options}
-            required
-          />
-          <FormInput
-            name="spouseName"
-            label="Spouse Name"
-            placeholder="Spouse Name"
-          />
-          <FormDatePicker name="dateOfBirth" label="Date Of Birth" />
-          <FormInput
-            name="phoneNumber"
-            label="Phone Number"
-            placeholder="Phone Number"
-          />
-          <FormInput
-            name="phoneNumber"
-            label="Phone Number"
-            placeholder="Phone Number"
-          />
-          <FormInput
-            name="nidNumber"
-            label="NID Number"
-            placeholder="NID Number"
-            required
-          />
-          <FormInput
-            name="education"
-            label="Latest Education"
-            placeholder="Latest Education"
-          />
-          <FormInput
-            name="bloodGroup"
-            label="Blood Group"
-            placeholder="Blood Group"
-          />
-          <FormInput
-            name="occupation"
-            label="Present Occupation"
-            placeholder="Present Occupation"
-          />
+        <div>
+          <div className={cn("grid grid-cols-2 gap-x-10 gap-y-4")}>
+            <FormInput
+              name="firstName"
+              label="First Name"
+              placeholder="First Name"
+              required
+            />
+            <FormInput
+              name="lastName"
+              label="Last Name"
+              placeholder="Last Name"
+              required
+            />
+            <FormInput
+              name="email"
+              label="Email Address"
+              placeholder="Email Address"
+              required
+            />
+            <FormSelect
+              name="gender"
+              label="Gender"
+              placeholder="Select Your Gender"
+              options={options}
+              required
+            />
+            <FormInput
+              name="spouseName"
+              label="Spouse Name"
+              placeholder="Spouse Name"
+            />
+            <FormDatePicker name="dateOfBirth" label="Date Of Birth" />
+            <FormInput
+              name="phoneNumber"
+              label="Phone Number"
+              placeholder="Phone Number"
+            />
+            <FormInput
+              name="nidNumber"
+              label="NID Number"
+              placeholder="NID Number"
+              required
+            />
+            <FormInput
+              name="education"
+              label="Latest Education"
+              placeholder="Latest Education"
+            />
+            <FormInput
+              name="bloodGroup"
+              label="Blood Group"
+              placeholder="Blood Group"
+            />
+            <FormInput
+              name="occupation"
+              label="Present Occupation"
+              placeholder="Present Occupation"
+            />
+          </div>
           <Button
             onClick={() => handlePrevNextTabs("next")}
             type="button"
-            className="space-x-2 w-24"
+            className="space-x-2 w-24 mt-5"
           >
             <span className="inline-block">Next</span>{" "}
             <FaArrowRightLong size={18} />
@@ -232,9 +230,14 @@ const RegistrationPage = () => {
           />
           <FormInput name="wardNo" label="Ward No" placeholder="Ward No" />
           <FormInput
-            name="postAddress"
-            label="Post Address"
-            placeholder="Post Address"
+            name="village"
+            label="Village / Area"
+            placeholder="Village / Area"
+          />
+          <FormInput
+            name="postOffice"
+            label="Post Office"
+            placeholder="Post Office"
           />
           <FormInput
             name="postCode"
@@ -280,7 +283,7 @@ const RegistrationPage = () => {
           />
           <FormInput name="epiCard" label="EPI Card" required type="file" />
           <FormCheckBox
-            name="agreeTerms"
+            name="termsAggrement"
             label="Do you agree with our terms & conditions"
             required
           />
@@ -293,7 +296,7 @@ const RegistrationPage = () => {
               <FaArrowLeftLong size={18} />
               <span className="inline-block"> Prev</span>{" "}
             </Button>
-            <Button type="submit" className="grid-cols-12">
+            <Button type="submit" >
               Submit
             </Button>
           </div>
@@ -304,41 +307,43 @@ const RegistrationPage = () => {
 
   return (
     <div className="px-5 shadow-2xl py-5">
-      <h1 className="text-center mt-10 text-xl font-bold">
-        Membership Registration
-      </h1>
-      <UserForm
-        onSubmit={onSubmit}
-        defaultValues={defaultValues}
-        formSchema={formSchema}
-        className="w-full items-center gap-5 mt-10 "
-      >
-        <Tabs
-          defaultValue={defaultTabs}
-          value={defaultTabs}
-          className="space-y-10"
-          onValueChange={handleTabs}
+      <Container>
+        <h1 className="text-center mt-10 text-xl font-bold">
+          Membership Registration
+        </h1>
+        <UserForm
+          onSubmit={onSubmit}
+          defaultValues={defaultValues}
+          formSchema={formSchema}
+          className="w-full items-center gap-5 mt-10 "
         >
-          <TabsList>
-            {registrationTabs.map((tab) => (
-              <TabsTrigger value={tab.value} key={tab.id}>
-                <div className="text-black flex items-center gap-3">
-                  <span className="">{tab.icon}</span>
-                  <div className="text-left">
-                    <h4 className="text-lg">{tab.label}</h4>
-                    <p className="">{tab.subtitle}</p>
+          <Tabs
+            defaultValue={defaultTabs}
+            value={defaultTabs}
+            className="space-y-10"
+            onValueChange={handleTabs}
+          >
+            <TabsList>
+              {registrationTabs.map((tab) => (
+                <TabsTrigger value={tab.value} key={tab.id}>
+                  <div className="text-black flex items-center gap-3">
+                    <span className="">{tab.icon}</span>
+                    <div className="text-left">
+                      <h4 className="text-lg">{tab.label}</h4>
+                      <p className="">{tab.subtitle}</p>
+                    </div>
                   </div>
-                </div>
-              </TabsTrigger>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            {registrationTabs.map((tab) => (
+              <TabsContent key={tab.id} value={tab.value}>
+                {tab.content}
+              </TabsContent>
             ))}
-          </TabsList>
-          {registrationTabs.map((tab) => (
-            <TabsContent key={tab.id} value={tab.value}>
-              {tab.content}
-            </TabsContent>
-          ))}
-        </Tabs>
-      </UserForm>
+          </Tabs>
+        </UserForm>
+      </Container>
       {/* <div className="grid grid-cols-2 w-full items-center gap-5 px-5 mt-10">
         <div>
           <Label htmlFor="fullName" className="mb-3 inline-block">

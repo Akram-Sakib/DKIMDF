@@ -1,6 +1,6 @@
+import Featured from "@/components/home/featured";
 import Banner from "@/components/home/banner";
 import BannerMiddle from "@/components/home/banner-middle";
-import Featured from "@/components/home/featured";
 import FeaturedProjects from "@/components/home/featured-projects";
 import NewsAndEvents from "@/components/home/news-and-events";
 import ReachedTo from "@/components/home/reached-to";
@@ -11,11 +11,13 @@ export default function Home() {
     <>
       <Banner />
       <LatestNavbar />
-      <Featured />
-      <FeaturedProjects />
-      <BannerMiddle />
-      <ReachedTo />
-      <NewsAndEvents />
+      <div className="mx-auto container pt-20">
+        <Featured />
+        <FeaturedProjects />
+        <BannerMiddle />
+        <ReachedTo />
+        <NewsAndEvents />
+      </div>
     </>
   );
 }
