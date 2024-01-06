@@ -308,7 +308,7 @@ const RegistrationPage = () => {
   return (
     <div className="px-5 shadow-2xl py-5">
       <Container>
-        <h1 className="text-center mt-10 text-xl font-bold">
+        <h1 className="text-center my-20 text-3xl font-bold">
           Membership Registration
         </h1>
         <UserForm

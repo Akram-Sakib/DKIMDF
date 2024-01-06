@@ -2,6 +2,7 @@ import Link from "next/link";
 import Container from "../container";
 import { Button } from "../button";
 import Image from "next/image";
+import logoImg from "@/assets/svg/mark.svg"
 
 const Navbar = () => {
   const navbarLinks = [
@@ -50,8 +51,8 @@ const Navbar = () => {
                   // className="h-8 w-auto"
                   height={32}
                   width={32}
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  alt=""
+                  src={logoImg}
+                  alt="logo"
                 />
               </Link>
             </div>
@@ -321,11 +322,13 @@ const Navbar = () => {
               <div className="flex items-center justify-between">
                 <a href="#" className="-m-1.5 p-1.5">
                   <span className="sr-only">Your Company</span>
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                    alt=""
-                  />
+                  <Image
+                  // className="h-8 w-auto"
+                  height={32}
+                  width={32}
+                  src={logoImg}
+                  alt="logo"
+                />
                 </a>
                 <button
                   type="button"

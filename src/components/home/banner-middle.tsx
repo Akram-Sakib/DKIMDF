@@ -4,14 +4,14 @@ import Image from "next/image";
 
 const BannerMiddle = () => {
   return (
-    <div className="w-full mt-10">
+    <section className="w-full py-20">
       <Image
         src={PrimeMinisterImage}
         width={1500}
         height={1000}
         alt="Prime Minister Image"
       />
-    </div>
+    </section>
   );
 };
 

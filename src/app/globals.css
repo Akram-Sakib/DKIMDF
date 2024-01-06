@@ -78,6 +78,10 @@
     /* background: url("../assets/images/bg_main.gif") repeat scroll center top
       rgba(0, 0, 0, 0); */
     /* background: #f7fafd; */
-    background: linear-gradient(0deg, rgb(231 216 255) 0%, rgb(255 255 255) 100%);
+    background: linear-gradient(
+      0deg,
+      rgb(231 216 255) 0%,
+      rgb(255 255 255) 100%
+    );
   }
 }
