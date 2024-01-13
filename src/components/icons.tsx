@@ -1,5 +1,5 @@
-import { IconContext } from "react-icons";
 import { FaAdjust } from "react-icons/fa";
+import { RiAdminLine } from "react-icons/ri";
 
 import {
   AlertTriangle,
@@ -32,6 +32,7 @@ import {
   User2Icon,
   UserX2Icon,
   X,
+  Banknote,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -43,6 +44,7 @@ export const Icons = {
   close: X,
   profile: User2Icon,
   spinner: Loader2,
+  admin: RiAdminLine,
   kanban: CircuitBoardIcon,
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
@@ -83,4 +85,5 @@ export const Icons = {
   twitter: Twitter,
   check: Check,
   adjust: FaAdjust,
+  banknote: Banknote,
 };

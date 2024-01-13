@@ -59,7 +59,7 @@ const NewsAndEvents = () => {
                 className="rounded-lg"
               />
               <div className="transition-all invisible group-hover:visible translate-y-0 h-0 group-hover:h-16 bg-gray-950 z-10 absolute bottom-0 w-full text-white flex justify-between items-center rounded-b-lg p-3 text-lg">
-                <h2>{item.title}</h2>
+                <h2 className="font-semibold">{item.title}</h2>
                 <span className="h-10 w-10 rounded-full bg-blue-800 items-center justify-center flex">
                   {item.icon}
                 </span>

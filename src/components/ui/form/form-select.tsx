@@ -28,6 +28,7 @@ interface FormSelectProps {
   placeholder?: string;
   options: Option[];
   required?: boolean;
+  disabled?: boolean;
 }
 
 const FormSelect = ({
@@ -35,6 +36,7 @@ const FormSelect = ({
   label,
   placeholder,
   options,
+  disabled = false,
   required = false,
   ...props
 }: FormSelectProps) => {
@@ -51,6 +53,7 @@ const FormSelect = ({
             {required && <span className="text-red-500">*</span>}
           </FormLabel>
           <Select
+            disabled={disabled}
             onValueChange={field.onChange}
             defaultValue={field.value}
             {...props}

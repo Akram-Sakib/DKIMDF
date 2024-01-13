@@ -14,6 +14,7 @@ interface FormInputProps {
   placeholder?: string;
   type?: string;
   required?: boolean;
+  disabled?: boolean;
 }
 
 const FormInput = ({
@@ -22,6 +23,7 @@ const FormInput = ({
   placeholder,
   type = "text",
   required = false,
+  disabled = false,
   ...props
 }: FormInputProps) => {
   const { control } = useFormContext();
@@ -37,10 +39,10 @@ const FormInput = ({
               {label} {required && <span className="text-red-500">*</span>}
             </FormLabel>
             <FormControl>
-
                 <Input
                   type={type}
                   placeholder={placeholder}
+                  disabled={disabled}
                   {...field}
                   {...props}
                 />
