@@ -13,7 +13,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: #169916;
+    --primary: rgb(17, 24, 39);
     --primary-foreground: 210 40% 98%;
 
     --secondary: #df1921;
@@ -78,11 +78,11 @@
     /* background: url("../assets/images/bg_main.gif") repeat scroll center top
       rgba(0, 0, 0, 0); */
     /* background: #f7fafd; */
-    background: linear-gradient(
+    /* background: linear-gradient(
       0deg,
       rgb(231 216 255) 0%,
       rgb(255 255 255) 100%
-    );
+    ); */
   }
 }
 

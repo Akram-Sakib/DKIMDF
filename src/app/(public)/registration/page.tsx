@@ -315,7 +315,8 @@ const RegistrationPage = () => {
           onSubmit={onSubmit}
           defaultValues={defaultValues}
           formSchema={formSchema}
-          className="w-full items-center gap-5 mt-10 "
+          className="w-full items-center gap-5 mt-10"
+          formId="registration"
         >
           <Tabs
             defaultValue={defaultTabs}

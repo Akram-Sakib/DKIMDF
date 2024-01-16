@@ -1,3 +1,9 @@
+
+const breadcrumbItems = [
+  { title: "Payment", link: "/dashboard/payment" },
+  { title: "History", link: "/dashboard/payment/history" },
+];
+
 import { buttonVariants } from "@/components/ui/button";
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
 import { Heading } from "@/components/ui/dashboard/heading";
@@ -6,10 +12,8 @@ import { UserTable } from "@/components/ui/dashboard/user-tables/user-table";
 import { Separator } from "@/components/ui/separator";
 import { Employee } from "@/constants/data";
 import { cn } from "@/lib/utils";
-import { Plus } from "lucide-react";
+import { CheckSquare2 } from "lucide-react";
 import Link from "next/link";
-
-const breadcrumbItems = [{ title: "Users", link: "/dashboard/users" }];
 
 type paramsProps = {
   searchParams: {
@@ -17,7 +21,9 @@ type paramsProps = {
   };
 };
 
-export default async function page({ searchParams }: paramsProps) {
+export default async function PaymentHistoryPage({
+  searchParams,
+}: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const pageLimit = Number(searchParams.limit) || 10;
   const country = searchParams.search || null;
@@ -25,7 +31,7 @@ export default async function page({ searchParams }: paramsProps) {
 
   const res = await fetch(
     `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${pageLimit}` +
-      (country ? `&search=${country}` : ""),
+      (country ? `&search=${country}` : "")
   );
   const userRes = await res.json();
   const totalUsers = userRes.total_users; //1000
@@ -43,10 +49,10 @@ export default async function page({ searchParams }: paramsProps) {
           />
 
           <Link
-            href={"/dashboard/user/new"}
+            href={"/dashboard/payment/buy-subscription"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
-            <Plus className="mr-2 h-4 w-4" /> Add New
+            <CheckSquare2 className="mr-2 h-4 w-4" />Buy Subscription
           </Link>
         </div>
         <Separator />

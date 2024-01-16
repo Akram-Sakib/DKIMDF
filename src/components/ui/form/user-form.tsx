@@ -5,9 +5,8 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReactNode } from "react";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 import useFormPersist from "react-hook-form-persist";
-import { Input } from "../input";
+import * as z from "zod";
 
 interface UserFormProps {
   children: ReactNode;
@@ -15,6 +14,7 @@ interface UserFormProps {
   onSubmit: (values: { [x: string]: any }) => void;
   defaultValues: { [x: string]: any };
   className?: string;
+  formId: string;
 }
 
 const UserForm = ({
@@ -23,6 +23,7 @@ const UserForm = ({
   onSubmit,
   defaultValues,
   className,
+  formId,
 }: UserFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -31,7 +32,7 @@ const UserForm = ({
 
   const { watch, setValue } = form;
 
-  useFormPersist("form", {
+  useFormPersist(formId, {
     watch,
     setValue,
     exclude: ["password", "image", "epiCard"],

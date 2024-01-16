@@ -2,7 +2,7 @@ import Link from "next/link";
 import Container from "../container";
 import { Button } from "../button";
 import Image from "next/image";
-import logoImg from "@/assets/svg/mark.svg"
+import logoImg from "@/assets/svg/mark.svg";
 
 const Navbar = () => {
   const navbarLinks = [
@@ -17,43 +17,25 @@ const Navbar = () => {
 
   return (
     <>
-      <Container>
-        {/* <div className="flex justify-between text-sm text-white ">
-          <ul className="flex items-center justify-between basis-[65%] divide-x divide-[#ccc] p-0 [&>*]:m-0">
-            {navbarLinks.map((link) => (
-              <li
-                key={link.name}
-                className="hover:bg-secondary hover:text-white p-2 transition text-center w-full"
-              >
-                <Link href={link.link}>{link.name}</Link>
-              </li>
-            ))}
-          </ul>
-          <ul className="basis-[35%] [&>*]:px-4 flex items-center text-center [&>*]:m-0 text-sm">
-            <li className="hover:underline cursor-pointer w-full">Bn</li>
-            <li className="hover:underline cursor-pointer w-full">
-              <Link href={`/dashboard`}>Dashboard</Link>
-            </li>
-            <li className="hover:underline cursor-pointer w-full">
-              <Link href={`/registration`}>Registration</Link>
-            </li>
-          </ul>
-        </div> */}
-        <header className="bg-white">
+      <Container className="">
+        <header className="bg-opacity-30 dark:bg-black dark:bg-opacity-30 backdrop-filter backdrop-saturate-150 backdrop-blur-lg border-b">
           <nav
-            className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+            className="mx-auto flex max-w-7xl items-center justify-between py-6 lg:py-8"
             aria-label="Global"
           >
             <div className="flex lg:flex-1">
-              <Link href={"/"} className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
+              <Link href={"/"} className="">
+                <strong className="text-black-900 font-black text-xl">
+                  Somadhan Foundation
+                </strong>
+                {/* <span className="sr-only">Your Company</span>
                 <Image
                   // className="h-8 w-auto"
                   height={32}
                   width={32}
                   src={logoImg}
                   alt="logo"
-                />
+                /> */}
               </Link>
             </div>
             <div className="flex lg:hidden">
@@ -309,9 +291,7 @@ const Navbar = () => {
               ))}
             </div>
             <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-              <Button
-                className="text-sm font-semibold bg-purple-900"
-              >
+              <Button className="text-sm font-semibold bg-gray-900">
                 <Link href={"/registration"}>Registration</Link>
               </Button>
             </div>
@@ -323,12 +303,12 @@ const Navbar = () => {
                 <a href="#" className="-m-1.5 p-1.5">
                   <span className="sr-only">Your Company</span>
                   <Image
-                  // className="h-8 w-auto"
-                  height={32}
-                  width={32}
-                  src={logoImg}
-                  alt="logo"
-                />
+                    // className="h-8 w-auto"
+                    height={32}
+                    width={32}
+                    src={logoImg}
+                    alt="logo"
+                  />
                 </a>
                 <button
                   type="button"

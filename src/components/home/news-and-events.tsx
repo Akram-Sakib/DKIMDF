@@ -1,6 +1,6 @@
 import EventsImage from "@/assets/images/EventsImage.jpg";
-import Image from "next/image";
 import { TbWorld } from "react-icons/tb";
+import BlurImage from "../ui/blur-image";
 
 const NewsAndEvents = () => {
   const news = [
@@ -50,13 +50,13 @@ const NewsAndEvents = () => {
       <div className="grid grid-cols-3 gap-16 mt-5 [&>*]:text-2xl">
         {news.map((item, i) => (
           <div key={item.id}>
-            <div className="relative h-96 w-full shadow-lg hover:shadow-2xl   transition duration-500 ease-in-out rounded-lg hover:-translate-y-1.5 cursor-pointer group">
-              <Image
-                src={item.image}
+            <div className="relative w-full shadow-lg hover:shadow-2xl   transition duration-500 ease-in-out rounded-lg hover:-translate-y-1.5 cursor-pointer group">
+              <BlurImage
+                image={item.image}
                 alt="Events Image"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-lg"
+                className="rounded-lg bg-gray-200"
+                imgClassName="rounded-lg"
+                aspectRatio={1 / 1}
               />
               <div className="transition-all invisible group-hover:visible translate-y-0 h-0 group-hover:h-16 bg-gray-950 z-10 absolute bottom-0 w-full text-white flex justify-between items-center rounded-b-lg p-3 text-lg">
                 <h2 className="font-semibold">{item.title}</h2>

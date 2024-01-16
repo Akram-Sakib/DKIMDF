@@ -1,35 +1,53 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { AspectRatio } from "./aspect-ratio";
 
 interface BlurImageProps {
   image: string | StaticImageData;
   alt: string;
+  className?: string;
+  imgClassName?: string;
+  aspectRatio?: number;
 }
 
-export default function BlurImage({ image, alt }: BlurImageProps) {
+export default function BlurImage({
+  image,
+  alt,
+  className,
+  imgClassName,
+  aspectRatio
+}: BlurImageProps) {
   const [isLoading, setLoading] = useState(true);
 
   return (
     <div className="group">
-      <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-5">
+      <AspectRatio ratio={aspectRatio}
+        className={cn(
+          "w-full overflow-hidden",
+          className
+        )}
+      >
         <Image
           alt={alt}
           src={image}
           layout="fill"
           objectFit="cover"
-          className={`
-                duration-700 ease-in-out group-hover:scale-105
-                ${
-                  isLoading
-                    ? "scale-110 blur-2xl grayscale"
-                    : "scale-100 blur-0 grayscale-0"
-                })`}
+          className={cn(
+            `duration-700 ease-in-out group-hover:scale-105
+          ${
+            isLoading
+              ? "scale-110 blur-2xl grayscale"
+              : "scale-100 blur-0 grayscale-0"
+          })`,
+            imgClassName
+          )}
           onLoadingComplete={() => setLoading(false)}
         />
-      </div>
+      </AspectRatio>
     </div>
   );
 }

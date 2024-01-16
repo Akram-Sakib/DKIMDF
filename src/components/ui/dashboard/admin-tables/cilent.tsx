@@ -7,12 +7,14 @@ import { Button } from "@/components/ui/button";
 import { User } from "@/constants/data";
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "../heading";
+import { columns } from "./columns";
+import { DataTable } from "../../data-table";
 
 interface ProductsClientProps {
   data: User[];
 }
 
-export const UserClient: React.FC<ProductsClientProps> = ({ data }) => {
+export const AdminClient: React.FC<ProductsClientProps> = ({ data }) => {
   const params = useParams();
   const router = useRouter();
 
@@ -31,7 +33,7 @@ export const UserClient: React.FC<ProductsClientProps> = ({ data }) => {
         </Button>
       </div>
       <Separator />
-      {/* <DataTable searchKey="name" columns={columns} data={data} /> */}
+      <DataTable searchKey="name" columns={columns} data={data} />
     </>
   );
 };

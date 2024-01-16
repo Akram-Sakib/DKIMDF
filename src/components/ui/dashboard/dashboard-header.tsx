@@ -10,7 +10,7 @@ export default function DashboardHeader() {
       <nav className="h-14 flex items-center justify-between px-4">
         <Link href="/">
           <div className={cn("hidden md:block")}>
-            <strong>Somadhan Foundation</strong>
+            <strong className="text-lg font-bold">Somadhan Foundation</strong>
             {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
