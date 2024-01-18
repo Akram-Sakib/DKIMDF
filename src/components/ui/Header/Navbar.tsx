@@ -1,26 +1,35 @@
-import Link from "next/link";
-import Container from "../container";
-import { Button } from "../button";
-import Image from "next/image";
 import logoImg from "@/assets/svg/mark.svg";
+import { Icons } from "@/components/icons";
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "../button";
+import Container from "../container";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "../dropdown-menu";
 
 const Navbar = () => {
   const navbarLinks = [
     { name: "Home", link: "/" },
-    { name: "About", link: "/about" },
     { name: "Projects", link: "/projects" },
     { name: "Gallery", link: "/gallery" },
     { name: "News", link: "/news" },
+    { name: "About", link: "/about" },
     { name: "Contact", link: "/contact" },
     { name: "Dashboard", link: "/dashboard" },
   ];
 
+  const GlobeIcon = Icons["globe"];
+
   return (
     <>
       <Container className="">
-        <header className="bg-opacity-30 dark:bg-black dark:bg-opacity-30 backdrop-filter backdrop-saturate-150 backdrop-blur-lg border-b">
+        <header className=" dark:bg-black dark:bg-opacity-30">
           <nav
-            className="mx-auto flex max-w-7xl items-center justify-between py-6 lg:py-8"
+            className="mx-auto flex max-w-7xl items-center justify-between py-6"
             aria-label="Global"
           >
             <div className="flex lg:flex-1">
@@ -290,9 +299,20 @@ const Navbar = () => {
                 </Link>
               ))}
             </div>
-            <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-x-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="px-1 space-x-2" asChild>
+                  <Button variant="outline">{<GlobeIcon className="w-5 h-5"/>} <span>Bn</span></Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="min-w-[4rem]">
+                  {/* <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator /> */}
+                  <DropdownMenuItem>Bn</DropdownMenuItem>
+                  <DropdownMenuItem>En</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <Button className="text-sm font-semibold bg-gray-900">
-                <Link href={"/registration"}>Registration</Link>
+                <Link href={"/registration"}>Login</Link>
               </Button>
             </div>
           </nav>

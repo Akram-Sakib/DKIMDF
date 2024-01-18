@@ -6,15 +6,15 @@ const ContactPage = () => {
       <section className="mt-32">
         <div className="flex justify-center">
           <div className="text-center md:max-w-xl lg:max-w-3xl">
-            <h2 className="mb-12 px-6 text-3xl font-bold">Contact us</h2>
+            <h2 className="mb-20 px-6 text-4xl font-bold">Contact us</h2>
           </div>
         </div>
 
         <div className="flex flex-wrap">
           <form className="mb-12 w-full shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-5/12 lg:px-6">
-            <div className="mb-3 w-full">
+            <div className="mb-3 w-full space-y-2">
               <label
-                className="block font-medium mb-[2px] text-teal-700"
+                className="block font-medium mb-[2px] text-gray-900"
                 htmlFor="exampleInput90"
               >
                 Name
@@ -27,9 +27,9 @@ const ContactPage = () => {
               />
             </div>
 
-            <div className="mb-3 w-full">
+            <div className="mb-3 w-full space-y-2">
               <label
-                className="block font-medium mb-[2px] text-teal-700"
+                className="block font-medium mb-[2px] text-gray-900"
                 htmlFor="exampleInput90"
               >
                 Email
@@ -42,9 +42,9 @@ const ContactPage = () => {
               />
             </div>
 
-            <div className="mb-3 w-full">
+            <div className="mb-3 w-full space-y-2">
               <label
-                className="block font-medium mb-[2px] text-teal-700"
+                className="block font-medium mb-[2px] text-gray-900"
                 htmlFor="exampleInput90"
               >
                 Message
@@ -58,7 +58,7 @@ const ContactPage = () => {
 
             <button
               type="button"
-              className="mb-6 inline-block w-full rounded bg-teal-400 px-6 py-2.5 font-medium uppercase leading-normal text-white hover:shadow-md hover:bg-teal-500"
+              className="mb-6 inline-block w-full rounded bg-gray-900 px-6 py-2.5 font-medium uppercase leading-normal text-white hover:shadow-md hover:bg-gray-900"
             >
               Send
             </button>
@@ -69,7 +69,7 @@ const ContactPage = () => {
               <div className="mb-12 w-full shrink-0 grow-0 basis-auto md:w-6/12 md:px-3 lg:px-6">
                 <div className="flex items-start">
                   <div className="shrink-0">
-                    <div className="inline-block rounded-md bg-teal-400-100 p-4 text-teal-700">
+                    <div className="inline-block rounded-md bg-gray-900-100 p-4 text-gray-900">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -96,7 +96,7 @@ const ContactPage = () => {
               <div className="mb-12 w-full shrink-0 grow-0 basis-auto md:w-6/12 md:px-3 lg:px-6">
                 <div className="flex items-start">
                   <div className="shrink-0">
-                    <div className="inline-block rounded-md bg-teal-400-100 p-4 text-teal-700">
+                    <div className="inline-block rounded-md bg-gray-900-100 p-4 text-gray-900">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -123,7 +123,7 @@ const ContactPage = () => {
               <div className="mb-12 w-full shrink-0 grow-0 basis-auto md:w-6/12 md:px-3 lg:px-6">
                 <div className="align-start flex">
                   <div className="shrink-0">
-                    <div className="inline-block rounded-md bg-teal-400-100 p-4 text-teal-700">
+                    <div className="inline-block rounded-md bg-gray-900-100 p-4 text-gray-900">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -150,7 +150,7 @@ const ContactPage = () => {
               <div className="mb-12 w-full shrink-0 grow-0 basis-auto md:w-6/12 md:px-3 lg:px-6">
                 <div className="align-start flex">
                   <div className="shrink-0">
-                    <div className="inline-block rounded-md bg-teal-400-100 p-4 text-teal-700">
+                    <div className="inline-block rounded-md bg-gray-900-100 p-4 text-gray-900">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

@@ -1,4 +1,6 @@
-import EventsImage from "@/assets/images/EventsImage.jpg";
+import EventsImage from "@/assets/images/gallery-one-img-1.jpg";
+import EventsImage2 from "@/assets/images/gallery-one-img-2.jpg";
+import EventsImage3 from "@/assets/images/gallery-one-img-3.jpg";
 import { TbWorld } from "react-icons/tb";
 import BlurImage from "../ui/blur-image";
 
@@ -12,13 +14,13 @@ const NewsAndEvents = () => {
     },
     {
       id: 2,
-      image: EventsImage,
+      image: EventsImage2,
       icon: <TbWorld />,
       title: "Lorem, ipsum.",
     },
     {
       id: 3,
-      image: EventsImage,
+      image: EventsImage3,
       icon: <TbWorld />,
       title: "Lorem, ipsum.",
     },
@@ -30,13 +32,13 @@ const NewsAndEvents = () => {
     },
     {
       id: 5,
-      image: EventsImage,
+      image: EventsImage2,
       icon: <TbWorld />,
       title: "Lorem, ipsum.",
     },
     {
       id: 6,
-      image: EventsImage,
+      image: EventsImage3,
       icon: <TbWorld />,
       title: "Lorem, ipsum.",
     },

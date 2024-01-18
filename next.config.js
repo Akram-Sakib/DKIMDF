@@ -1,7 +1,28 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["tailwindui.com","utfs.io"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "tailwindui.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "utfs.io",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "cmsblogapp.vercel.app",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.hashnode.com",
+        pathname: "**",
+      },
+    ],
   },
 };
 
