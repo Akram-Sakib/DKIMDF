@@ -32,7 +32,10 @@ const Banner = () => {
   ];
 
   return (
-    <div className="w-full">
+    <div className="w-full" style={{
+      background:
+        "#ecf0f1",
+    }}>
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={50}
@@ -79,11 +82,11 @@ const Banner = () => {
         {bannerImages.map((item) => {
           return (
             <SwiperSlide key={item.id}>
-              <div className="relative h-64 w-full">
+              <div className="relative h-96 w-full">
                 <Image
                   src={item.image}
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  object-fit="cover"
                   alt="banner image"
                 />
               </div>

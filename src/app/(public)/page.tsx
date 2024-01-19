@@ -11,13 +11,13 @@ export default function Home() {
     <>
       <Banner />
       <LatestNavbar />
-      <div className="mx-auto container pt-20">
-        <Featured />
-        <FeaturedProjects />
-        <BannerMiddle />
-        <ReachedTo />
-        <NewsAndEvents />
-      </div>
+      {/* <div className="mx-auto container pt-20"> */}
+      <Featured />
+      <FeaturedProjects />
+      <BannerMiddle />
+      <ReachedTo />
+      <NewsAndEvents />
+      {/* </div> */}
     </>
   );
 }

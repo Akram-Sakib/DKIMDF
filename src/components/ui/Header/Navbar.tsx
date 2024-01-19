@@ -8,8 +8,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "../dropdown-menu";
+import LanguageSelect from "../languageSwitch/languageSelect";
 
 const Navbar = () => {
   const navbarLinks = [
@@ -69,7 +70,7 @@ const Navbar = () => {
                 </svg>
               </button>
             </div>
-            <div className="hidden lg:flex lg:gap-x-12">
+            <div className="hidden lg:flex lg:gap-x-8">
               {/* <div className="relative">
                 <button
                   type="button"
@@ -293,24 +294,14 @@ const Navbar = () => {
                 <Link
                   key={link.name}
                   href={link.link}
-                  className="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-700"
+                  className="text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100 border-transparent px-2 rounded border"
                 >
                   {link.name}
                 </Link>
               ))}
             </div>
             <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-x-4">
-              <DropdownMenu>
-                <DropdownMenuTrigger className="px-1 space-x-2" asChild>
-                  <Button variant="outline">{<GlobeIcon className="w-5 h-5"/>} <span>Bn</span></Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="min-w-[4rem]">
-                  {/* <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator /> */}
-                  <DropdownMenuItem>Bn</DropdownMenuItem>
-                  <DropdownMenuItem>En</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <LanguageSelect />
               <Button className="text-sm font-semibold bg-gray-900">
                 <Link href={"/registration"}>Login</Link>
               </Button>

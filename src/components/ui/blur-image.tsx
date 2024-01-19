@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils";
 import Image, { StaticImageData } from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import { AspectRatio } from "./aspect-ratio";
 
@@ -34,8 +33,8 @@ export default function BlurImage({
         <Image
           alt={alt}
           src={image}
-          layout="fill"
-          objectFit="cover"
+          fill
+          // objectFit="cover"
           className={cn(
             `duration-700 ease-in-out group-hover:scale-105
           ${
@@ -45,7 +44,7 @@ export default function BlurImage({
           })`,
             imgClassName
           )}
-          onLoadingComplete={() => setLoading(false)}
+          onLoad={() => setLoading(false)}
         />
       </AspectRatio>
     </div>

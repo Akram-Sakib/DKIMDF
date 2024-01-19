@@ -297,10 +297,28 @@ export const navItems: NavItem[] = [
     label: "users", 
   },
   {
+    title: "Gallery",
+    href: "/dashboard/gallery",
+    icon: "gallery",
+    label: "gallery", 
+  },
+  {
+    title: "News",
+    href: "/dashboard/news",
+    icon: "news",
+    label: "news", 
+  },
+  {
+    title: "Projects",
+    href: "/dashboard/projects",
+    icon: "kanbanSquare",
+    label: "projects", 
+  },
+  {
     title: "Payments",
     href: "/dashboard/payment",
     icon: "banknote",
-    label: "users", 
+    label: "payments", 
   },
   {
     title: "Logout",

@@ -27,7 +27,7 @@ type PostCardProps = {
 const PostCard = ({ post }: PostCardProps) => {
   return (
     <Link href={`/news/${post.slug}`}>
-      <div className={`flex flex-col gap-3 sm:gap-5 rounded cursor-pointer`}>
+      <article className={`flex flex-col gap-3 sm:gap-5 rounded cursor-pointer`}>
         <div className="">
           <BlurImage
             image={post.featuredImage.url}
@@ -83,7 +83,7 @@ const PostCard = ({ post }: PostCardProps) => {
             <BsArrowRightShort className="text-xl mt-[2px] sm:text-2xl" />
           </span>
         </span>
-      </div>
+      </article>
     </Link>
   );
 };

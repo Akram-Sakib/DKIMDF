@@ -306,7 +306,7 @@ const RegistrationPage = () => {
   ];
 
   return (
-    <div className="px-5 shadow-2xl py-5">
+    <div className="px-5 py-5 min-h-screen">
       <Container>
         <h1 className="text-center my-20 text-3xl font-bold">
           Membership Registration

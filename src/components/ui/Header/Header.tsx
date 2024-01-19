@@ -1,11 +1,9 @@
-import { Separator } from "../separator";
 import Navbar from "./navbar";
 
 const Header = () => {
   return (
     <section className="sticky top-0 bg-white z-20 shadow-lg bg-opacity-30 backdrop-filter backdrop-saturate-150 backdrop-blur-lg">
       <Navbar />
-      <Separator />
     </section>
   );
 };

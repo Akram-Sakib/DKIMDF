@@ -9,7 +9,7 @@ const ProjectsPage = () => {
         <div className="py-20">
           <h1 className="text-4xl font-bold mb-8">Projects</h1>
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            <article className="flex max-w-lg flex-col-reverse rounded-xl border-[1px] border-tertiary py-4 px-6 transition duration-200 hover:border-accent md:hover:scale-[1.01]">
+            <div className="flex max-w-lg flex-col-reverse rounded-xl border-[1px] border-tertiary py-4 px-6 transition duration-200 hover:border-accent md:hover:scale-[1.01]">
               <Link
                 href={"/projects/new"}
                 className="mr-1 inline-flex items-center space-x-1 text-gray-300 transition duration-200"
@@ -38,7 +38,7 @@ const ProjectsPage = () => {
                   }
                 />
               {/* </Link> */}
-            </article>
+            </div>
           </div>
         </div>
       </Container>
