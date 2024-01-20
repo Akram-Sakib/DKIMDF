@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React from "react";
 import { Separator } from "../separator";
-import { usePathname, useRouter } from "next/navigation";
 type Props = {
   routes: {
     label: string;
