@@ -1,10 +1,11 @@
+
 import Banner from "@/components/home/banner";
 import BannerMiddle from "@/components/home/banner-middle";
 import Featured from "@/components/home/featured";
-import FeaturedProjects from "@/components/home/featured-projects";
-import NewsAndEvents from "@/components/home/news-and-events";
+import FeaturedProjects from "@/components/home/FeaturedProjects";
+import NewsAndEvents from "@/components/home/NewsAndEvents";
 import ReachedTo from "@/components/home/reached-to/reached-to";
-import NewsNavbar from "@/components/ui/header/news-navbar";
+import NewsNavbar from "@/components/ui/header/NewsNavbar";
 
 
 export default function Home() {
