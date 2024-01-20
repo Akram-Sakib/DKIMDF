@@ -1,4 +1,3 @@
-
 import Footer from "@/components/ui/footer";
 import Header from "@/components/ui/header/header";
 import React from "react";
