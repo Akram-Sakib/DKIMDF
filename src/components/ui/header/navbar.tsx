@@ -1,6 +1,4 @@
-import { Moon, Sun } from "lucide-react";
 import Link from "next/link";
-import { Button } from "../button";
 import Container from "../container";
 import LanguageSelect from "../languageSwitch/languageSelect";
 import MenuButton from "./menu-button";
