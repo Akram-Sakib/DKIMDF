@@ -13,18 +13,18 @@ export default function Stepper({
   const isFinalStep = (index: number) => index === label.length - 1;
 
   return (
-    <div className="flex items-center relative">
+    <div className="flex items-center relative px-5 md:px-0">
       {label.map((item, index) => (
         <React.Fragment key={index}>
           <div
             className={cn(
-              `flex items-center justify-center w-12 h-12 rounded-full ${activeColor(
+              `flex items-center justify-center w-12 h-8 md:h-12 rounded-full ${activeColor(
                 index
-              )} font-bold  transition-all duration-300 delay-300`
+              )} font-bold transition-all duration-300 delay-300 md:text-base text-sm`
             )}
           >
             {index + 1}
-            <span className="absolute mt-28 text-black dark:text-white text-center w-32">{item}</span>
+            <span className="absolute mt-28 text-black dark:text-white text-center md:w-32 ">{item}</span>
           </div>
           {isFinalStep(index) ? null : (
             <div

@@ -3,7 +3,6 @@
 import { cn } from "@/lib/utils";
 import Image, { StaticImageData } from "next/image";
 import { useState } from "react";
-import { AspectRatio } from "./aspect-ratio";
 
 interface BlurImageProps {
   image: string | StaticImageData;
@@ -24,7 +23,7 @@ export default function BlurImage({
 
   return (
     <div className="group">
-      <AspectRatio ratio={aspectRatio}
+      <div
         className={cn(
           "w-full overflow-hidden",
           className
@@ -46,7 +45,7 @@ export default function BlurImage({
           )}
           onLoad={() => setLoading(false)}
         />
-      </AspectRatio>
+      </div>
     </div>
   );
 }

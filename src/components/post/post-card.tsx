@@ -31,11 +31,8 @@ const PostCard = ({ post }: PostCardProps) => {
         <div className="">
           <BlurImage
             image={post.featuredImage.url}
-            aspectRatio={16 / 9}
-            // width={500}
-            // height={500}
             alt={post.title}
-            className="object-contain sm:object-cover object-top w-full sm:h-72 md:h-60 rounded"
+            className="object-contain sm:object-cover object-top w-full sm:h-72 md:h-60 rounded  aspect-w-16 aspect-h-9"
           />
         </div>
 

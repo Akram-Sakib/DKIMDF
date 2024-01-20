@@ -4,13 +4,13 @@ import BannerMiddle from "@/components/home/banner-middle";
 import FeaturedProjects from "@/components/home/featured-projects";
 import NewsAndEvents from "@/components/home/news-and-events";
 import ReachedTo from "@/components/home/reached-to/reached-to";
-import LatestNavbar from "@/components/ui/header/latest-navbar";
+import NewsNavbar from "@/components/ui/header/news-navbar";
 
 export default function Home() {
   return (
     <>
       <Banner />
-      <LatestNavbar />
+      <NewsNavbar />
       {/* <div className="mx-auto container pt-20"> */}
       <Featured />
       <FeaturedProjects />

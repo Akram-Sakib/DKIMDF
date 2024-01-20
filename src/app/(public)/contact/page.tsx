@@ -2,8 +2,8 @@ import React from "react";
 
 const ContactPage = () => {
   return (
-    <div className="container h-screen mx-auto px-2 md:px-4">
-      <section className="mt-32">
+    <div className="container min-h-screen mx-auto px-5 md:px-4">
+      <section className="mt-20 md:mt-32">
         <div className="flex justify-center">
           <div className="text-center md:max-w-xl lg:max-w-3xl">
             <h2 className="mb-20 px-6 text-4xl font-bold">Contact us</h2>

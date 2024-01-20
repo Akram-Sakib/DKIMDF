@@ -11,8 +11,8 @@ export const IMG_MAX_LIMIT = 3;
 
 interface ImageUploadProps {
   onChange?: any;
-  onRemove: (value: UploadFileResponse[]) => void;
-  value: UploadFileResponse[];
+  onRemove: (value: any[]) => void;
+  value: any[];
 }
 
 export default function FileUpload({
@@ -26,7 +26,7 @@ export default function FileUpload({
     let filteredFiles = files.filter((item) => item.key !== key);
     onRemove(filteredFiles);
   };
-  const onUpdateFile = (newFiles: UploadFileResponse[]) => {
+  const onUpdateFile = (newFiles: any[]) => {
     onChange([...value, ...newFiles]);
   };
   return (
@@ -61,7 +61,7 @@ export default function FileUpload({
       </div>
       <div>
         {value.length < IMG_MAX_LIMIT && (
-          <UploadDropzone<OurFileRouter>
+          <UploadDropzone<OurFileRouter,any>
             className="dark:bg-zinc-800 py-2 ut-label:text-sm ut-allowed-content:ut-uploading:text-red-300"
             endpoint="imageUploader"
             config={{ mode: "auto" }}
@@ -79,7 +79,7 @@ export default function FileUpload({
             }}
             onClientUploadComplete={(res) => {
               // Do something with the response
-              const data: UploadFileResponse[] | undefined = res;
+              const data: any[] | undefined = res;
               if (data) {
                 onUpdateFile(data);
               }

@@ -1,16 +1,12 @@
 "use client";
 
-import grsImg from "@/assets/images/GRS.png";
-import aboutusImg from "@/assets/images/aboutus.png";
-import apaImg from "@/assets/images/apa.png";
 import { cn } from "@/lib/utils";
 import { IconContext } from "react-icons";
 import { FaNetworkWired } from "react-icons/fa";
-import { FaChevronRight } from "react-icons/fa6";
+import { FaChevronRight, FaEye } from "react-icons/fa6";
 import { LuGoal } from "react-icons/lu";
-import { FaEye } from "react-icons/fa6";
-import HeadingText from "../ui/heading/heading-text";
 import Container from "../ui/container";
+import HeadingText from "../ui/heading/heading-text";
 
 const Featured = () => {
   const featuredList = [
@@ -39,10 +35,9 @@ const Featured = () => {
 
   return (
     <section
-      className="py-20"
+      className="py-12 md:py-20"
       style={{
-        background:
-          "linear-gradient(0deg, rgb(231 216 255) 0%, rgb(255 255 255) 100%)",
+        background: "#f5f6fa",
       }}
     >
       <Container>
@@ -50,7 +45,7 @@ const Featured = () => {
           title="How We Think"
           paragraph="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos."
         />
-        <div className="grid grid-cols-3 gap-x-20 text-center [&>*]:text-2xl py-20">
+        <div className="grid lg:grid-cols-3 grid-cols-1 md:grid-cols-2 gap-20 text-center [&>*]:text-2xl py-20">
           {featuredList.map((item) => (
             <div
               key={item.id}

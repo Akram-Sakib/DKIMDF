@@ -15,7 +15,7 @@ const Payment = () => {
   return (
     <div className="flex-1 space-y-12 p-4 md:p-8 pt-6">
       <BreadCrumb items={breadcrumbItems} />
-      <div className="flex gap-x-12">
+      <div className="flex flex-col md:flex-row gap-12">
         <Card className="w-[350px]">
           <CardHeader>
             <CardTitle>Payment History</CardTitle>

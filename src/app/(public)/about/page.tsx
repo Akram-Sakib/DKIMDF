@@ -38,9 +38,9 @@ const AboutPage = () => {
   ];
 
   return (
-    <section className="pt-20 min-h-screen">
+    <section className="py-20 min-h-screen">
       <Container>
-        <div className="grid grid-cols-2 gap-x-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
           <div className="max-w-sm [&>p]:leading-7">
             <h1 className="text-4xl font-bold mb-4">About</h1>
             <p className="mb-8">
@@ -62,13 +62,13 @@ const AboutPage = () => {
           <div>
             <div className="grid grid-cols-2 gap-8">
               {cards.map(({ id, title, description }) => (
-                <Card key={id} className="py-8">
+                <Card key={id} className="py-2 md:py-6 lg:py-8">
                   <CardHeader className="text-center">
-                    <CardTitle className="text-5xl font-semibold">
+                    <CardTitle className="text-xl md:text-4xl lg:text-5xl font-semibold">
                       <span className="text-[#6b3ded]">+</span>
                       {title}
                     </CardTitle>
-                    <CardDescription className="text-xl font-semibold text-[#0e0c0c]">
+                    <CardDescription className="text-xs md:text-xl font-semibold text-[#0e0c0c]">
                       {description}
                     </CardDescription>
                   </CardHeader>

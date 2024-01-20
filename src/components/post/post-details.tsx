@@ -109,7 +109,7 @@ const PostDetails = ({ post }: PostDetailsProps) => {
           image={post.featuredImage.url}
           aspectRatio={16 / 9}
           alt={post.title}
-          className="w-full h-full rounded object-cover object-top"
+          className="w-full h-full rounded object-cover object-top aspect-w-16 aspect-h-9"
         />
       </div>
 

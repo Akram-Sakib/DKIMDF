@@ -8,7 +8,7 @@ import { FaRegCalendar } from "react-icons/fa";
 const ProjectDetailsPage = () => {
   return (
     <main className="min-h-screen pt-20 relative">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl mx-auto px-5 md:px-0">
         <div className="relative">
           <div className="flex md:flex-row flex-col gap-5 relative">
             {/* blog post (Left Side) */}
@@ -17,11 +17,10 @@ const ProjectDetailsPage = () => {
                 <div className="mb-5 md:mb-10">
                   <BlurImage
                     image={"https://cmsblogapp.vercel.app/_next/image?url=https%3A%2F%2Fmedia.graphassets.com%2FChu3sMuZQvwQ51HQbo2R&w=640&q=75"}
-                    aspectRatio={16 / 9}
                     // width={500}
                     // height={500}
                     alt={"featured"}
-                    className="w-full h-full rounded object-cover object-top"
+                    className="w-full h-full rounded object-cover object-top aspect-w-16 aspect-h-9"
                   />
                 </div>
 

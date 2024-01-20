@@ -17,25 +17,24 @@ const Banner = () => {
   const [_, setInit] = useState<boolean>(false);
 
   const bannerImages = [
+    // {
+    //   id: 1,
+    //   image: bongobondhuImage,
+    // },
     {
       id: 1,
-      image: bongobondhuImage,
-    },
-    {
-      id: 2,
       image: smrityShoudhImage,
     },
     {
-      id: 3,
+      id: 2,
       image: sangshadImage,
     },
   ];
 
   return (
-    <div className="w-full" style={{
-      background:
-        "#ecf0f1",
-    }}>
+    <div
+      className="w-full"
+    >
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={50}
@@ -82,7 +81,7 @@ const Banner = () => {
         {bannerImages.map((item) => {
           return (
             <SwiperSlide key={item.id}>
-              <div className="relative h-96 w-full">
+              <div className="relative h-52 md:h-72 lg:h-96 w-full">
                 <Image
                   src={item.image}
                   fill

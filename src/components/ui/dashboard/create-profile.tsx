@@ -56,14 +56,14 @@ const CreateProfileOne = () => {
       </div>
       <Separator />
       <div>
-        <div className={cn("ml-12 my-12")}>
+        <div className={cn("md:ml-12 my-12")}>
           <Stepper currentStep={currentStep} label={steps} />
         </div>
         <UserForm
           onSubmit={onSubmit}
           defaultValues={defaultValues}
           formSchema={formSchema}
-          className="mt-20 w-1/2"
+          className="mt-20 md:w-1/2"
           formId="create-profile"
         >
           {currentStep === 0 && (

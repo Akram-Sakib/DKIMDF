@@ -18,7 +18,7 @@ const GalleryPage = () => {
         </div>
         <div className="image_gallery">
           <div className="grid grid-cols-12 gap-2">
-            <div className="col-span-3 rounded-lg">
+            <div className="col-span-12 md:col-span-3 rounded-lg">
               <div
                 // style={{
                 //   backgroundImage: `url(${imgOne})`,
@@ -35,7 +35,7 @@ const GalleryPage = () => {
                 </Button>
               </div>
             </div>
-            <div className="col-span-6 rounded-lg">
+            <div className="col-span-12 md:col-span-6 rounded-lg">
               <div
                 // style={{
                 //   backgroundImage: `url(${imgtwo})`,
@@ -53,7 +53,7 @@ const GalleryPage = () => {
                 </Button>
               </div>
             </div>
-            <div className="col-span-3 rounded-lg">
+            <div className="col-span-12 md:col-span-3 rounded-lg">
               <div
                 // style={{
                 //   backgroundImage: `url(${imgthree})`,
@@ -74,7 +74,7 @@ const GalleryPage = () => {
               // style={{
               //   backgroundImage: `url(${imgfour})`,
               // }}
-              className="col-span-6 rounded-lg"
+              className="col-span-12 md:col-span-6 rounded-lg"
             >
               <div className="place-img before:rounded-lg place-image-4 rounded-group rounded-lg">
                 <h2 className="text-4xl" >
@@ -87,7 +87,7 @@ const GalleryPage = () => {
                 </Button>
               </div>
             </div>
-            <div className="col-span-6 rounded-lg">
+            <div className="col-span-12 md:col-span-6 rounded-lg">
               <div
                 style={{
                   backgroundImage: `url(${imgfive})`,

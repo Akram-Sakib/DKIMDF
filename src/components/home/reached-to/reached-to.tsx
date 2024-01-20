@@ -26,7 +26,7 @@ const ReachedTo = () => {
       <Container>
         <HeadingText title="We Reached To" />
         {/* card should be 12 card */}
-        <div className="grid grid-cols-4 gap-5 mt-14 [&>*]:text-2xl">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mt-14 [&>*]:text-2xl">
           {/*  card */}
           {reachedTo.map((reach) => (
             // <div
@@ -37,9 +37,9 @@ const ReachedTo = () => {
             // </div>
             <div
               key={reach.id}
-              className="relative flex flex-row transition duration-300 ease-in-out bg-purple-50 p-4 rounded-lg items-center text-center justify-center cursor-pointer animated__hover hover:text-white font-semibold"
+              className="relative flex flex-row transition duration-300 ease-in-out bg-purple-50 p-4 rounded-lg items-center text-center justify-center cursor-pointer animated__hover hover:text-white font-semibold shadow-md"
             >
-              <h2 className="text-lg">{reach.name}</h2>
+              <h2 className="text-sm md:text-base lg:text-lg">{reach.name}</h2>
             </div>
           ))}
         </div>
