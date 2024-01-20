@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Container from "../container";
 import LanguageSelect from "../languageSwitch/languageSelect";
-import MenuButton from "./menu-button";
+import MenuButton from "./menuButton";
 import ProfileButton from "./profile-button";
 
 const Navbar = () => {
