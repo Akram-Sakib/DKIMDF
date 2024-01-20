@@ -2,7 +2,7 @@ import Link from "next/link";
 import Container from "../container";
 import LanguageSelect from "../languageSwitch/languageSelect";
 import MenuButton from "./menuButton";
-import ProfileButton from "./profile-button";
+import ProfileButton from "./profileButton";
 
 const Navbar = () => {
   const routes = [
