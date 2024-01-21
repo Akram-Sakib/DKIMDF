@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
+    "@prisma/client": "^5.8.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -28,6 +29,7 @@
     "@react-icons/all-files": "^4.1.0",
     "@tanstack/react-table": "^8.11.3",
     "@uploadthing/react": "^6.0.2",
+    "@vercel/postgres": "^0.5.1",
     "awesome-react-stepper": "^1.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
@@ -60,6 +62,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "postcss": "^8",
+    "prisma": "^5.8.1",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }

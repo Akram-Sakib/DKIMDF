@@ -84,8 +84,7 @@ export const formSchema = z.object({
     .min(3)
     .max(100),
   union: z.string({ required_error: "Union is required" }).min(3).max(100),
-
-  wardNo: z.string({ required_error: "Ward No is required" }).min(3).max(100),
+  wordNo: z.string({ required_error: "Word No is required" }).min(3).max(100),
   postOffice: z
     .string({ required_error: "Post Office is required" })
     .min(3)

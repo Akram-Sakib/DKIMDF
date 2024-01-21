@@ -94,11 +94,6 @@ const RegistrationPage = () => {
               options={options}
               required
             />
-            <FormInput
-              name="spouseName"
-              label="Spouse Name"
-              placeholder="Spouse Name"
-            />
             <FormDatePicker name="dateOfBirth" label="Date Of Birth" />
             <FormInput
               name="phoneNumber"
@@ -125,6 +120,11 @@ const RegistrationPage = () => {
               name="occupation"
               label="Present Occupation"
               placeholder="Present Occupation"
+            />
+            <FormInput
+              name="referanceId"
+              label="Referance ID"
+              placeholder="Referance ID"
             />
           </div>
           <Button
@@ -157,6 +157,11 @@ const RegistrationPage = () => {
             placeholder="Mother Name"
           />
           <FormInput
+            name="spouseName"
+            label="Spouse Name"
+            placeholder="Spouse Name"
+          />
+          {/* <FormInput
             name="fathersOccupation"
             label="Fathers Occupation"
             placeholder="Fathers Occupation"
@@ -180,7 +185,7 @@ const RegistrationPage = () => {
             name="mothersNidNumber"
             label="Mothers NID Number"
             placeholder="Mothers NID Number"
-          />
+          /> */}
           <div className="space-x-4 flex">
             <Button
               onClick={() => handlePrevNextTabs("prev")}
@@ -228,7 +233,7 @@ const RegistrationPage = () => {
             label="Municipality / Union"
             placeholder="Municipality / Union"
           />
-          <FormInput name="wardNo" label="Ward No" placeholder="Ward No" />
+          <FormInput name="wordNo" label="Word No" placeholder="Word No" />
           <FormInput
             name="village"
             label="Village / Area"
@@ -296,9 +301,7 @@ const RegistrationPage = () => {
               <FaArrowLeftLong size={18} />
               <span className="inline-block"> Prev</span>{" "}
             </Button>
-            <Button type="submit" >
-              Submit
-            </Button>
+            <Button type="submit">Submit</Button>
           </div>
         </div>
       ),
@@ -306,7 +309,7 @@ const RegistrationPage = () => {
   ];
 
   return (
-    <div className="px-5 py-5 min-h-screen">
+    <div className="px-5 py-5 md:py-20 min-h-screen">
       <Container>
         <h1 className="text-center my-20 text-3xl font-bold">
           Membership Registration
