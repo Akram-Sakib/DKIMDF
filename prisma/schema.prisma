@@ -12,25 +12,142 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(cuid())
-  phoneNumber String    @unique
-  email       String?   @unique
+  id          String      @id @default(cuid())
+  phoneNumber String      @unique
+  email       String?     @unique
   role        Role
-  createdAt   DateTime  @default(now()) @map(name: "created_at")
-  updatedAt   DateTime  @updatedAt @map(name: "updated_at")
-  isDisabled  Boolean   @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  isDisabled  Boolean     @default(false)
   posts       Post[]
   gellary     Gellary[]
+  grandAdmin  GrandAdmin?
+  superAdmin  SuperAdmin?
+  admin       Admin?
+  member      Member?
 
   @@map(name: "users")
+}
+
+model GrandAdmin {
+  id               String   @id @default(cuid())
+  firstName        String
+  lastName         String
+  phoneNumber      String   @unique
+  email            String?  @unique
+  imageUrl         String
+  gender           Gender
+  dateOfBirth      DateTime
+  education        String?
+  bloodGroup       String?
+  nidNumber        String   @unique
+  occupation       String?
+  spouseName       String?
+  fathersName      String?
+  mothersName      String?
+  presentAddress   String?
+  permanentAddress String?
+  infoVerification String?
+  userId           String   @unique
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id])
+
+  @@map(name: "grand_admin")
+}
+
+model SuperAdmin {
+  id               String   @id @default(cuid())
+  firstName        String
+  lastName         String
+  phoneNumber      String   @unique
+  email            String?  @unique
+  imageUrl         String
+  gender           Gender
+  dateOfBirth      DateTime
+  education        String?
+  bloodGroup       String?
+  nidNumber        String   @unique
+  occupation       String?
+  referenceId      String?
+  spouseName       String?
+  fathersName      String?
+  mothersName      String?
+  presentAddress   String?
+  permanentAddress String?
+  infoVerification String?
+  userId           String   @unique
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id])
+
+  @@map(name: "super_admin")
+}
+
+model Admin {
+  id               String   @id @default(cuid())
+  firstName        String
+  lastName         String
+  phoneNumber      String   @unique
+  email            String?  @unique
+  imageUrl         String
+  gender           Gender
+  dateOfBirth      DateTime
+  education        String?
+  bloodGroup       String?
+  nidNumber        String   @unique
+  occupation       String?
+  referenceId      String?
+  spouseName       String?
+  fathersName      String?
+  mothersName      String?
+  presentAddress   String?
+  permanentAddress String?
+  infoVerification String?
+  userId           String   @unique
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id])
+
+  @@map(name: "admin")
+}
+
+model Member {
+  id               String     @id @default(cuid())
+  firstName        String
+  lastName         String
+  phoneNumber      String     @unique
+  email            String?    @unique
+  imageUrl         String
+  gender           Gender
+  dateOfBirth      DateTime
+  education        String?
+  bloodGroup       String?
+  nidNumber        String     @unique
+  occupation       String?
+  referenceId      String?
+  spouseName       String?
+  fathersName      String?
+  mothersName      String?
+  presentAddress   String?
+  permanentAddress String?
+  infoVerification String?
+  userId           String     @unique
+  membershipId     String     @unique
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  user             User       @relation(fields: [userId], references: [id])
+  membership       Membership @relation(fields: [membershipId], references: [id])
+
+  @@map(name: "member")
 }
 
 model Category {
   id          String   @id @default(cuid())
   name        String   @unique
   description String?
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @updatedAt @map(name: "updated_at")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   posts       Post[]
 
   @@map(name: "categories")
@@ -41,8 +158,8 @@ model Post {
   title       String
   description String?
   views       Int      @default(0)
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @updatedAt @map(name: "updated_at")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   // author    User?   @relation(fields: [authorId], references: [id])
   userId      String
   author      User     @relation(fields: [userId], references: [id])
@@ -58,13 +175,67 @@ model Gellary {
   eventTime DateTime
   imageUrl  String
 
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
   @@map("gellary")
+}
+
+model Membership {
+  id                 String  @id @default(cuid())
+  title              String
+  isRegistrationDone Boolean @default(false)
+  memberShipFee      String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId       String         @unique
+  member       Member?
+  subscription Subscription[]
+
+  @@map("membership")
+}
+
+model Subscription {
+  id               String           @id @default(cuid())
+  title            String
+  subscriptionType SubscriptionType
+  startTime        DateTime
+  endTime          DateTime
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  membershipId    String
+  membership      Membership        @relation(fields: [membershipId], references: [id])
+  subscriptionFee SubscriptionFee[]
+
+  @@map("subscription")
+}
+
+model SubscriptionFee {
+  id               String           @id @default(cuid())
+  title            String
+  subscriptionType SubscriptionType
+  smartCardFee     String
+  registrationFee  String
+  subscriptionFee  String
+  totalFee         String
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  subscriptionId   String
+
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+
+  @@map("subscription_fee")
+}
+
+enum SubscriptionType {
+  monthly
+  yearly
 }
 
 enum Role {
