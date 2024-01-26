@@ -1,8 +1,9 @@
+
 import { NextRequest, NextResponse } from "next/server";
-import type { NextApiRequest, NextApiResponse } from "next";
+
 
 function withErrorHandler(fn: any) {
-  return async function (request: NextApiRequest, ...args: any[]) {
+  return async function (request: NextRequest, ...args: any[]) {
     try {
       return await fn(request, ...args);
     } catch (error) {
