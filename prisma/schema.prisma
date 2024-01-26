@@ -6,26 +6,77 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model Post {
-  id        String     @default(cuid()) @id
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  String?
+model User {
+  id          String    @id @default(cuid())
+  phoneNumber String    @unique
+  email       String?   @unique
+  role        Role
+  createdAt   DateTime  @default(now()) @map(name: "created_at")
+  updatedAt   DateTime  @updatedAt @map(name: "updated_at")
+  isDisabled  Boolean   @default(false)
+  posts       Post[]
+  gellary     Gellary[]
+
+  @@map(name: "users")
 }
 
-model User {
-  id            String       @default(cuid()) @id
-  name          String?
-  email         String?   @unique
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-  posts         Post[]
-  @@map(name: "users")
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @updatedAt @map(name: "updated_at")
+  posts       Post[]
+
+  @@map(name: "categories")
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  views       Int      @default(0)
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @updatedAt @map(name: "updated_at")
+  // author    User?   @relation(fields: [authorId], references: [id])
+  userId      String
+  author      User     @relation(fields: [userId], references: [id])
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+
+  @@map(name: "posts")
+}
+
+model Gellary {
+  id        String   @id @default(cuid())
+  title     String
+  eventTime DateTime
+  imageUrl  String
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("gellary")
+}
+
+enum Role {
+  grand_admin
+  super_admin
+  admin
+  member
+}
+
+enum Gender {
+  male
+  female
+  third_gender
+  transgender
 }

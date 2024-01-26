@@ -38,20 +38,20 @@ const NewsAndEvents = () => {
       title: "Festival of Architecture and Interior",
       href: "/news/news-slug-name",
     },
-    {
-      id: 5,
-      image: EventsImage2,
-      icon: <TbWorld />,
-      title: "Designing Club Culture",
-      href: "/news/news-slug-name",
-    },
-    {
-      id: 6,
-      image: EventsImage3,
-      icon: <TbWorld />,
-      title: "Nairobi Design Week",
-      href: "/news/news-slug-name",
-    },
+    // {
+    //   id: 5,
+    //   image: EventsImage2,
+    //   icon: <TbWorld />,
+    //   title: "Designing Club Culture",
+    //   href: "/news/news-slug-name",
+    // },
+    // {
+    //   id: 6,
+    //   image: EventsImage3,
+    //   icon: <TbWorld />,
+    //   title: "Nairobi Design Week",
+    //   href: "/news/news-slug-name",
+    // },
   ];
 
   return (
@@ -63,10 +63,10 @@ const NewsAndEvents = () => {
     >
       <Container>
         {<HeadingText title="News & Events" className={"mb-10"} />}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 mt-5 [&>*]:text-2xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-rows-2 gap-16 mt-5 [&>*]:text-2xl">
           {news.map((item, i) => (
             <Link href={item.href} key={item.id}>
-              <div className="relative w-full shadow-lg hover:shadow-2xl  transition duration-500 ease-in-out rounded-lg hover:-translate-y-1.5 cursor-pointer group">
+              <div className={`relative w-full shadow-lg hover:shadow-2xl  transition duration-500 ease-in-out rounded-lg hover:-translate-y-1.5 cursor-pointer group ${i == 3 && "col-start-2"}`}>
                 <BlurImage
                   image={item.image}
                   alt="Events Image"
