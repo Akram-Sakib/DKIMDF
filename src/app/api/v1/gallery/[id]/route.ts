@@ -1,20 +1,19 @@
 import sendResponse from "@/lib/sendResponse";
 import withErrorHandler from "@/lib/withErrorHandler";
-import { Category } from "@prisma/client";
+import { Post } from "@prisma/client";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
-import { CategoriesService } from "../categories.service";
-import { CategoryValidation } from "../categories.validation";
+import { GalleryService } from "../gallery.service";
+import { GalleryValidation } from "../gallery.validation";
 
 export const GET = withErrorHandler(async (request, context) => {
   const { id } = context.params;
-
-  const result = await CategoriesService.getById(id);
+  const result = await GalleryService.getById(id);
 
   const data = {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Category Fetched Successfully!",
+    message: "Gallery Image Fetched Successfully!",
     data: result,
   };
 
@@ -32,15 +31,15 @@ export const PATCH = withErrorHandler(
   ) => {
     const { id } = params;
     const body = await req.json();
-    await CategoryValidation.CategorySchema.parseAsync({
+    await GalleryValidation.UpdateSchema.parseAsync({
       body,
     });
-    const result = await CategoriesService.updateById(id, body);
+    const result = await GalleryService.updateById(id, body);
 
-    return sendResponse<Category>({
+    return sendResponse<Post>({
       statusCode: httpStatus.OK,
       success: true,
-      message: "Category Updated Successfully!",
+      message: "Gallery Image Updated Successfully!",
       data: result,
     });
   }
@@ -56,12 +55,12 @@ export const DELETE = withErrorHandler(
     }
   ) => {
     const { id } = params;
-    const result = await CategoriesService.deleteById(id);
+    const result = await GalleryService.deleteById(id);
 
-    return sendResponse<Category>({
+    return sendResponse<Post>({
       statusCode: httpStatus.OK,
       success: true,
-      message: "Category Deleted Successfully!",
+      message: "Gallery Image Deleted Successfully!",
       data: result,
     });
   }

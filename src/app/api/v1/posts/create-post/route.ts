@@ -2,21 +2,21 @@ import sendResponse from "@/lib/sendResponse";
 import withErrorHandler from "@/lib/withErrorHandler";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
-import { CategoriesService } from "../categories.service";
-import { CategoryValidation } from "../categories.validation";
+import { PostValidation } from "../post.validation";
+import { PostService } from "../post.service";
 
 export const POST = withErrorHandler(
   async (request: NextRequest) => {
     const body = await request.json();
-    await CategoryValidation.CategorySchema.parseAsync({
+    await PostValidation.PostSchema.parseAsync({
       body,
     });
-    const result = await CategoriesService.create(body);
+    const result = await PostService.create(body);
 
     const data = {
       statusCode: httpStatus.OK,
       success: true,
-      message: "New Category Created Successfully!",
+      message: "New Post Created Successfully!",
       data: result,
     };
 

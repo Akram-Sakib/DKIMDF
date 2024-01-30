@@ -1,14 +1,13 @@
+import { paginationHelpers } from "@/helpers/paginationHelper";
 import prisma from "@/lib/prisma";
 import { IGenericResponse } from "@/types/common";
-import { Admin, Category, Member, Prisma, User } from "@prisma/client";
-import { type NextRequest, type NextResponse } from "next/server";
-import { ICategoryFilterRequest } from "./categories.interface";
 import { IPaginationOptions } from "@/types/pagination";
-import { categorySearchableFields } from "./categories.contants";
-import { paginationHelpers } from "@/helpers/paginationHelper";
+import { Post, Prisma } from "@prisma/client";
+import { IPostFilterRequest } from "./post.interface";
+import { postSearchableFields } from "./post.contants";
 
-const create = async (data: Category): Promise<Category> => {
-  const newData = await prisma.category.create({
+const create = async (data: Post): Promise<Post> => {
+  const newData = await prisma.post.create({
     data: {
       ...data,
     },
@@ -18,16 +17,16 @@ const create = async (data: Category): Promise<Category> => {
 };
 
 const getAll = async (
-  filters: ICategoryFilterRequest,
+  filters: IPostFilterRequest,
   options: IPaginationOptions
-): Promise<IGenericResponse<Category[]>> => {
+): Promise<IGenericResponse<Post[]>> => {
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
   const { search, ...filterData } = filters;
   const andConditions = [];
 
   if (search) {
     andConditions.push({
-      OR: categorySearchableFields.map(field => ({
+      OR: postSearchableFields.map(field => ({
         [field]: {
           contains: search,
           mode: 'insensitive',
@@ -48,10 +47,10 @@ const getAll = async (
     });
   }
 
-  const whereConditions: Prisma.CategoryWhereInput =
+  const whereConditions: Prisma.PostWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const result = await prisma.category.findMany({
+  const result = await prisma.post.findMany({
     where: whereConditions,
     skip,
     take: limit,
@@ -63,7 +62,7 @@ const getAll = async (
           },
   });
 
-  const total = await prisma.category.count({
+  const total = await prisma.post.count({
     where: whereConditions,
   });
 
@@ -79,8 +78,8 @@ const getAll = async (
 
 
 
-const getById = async (id: string): Promise<Category | null> => {
-  const result = await prisma.category.findUnique({
+const getById = async (id: string): Promise<Post | null> => {
+  const result = await prisma.post.findUnique({
     where: {
       id,
     },
@@ -91,9 +90,9 @@ const getById = async (id: string): Promise<Category | null> => {
 
 const updateById = async (
   id: string,
-  data: Partial<Category>
-): Promise<Category | null> => {
-  const result = await prisma.category.update({
+  data: Partial<Post>
+): Promise<Post | null> => {
+  const result = await prisma.post.update({
     where: {
       id,
     },
@@ -103,8 +102,8 @@ const updateById = async (
   return result;
 };
 
-const deleteById = async (id: string): Promise<Category | null> => {
-  const result = await prisma.category.delete({
+const deleteById = async (id: string): Promise<Post | null> => {
+  const result = await prisma.post.delete({
     where: {
       id,
     },
@@ -113,7 +112,7 @@ const deleteById = async (id: string): Promise<Category | null> => {
   return result;
 };
 
-export const CategoriesService = {
+export const PostService = {
   create,
   getAll,
   getById,

@@ -21,27 +21,28 @@ model User {
   updatedAt   DateTime    @updatedAt
   isDisabled  Boolean     @default(false)
   posts       Post[]
-  gellary     Gellary[]
+  gallary     Gallary[]
   grandAdmin  GrandAdmin?
   superAdmin  SuperAdmin?
   admin       Admin?
   member      Member?
+  Project     Project[]
 
   @@map(name: "users")
 }
 
 model Member {
-  id                    String     @id @default(uuid())
+  id                    String   @id @default(uuid())
   firstName             String
   lastName              String
-  phoneNumber           String     @unique
-  email                 String?    @unique
+  phoneNumber           String   @unique
+  email                 String?  @unique
   imageUrl              String
   gender                Gender
   dateOfBirth           DateTime
   education             String?
   bloodGroup            String?
-  nidNumber             String     @unique
+  nidNumber             String   @unique
   occupation            String?
   referenceId           String?
   spouseName            String?
@@ -50,11 +51,11 @@ model Member {
   presentAddress        String?
   permanentAddress      String?
   infoVerificationPhoto String?
-  createdAt             DateTime   @default(now())
-  updatedAt             DateTime   @updatedAt
-  userId                String     @unique
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  userId                String   @unique
   // membershipId          String     @unique
-  user                  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   // membership            Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
 
   @@map(name: "member")
@@ -144,12 +145,13 @@ model Admin {
 }
 
 model Category {
-  id          String   @id @default(uuid())
-  name        String   @unique
+  id          String    @id @default(uuid())
+  name        String    @unique
   description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   posts       Post[]
+  Project     Project[]
 
   @@map(name: "categories")
 }
@@ -158,6 +160,7 @@ model Post {
   id          String   @id @default(uuid())
   title       String
   description String?
+  imageUrl    String
   views       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -170,7 +173,24 @@ model Post {
   @@map(name: "posts")
 }
 
-model Gellary {
+model Project {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  imageUrl    String
+  views       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  // author    User?   @relation(fields: [authorId], references: [id])
+  userId      String
+  author      User     @relation(fields: [userId], references: [id])
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+
+  @@map(name: "projects")
+}
+
+model Gallary {
   id        String   @id @default(uuid())
   title     String
   eventTime DateTime
@@ -182,7 +202,7 @@ model Gellary {
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  @@map("gellary")
+  @@map("gallary")
 }
 
 // model Membership {
