@@ -1,3 +1,3 @@
-export const postFilterableFields: string[] = ["search", "title"];
+export const projectFilterableFields: string[] = ["search", "title"];
 
-export const postSearchableFields: string[] = ["title"];
+export const projectSearchableFields: string[] = ["title"];

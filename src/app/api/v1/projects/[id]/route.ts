@@ -1,20 +1,20 @@
 import sendResponse from "@/lib/sendResponse";
 import withErrorHandler from "@/lib/withErrorHandler";
-import { Post } from "@prisma/client";
+import { Project } from "@prisma/client";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
-import { PostService } from "../post.service";
-import { PostValidation } from "../post.validation";
+import { ProjectService } from "../project.service";
+import { ProjectValidation } from "../project.validation";
 
 export const GET = withErrorHandler(async (request, context) => {
   const { id } = context.params;
 
-  const result = await PostService.getById(id);
+  const result = await ProjectService.getById(id);
 
   const data = {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Post Fetched Successfully!",
+    message: "Project Fetched Successfully!",
     data: result,
   };
 
@@ -32,15 +32,15 @@ export const PATCH = withErrorHandler(
   ) => {
     const { id } = params;
     const body = await req.json();
-    await PostValidation.PostSchemaUpdate.parseAsync({
+    await ProjectValidation.ProjectSchemaUpdate.parseAsync({
       body,
     });
-    const result = await PostService.updateById(id, body);
+    const result = await ProjectService.updateById(id, body);
 
-    return sendResponse<Post>({
+    return sendResponse<Project>({
       statusCode: httpStatus.OK,
       success: true,
-      message: "Post Updated Successfully!",
+      message: "Project Updated Successfully!",
       data: result,
     });
   }
@@ -56,12 +56,12 @@ export const DELETE = withErrorHandler(
     }
   ) => {
     const { id } = params;
-    const result = await PostService.deleteById(id);
+    const result = await ProjectService.deleteById(id);
 
-    return sendResponse<Post>({
+    return sendResponse<Project>({
       statusCode: httpStatus.OK,
       success: true,
-      message: "Post Deleted Successfully!",
+      message: "Project Deleted Successfully!",
       data: result,
     });
   }

@@ -2,21 +2,21 @@ import sendResponse from "@/lib/sendResponse";
 import withErrorHandler from "@/lib/withErrorHandler";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
-import { PostValidation } from "../post.validation";
-import { PostService } from "../post.service";
+import { ProjectValidation } from "../project.validation";
+import { ProjectService } from "../project.service";
 
 export const POST = withErrorHandler(
   async (request: NextRequest) => {
     const body = await request.json();
-    await PostValidation.PostSchema.parseAsync({
+    await ProjectValidation.ProjectSchema.parseAsync({
       body,
     });
-    const result = await PostService.create(body);
+    const result = await ProjectService.create(body);
 
     const data = {
       statusCode: httpStatus.OK,
       success: true,
-      message: "New Post Created Successfully!",
+      message: "New Project Created Successfully!",
       data: result,
     };
 

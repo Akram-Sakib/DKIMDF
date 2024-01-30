@@ -1,6 +1,6 @@
 import sendResponse from "@/lib/sendResponse";
 import withErrorHandler from "@/lib/withErrorHandler";
-import { Post } from "@prisma/client";
+import { Gallery } from "@prisma/client";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { GalleryService } from "../gallery.service";
@@ -36,7 +36,7 @@ export const PATCH = withErrorHandler(
     });
     const result = await GalleryService.updateById(id, body);
 
-    return sendResponse<Post>({
+    return sendResponse<Gallery>({
       statusCode: httpStatus.OK,
       success: true,
       message: "Gallery Image Updated Successfully!",
@@ -57,7 +57,7 @@ export const DELETE = withErrorHandler(
     const { id } = params;
     const result = await GalleryService.deleteById(id);
 
-    return sendResponse<Post>({
+    return sendResponse<Gallery>({
       statusCode: httpStatus.OK,
       success: true,
       message: "Gallery Image Deleted Successfully!",

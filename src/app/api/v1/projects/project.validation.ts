@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-const PostSchema = z.object({
+const ProjectSchema = z.object({
   body: z.object({
     title: z
       .string({
-        required_error: "Post Title is required",
+        required_error: "Project Title is required",
       })
       .min(3)
       .max(255),
@@ -12,11 +12,11 @@ const PostSchema = z.object({
   }),
 });
 
-const PostSchemaUpdate = z.object({
+const ProjectSchemaUpdate = z.object({
   body: z.object({
     title: z
       .string({
-        required_error: "Post Title is required",
+        required_error: "Project Title is required",
       })
       .min(3)
       .max(255)
@@ -25,7 +25,7 @@ const PostSchemaUpdate = z.object({
   }),
 });
 
-export const PostValidation = {
-  PostSchema,
-  PostSchemaUpdate,
+export const ProjectValidation = {
+  ProjectSchema,
+  ProjectSchemaUpdate,
 };

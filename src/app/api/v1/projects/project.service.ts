@@ -2,12 +2,12 @@ import { paginationHelpers } from "@/helpers/paginationHelper";
 import prisma from "@/lib/prisma";
 import { IGenericResponse } from "@/types/common";
 import { IPaginationOptions } from "@/types/pagination";
-import { Post, Prisma } from "@prisma/client";
-import { IPostFilterRequest } from "./post.interface";
-import { postSearchableFields } from "./post.contants";
+import { Project, Prisma } from "@prisma/client";
+import { IProjectFilterRequest } from "./project.interface";
+import { projectSearchableFields } from "./project.contants";
 
-const create = async (data: Post): Promise<Post> => {
-  const newData = await prisma.post.create({
+const create = async (data: Project): Promise<Project> => {
+  const newData = await prisma.project.create({
     data: {
       ...data,
     },
@@ -17,16 +17,16 @@ const create = async (data: Post): Promise<Post> => {
 };
 
 const getAll = async (
-  filters: IPostFilterRequest,
+  filters: IProjectFilterRequest,
   options: IPaginationOptions
-): Promise<IGenericResponse<Post[]>> => {
+): Promise<IGenericResponse<Project[]>> => {
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
   const { search, ...filterData } = filters;
   const andConditions = [];
 
   if (search) {
     andConditions.push({
-      OR: postSearchableFields.map(field => ({
+      OR: projectSearchableFields.map(field => ({
         [field]: {
           contains: search,
           mode: 'insensitive',
@@ -47,10 +47,10 @@ const getAll = async (
     });
   }
 
-  const whereConditions: Prisma.PostWhereInput =
+  const whereConditions: Prisma.ProjectWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const result = await prisma.post.findMany({
+  const result = await prisma.project.findMany({
     where: whereConditions,
     skip,
     take: limit,
@@ -62,7 +62,7 @@ const getAll = async (
           },
   });
 
-  const total = await prisma.post.count({
+  const total = await prisma.project.count({
     where: whereConditions,
   });
 
@@ -78,8 +78,8 @@ const getAll = async (
 
 
 
-const getById = async (id: string): Promise<Post | null> => {
-  const result = await prisma.post.findUnique({
+const getById = async (id: string): Promise<Project | null> => {
+  const result = await prisma.project.findUnique({
     where: {
       id,
     },
@@ -90,9 +90,9 @@ const getById = async (id: string): Promise<Post | null> => {
 
 const updateById = async (
   id: string,
-  data: Partial<Post>
-): Promise<Post | null> => {
-  const result = await prisma.post.update({
+  data: Partial<Project>
+): Promise<Project | null> => {
+  const result = await prisma.project.update({
     where: {
       id,
     },
@@ -102,8 +102,8 @@ const updateById = async (
   return result;
 };
 
-const deleteById = async (id: string): Promise<Post | null> => {
-  const result = await prisma.post.delete({
+const deleteById = async (id: string): Promise<Project | null> => {
+  const result = await prisma.project.delete({
     where: {
       id,
     },
@@ -112,7 +112,7 @@ const deleteById = async (id: string): Promise<Post | null> => {
   return result;
 };
 
-export const PostService = {
+export const ProjectService = {
   create,
   getAll,
   getById,

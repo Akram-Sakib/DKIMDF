@@ -1,3 +1,3 @@
-export type IPostFilterRequest = {
+export type IProjectFilterRequest = {
   search?: string | undefined;
 };

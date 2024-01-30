@@ -21,7 +21,7 @@ model User {
   updatedAt   DateTime    @updatedAt
   isDisabled  Boolean     @default(false)
   posts       Post[]
-  gallary     Gallary[]
+  gallery     Gallery[]
   grandAdmin  GrandAdmin?
   superAdmin  SuperAdmin?
   admin       Admin?
@@ -190,7 +190,7 @@ model Project {
   @@map(name: "projects")
 }
 
-model Gallary {
+model Gallery {
   id        String   @id @default(uuid())
   title     String
   eventTime DateTime
@@ -202,7 +202,7 @@ model Gallary {
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  @@map("gallary")
+  @@map("gallery")
 }
 
 // model Membership {
