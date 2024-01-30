@@ -294,51 +294,36 @@ export const navItems: NavItem[] = [
     title: "Users",
     href: "/dashboard/users",
     icon: "user",
-    label: "users", 
+    label: "users",
   },
   {
     title: "Gallery",
     href: "/dashboard/gallery",
     icon: "gallery",
-    label: "gallery", 
+    label: "gallery",
   },
   {
     title: "News",
     href: "/dashboard/news",
     icon: "news",
-    label: "news", 
+    label: "news",
   },
   {
     title: "Projects",
     href: "/dashboard/projects",
     icon: "kanbanSquare",
-    label: "projects", 
+    label: "projects",
   },
   {
     title: "Payments",
     href: "/dashboard/payment",
     icon: "banknote",
-    label: "payments", 
+    label: "payments",
   },
   {
     title: "Logout",
     href: "/",
     icon: "login",
     label: "logut",
-  },
-];
-
-export const options = [
-  {
-    label: "Male",
-    value: "male",
-  },
-  {
-    label: "Female",
-    value: "female",
-  },
-  {
-    label: "Transgender",
-    value: "transgender",
   },
 ];

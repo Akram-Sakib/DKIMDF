@@ -6,7 +6,9 @@ const validateRequest = async (
   schema: AnyZodObject | ZodEffects<AnyZodObject>,
   req: NextRequest
 ) => {
+  "use server"
   try {
+    
     const body = await req.json()
     await schema.parseAsync({
       body,

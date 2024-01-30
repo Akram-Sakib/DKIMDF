@@ -8,7 +8,7 @@ import FormInput from "@/components/ui/form/form-input";
 import FormSelect from "@/components/ui/form/form-select";
 import UserForm from "@/components/ui/form/user-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { options } from "@/constants/data";
+import { GENDER } from "@/constants/data";
 import { cn } from "@/lib/utils";
 import { formSchema } from "@/schema/form-schema";
 import { useState } from "react";
@@ -91,7 +91,7 @@ const RegistrationPage = () => {
               name="gender"
               label="Gender"
               placeholder="Select Your Gender"
-              options={options}
+              options={GENDER}
               required
             />
             <FormDatePicker name="dateOfBirth" label="Date Of Birth" />

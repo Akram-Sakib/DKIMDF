@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import FormDatePicker from "../form/form-date-picker";
 import FormSelect from "../form/form-select";
-import { options } from "@/constants/data";
+import { GENDER } from "@/constants/data";
 
 const formSchema = z.object({
   name: z.object({
@@ -91,7 +91,7 @@ const CreateProfileOne = () => {
                   name="gender"
                   label="Gender"
                   placeholder="Select Your Gender"
-                  options={options}
+                  options={GENDER}
                   required
                 />
                 <FormInput

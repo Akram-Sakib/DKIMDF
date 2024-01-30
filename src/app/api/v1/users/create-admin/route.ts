@@ -6,22 +6,26 @@ import { NextRequest } from "next/server";
 import { UserService } from "../users.service";
 import { UserValidation } from "../users.validation";
 
-const CreateMember = async (request: NextRequest) => {
+const CreateAdmin = async (request: NextRequest) => {
   const body = await request.json();
-  await UserValidation.MemberUserSchema.parseAsync({
+  await UserValidation.AdminUserSchema.parseAsync({
     body,
   });
-  const { member, ...userData } = body;
-  const result = await UserService.createMember(member, userData, request);
+  const { admin, ...userData } = body;
+  const result = await UserService.createAdmin(
+    admin,
+    userData,
+    request
+  );
 
   return sendResponse<Omit<User, "password">>({
     statusCode: httpStatus.OK,
     success: true,
-    message: "Member created successfully!",
+    message: "Admin created successfully!",
     data: result,
   });
 };
 
-const handlers = withErrorHandler(CreateMember);
+const handlers = withErrorHandler(CreateAdmin);
 
 export { handlers as POST };
