@@ -12,23 +12,22 @@ datasource db {
 }
 
 model User {
-  id              String      @id @default(uuid())
-  phoneNumber     String      @unique
-  password        String
-  email           String?     @unique
-  role            Role
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  isDisabled      Boolean     @default(false)
-  posts           Post[]
-  gallery         Gallery[]
-  grandAdmin      GrandAdmin?
-  superAdmin      SuperAdmin?
-  admin           Admin?
-  member          Member?
-  Project         Project[]
-  Membership      Membership?
-  membershipFeeId String?
+  id          String       @id @default(uuid())
+  phoneNumber String       @unique
+  password    String
+  email       String?      @unique
+  role        Role
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  isDisabled  Boolean      @default(false)
+  posts       Post[]
+  gallery     Gallery[]
+  grandAdmin  GrandAdmin?
+  superAdmin  SuperAdmin?
+  admin       Admin?
+  member      Member?
+  project     Project[]
+  membership  Membership[]
 
   @@map(name: "users")
 }
@@ -216,8 +215,8 @@ model Membership {
   updatedAt       DateTime         @updatedAt
   memberShipFeeId String           @unique
   membershipFee   MembershipFee    @relation(fields: [memberShipFeeId], references: [id])
-  userId          String           @unique
-  user            User?            @relation(fields: [userId], references: [id])
+  userId          String
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   subscription    Subscription[]
 
   @@map("membership")
@@ -225,10 +224,10 @@ model Membership {
 
 model MembershipFee {
   id              String      @id @default(uuid())
-  registrationFee String
-  smartCardFee    String
-  membershipFee   String
-  totalFee        String
+  registrationFee String      @default("0")
+  smartCardFee    String      @default("0")
+  membershipFee   String      @default("0")
+  totalFee        String      @default("0")
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   membership      Membership?
@@ -255,10 +254,10 @@ model Subscription {
 
 model SubscriptionFee {
   id              String         @id @default(uuid())
-  registrationFee String
-  smartCardFee    String
-  subscriptionFee String
-  totalFee        String
+  registrationFee String         @default("0")
+  smartCardFee    String         @default("0")
+  subscriptionFee String         @default("0")
+  totalFee        String         @default("0")
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   subscription    Subscription[]
