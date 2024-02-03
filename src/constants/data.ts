@@ -315,6 +315,12 @@ export const navItems: NavItem[] = [
     label: "projects",
   },
   {
+    title: "Membership",
+    href: "/dashboard/membership",
+    icon: "cardMembership",
+    label: "payments",
+  },
+  {
     title: "Payments",
     href: "/dashboard/payment",
     icon: "banknote",

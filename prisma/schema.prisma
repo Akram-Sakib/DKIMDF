@@ -12,37 +12,39 @@ datasource db {
 }
 
 model User {
-  id          String      @id @default(uuid())
-  phoneNumber String      @unique
-  password    String
-  email       String?     @unique
-  role        Role
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  isDisabled  Boolean     @default(false)
-  posts       Post[]
-  gallery     Gallery[]
-  grandAdmin  GrandAdmin?
-  superAdmin  SuperAdmin?
-  admin       Admin?
-  member      Member?
-  Project     Project[]
+  id              String      @id @default(uuid())
+  phoneNumber     String      @unique
+  password        String
+  email           String?     @unique
+  role            Role
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  isDisabled      Boolean     @default(false)
+  posts           Post[]
+  gallery         Gallery[]
+  grandAdmin      GrandAdmin?
+  superAdmin      SuperAdmin?
+  admin           Admin?
+  member          Member?
+  Project         Project[]
+  Membership      Membership?
+  membershipFeeId String?
 
   @@map(name: "users")
 }
 
 model Member {
-  id                    String   @id @default(uuid())
+  id                    String         @id @default(uuid())
   firstName             String
   lastName              String
-  phoneNumber           String   @unique
-  email                 String?  @unique
+  phoneNumber           String         @unique
+  email                 String?        @unique
   imageUrl              String
   gender                Gender
   dateOfBirth           DateTime
   education             String?
   bloodGroup            String?
-  nidNumber             String   @unique
+  nidNumber             String         @unique
   occupation            String?
   referenceId           String?
   spouseName            String?
@@ -51,12 +53,13 @@ model Member {
   presentAddress        String?
   permanentAddress      String?
   infoVerificationPhoto String?
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-  userId                String   @unique
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+  userId                String         @unique
   // membershipId          String     @unique
-  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                  User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   // membership            Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  subscription          Subscription[]
 
   @@map(name: "member")
 }
@@ -205,59 +208,71 @@ model Gallery {
   @@map("gallery")
 }
 
-// model Membership {
-//   id                 String  @id @default(uuid())
-//   title              String
-//   isRegistrationDone Boolean @default(false)
-//   memberShipFee      String
+model Membership {
+  id              String           @id @default(uuid())
+  title           String
+  type            SubscriptionType
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  memberShipFeeId String           @unique
+  membershipFee   MembershipFee    @relation(fields: [memberShipFeeId], references: [id])
+  userId          String           @unique
+  user            User?            @relation(fields: [userId], references: [id])
+  subscription    Subscription[]
 
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
+  @@map("membership")
+}
 
-//   userId       String         @unique
-//   member       Member?
-//   subscription Subscription[]
+model MembershipFee {
+  id              String      @id @default(uuid())
+  registrationFee String
+  smartCardFee    String
+  membershipFee   String
+  totalFee        String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  membership      Membership?
 
-//   @@map("membership")
-// }
+  @@map("membership_fee")
+}
 
-// model Subscription {
-//   id               String           @id @default(uuid())
-//   title            String
-//   subscriptionType SubscriptionType
-//   startTime        DateTime
-//   endTime          DateTime
-//   createdAt        DateTime         @default(now())
-//   updatedAt        DateTime         @updatedAt
+model Subscription {
+  id                String          @id @default(uuid())
+  startTime         DateTime
+  endTime           DateTime
+  isExpired         Boolean         @default(false)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  membershipId      String
+  membership        Membership      @relation(fields: [membershipId], references: [id])
+  memberId          String
+  member            Member          @relation(fields: [memberId], references: [userId])
+  subscriptionFeeId String
+  subscriptionFee   SubscriptionFee @relation(fields: [subscriptionFeeId], references: [id])
 
-//   membershipId    String
-//   membership      Membership        @relation(fields: [membershipId], references: [id])
-//   subscriptionFee SubscriptionFee[]
+  @@map("subscription")
+}
 
-//   @@map("subscription")
-// }
+model SubscriptionFee {
+  id              String         @id @default(uuid())
+  registrationFee String
+  smartCardFee    String
+  subscriptionFee String
+  totalFee        String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  subscription    Subscription[]
 
-// model SubscriptionFee {
-//   id               String           @id @default(uuid())
-//   title            String
-//   subscriptionType SubscriptionType
-//   smartCardFee     String
-//   registrationFee  String
-//   subscriptionFee  String
-//   totalFee         String
-//   createdAt        DateTime         @default(now())
-//   updatedAt        DateTime         @updatedAt
-//   subscriptionId   String
+  @@map("subscription_fee")
+}
 
-//   subscription Subscription @relation(fields: [subscriptionId], references: [id])
-
-//   @@map("subscription_fee")
-// }
-
-// enum SubscriptionType {
-//   monthly
-//   yearly
-// }
+enum SubscriptionType {
+  weekly
+  monthly
+  halfYearly
+  yearly
+  lifeTime
+}
 
 enum Role {
   grand_admin

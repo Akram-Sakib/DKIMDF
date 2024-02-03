@@ -1,5 +1,6 @@
 import { FaAdjust } from "react-icons/fa";
 import { RiAdminLine } from "react-icons/ri";
+import { MdOutlineCardMembership } from "react-icons/md";
 
 import {
   AlertTriangle,
@@ -36,7 +37,7 @@ import {
   Globe,
   BookImage,
   Newspaper,
-  KanbanSquare
+  KanbanSquare,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -69,10 +70,10 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
-  globe:Globe,
-  gallery:BookImage,
-  news:Newspaper,
-  kanbanSquare:KanbanSquare,
+  globe: Globe,
+  gallery: BookImage,
+  news: Newspaper,
+  kanbanSquare: KanbanSquare,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
@@ -94,4 +95,5 @@ export const Icons = {
   check: Check,
   adjust: FaAdjust,
   banknote: Banknote,
+  cardMembership: MdOutlineCardMembership,
 };
