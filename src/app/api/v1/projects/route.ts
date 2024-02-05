@@ -4,7 +4,7 @@ import { getQueryParams } from "@/utils/getQueryParams";
 import pick from "@/utils/pick";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
-import { projectFilterableFields } from "./project.contants";
+import { projectFilterableFields } from "./project.constants";
 import { ProjectService } from "./project.service";
 
 export const GET = withErrorHandler(

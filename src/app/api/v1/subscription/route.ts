@@ -4,7 +4,7 @@ import { getQueryParams } from "@/utils/getQueryParams";
 import pick from "@/utils/pick";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
-import { subscriptionFilterableFields } from "./subscription.contants";
+import { subscriptionFilterableFields } from "./subscription.constants";
 import { SubscriptionService } from "./subscription.service";
 
 export const GET = withErrorHandler(

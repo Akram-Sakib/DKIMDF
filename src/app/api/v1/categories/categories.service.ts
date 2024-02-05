@@ -1,11 +1,10 @@
+import { paginationHelpers } from "@/helpers/paginationHelper";
 import prisma from "@/lib/prisma";
 import { IGenericResponse } from "@/types/common";
-import { Admin, Category, Member, Prisma, User } from "@prisma/client";
-import { type NextRequest, type NextResponse } from "next/server";
-import { ICategoryFilterRequest } from "./categories.interface";
 import { IPaginationOptions } from "@/types/pagination";
-import { categorySearchableFields } from "./categories.contants";
-import { paginationHelpers } from "@/helpers/paginationHelper";
+import { Category, Prisma } from "@prisma/client";
+import { categorySearchableFields } from "./categories.constants";
+import { ICategoryFilterRequest } from "./categories.interface";
 
 const create = async (data: Category): Promise<Category> => {
   const newData = await prisma.category.create({

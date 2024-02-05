@@ -34,7 +34,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession();
-
+  
+  const date = new Date(
+    new Date().setDate(new Date().getDate() + 7)
+  );
+  console.log(date.toISOString());
+  
+ 
   return (
     <html lang="en">
       <body className={`${inter.className}`}>

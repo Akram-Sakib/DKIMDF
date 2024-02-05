@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { MEMBERSHIP_TYPE } from "./membership.contants";
+import { MEMBERSHIP_TYPE } from "./membership.constants";
 
 const MembershipSchema = z.object({
   body: z.object({

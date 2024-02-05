@@ -28,6 +28,12 @@ model User {
   member      Member?
   project     Project[]
   membership  Membership[]
+  villages    Village[]
+  postOffices PostOffice[]
+  thana       Thana[]
+  districts   District[]
+  divisions   Division[]
+  countries   Country[]
 
   @@map(name: "users")
 }
@@ -214,9 +220,9 @@ model Membership {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   memberShipFeeId String           @unique
-  membershipFee   MembershipFee    @relation(fields: [memberShipFeeId], references: [id])
+  membershipFee   MembershipFee    @relation(fields: [memberShipFeeId], references: [id], onDelete: Cascade)
   userId          String
-  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   subscription    Subscription[]
 
   @@map("membership")
@@ -243,11 +249,11 @@ model Subscription {
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
   membershipId      String
-  membership        Membership      @relation(fields: [membershipId], references: [id])
+  membership        Membership      @relation(fields: [membershipId], references: [id], onDelete: Cascade)
   memberId          String
-  member            Member          @relation(fields: [memberId], references: [userId])
+  member            Member          @relation(fields: [memberId], references: [userId], onDelete: Cascade)
   subscriptionFeeId String
-  subscriptionFee   SubscriptionFee @relation(fields: [subscriptionFeeId], references: [id])
+  subscriptionFee   SubscriptionFee @relation(fields: [subscriptionFeeId], references: [id], onDelete: Cascade)
 
   @@map("subscription")
 }
@@ -263,6 +269,94 @@ model SubscriptionFee {
   subscription    Subscription[]
 
   @@map("subscription_fee")
+}
+
+model Village {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  postOfficeId String
+  postOffice   PostOffice @relation(fields: [postOfficeId], references: [id])
+
+  @@map("villages")
+}
+
+model PostOffice {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  postCode  String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  thanaId  String
+  userId   String
+  user     User      @relation(fields: [userId], references: [id])
+  thana    Thana     @relation(fields: [thanaId], references: [id])
+  villages Village[]
+
+  @@map("post_offices")
+}
+
+model Thana {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  districtId  String
+  district    District     @relation(fields: [districtId], references: [id])
+  userId      String
+  user        User         @relation(fields: [userId], references: [id])
+  postOffices PostOffice[]
+
+  @@map("thana")
+}
+
+model District {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  divisionId String
+  division   Division @relation(fields: [divisionId], references: [id])
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  thana      Thana[]
+
+  @@map("districts")
+}
+
+model Division {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  user      User       @relation(fields: [userId], references: [id])
+  countryId String
+  country   Country    @relation(fields: [countryId], references: [id])
+  districts District[]
+
+  @@map("divisions")
+}
+
+model Country {
+  id     String @id @default(uuid())
+  name   String @unique
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  divisions Division[]
+
+  @@map("countries")
 }
 
 enum SubscriptionType {

@@ -4,7 +4,7 @@ import { IGenericResponse } from "@/types/common";
 import { IPaginationOptions } from "@/types/pagination";
 import { Membership, MembershipFee, Prisma } from "@prisma/client";
 import { IMembershipFilterRequest } from "./membership.interface";
-import { membershipFilterableFields } from "./membership.contants";
+import { membershipFilterableFields } from "./membership.constants";
 type MembershipServiceType = Prisma.MembershipGetPayload<{
   include: {
     membershipFee: true;

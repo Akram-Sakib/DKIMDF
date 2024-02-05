@@ -4,7 +4,7 @@ import { IGenericResponse } from "@/types/common";
 import { IPaginationOptions } from "@/types/pagination";
 import { Project, Prisma } from "@prisma/client";
 import { IProjectFilterRequest } from "./project.interface";
-import { projectSearchableFields } from "./project.contants";
+import { projectSearchableFields } from "./project.constants";
 
 const create = async (data: Project): Promise<Project> => {
   const newData = await prisma.project.create({

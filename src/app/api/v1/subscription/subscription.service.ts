@@ -4,7 +4,7 @@ import { IGenericResponse } from "@/types/common";
 import { IPaginationOptions } from "@/types/pagination";
 import { Subscription, SubscriptionFee, Prisma } from "@prisma/client";
 import { ISubscriptionFilterRequest } from "./subscription.interface";
-import { subscriptionFilterableFields } from "./subscription.contants";
+import { subscriptionFilterableFields } from "./subscription.constants";
 
 const create = async (
   subscriptionFeePayload: SubscriptionFee,
@@ -32,9 +32,38 @@ const create = async (
       throw new Error("Membership not found");
     }
 
+    subscriptionPayload.startTime = new Date(
+      new Date().setDate(new Date().getDate())
+    );
+    // calculate the end time based on the membership type
+    if (membership?.type === "weekly") {
+      subscriptionPayload.endTime = new Date(
+        new Date().setDate(new Date().getDate() + 7)
+      );
+    } else if (membership?.type === "monthly") {
+      subscriptionPayload.endTime = new Date(
+        new Date().setMonth(new Date().getMonth() + 1)
+      );
+    } else if (
+      membership?.type === "halfYearly" &&
+      subscriptionPayload.endTime
+    ) {
+      subscriptionPayload.endTime = new Date(
+        new Date().setMonth(new Date().getMonth() + 6)
+      );
+    } else if (membership?.type === "yearly") {
+      subscriptionPayload.endTime = new Date(
+        new Date().setFullYear(new Date().getFullYear() + 1)
+      );
+    } else if (membership?.type === "lifeTime") {
+      subscriptionPayload.endTime = new Date(
+        new Date().setFullYear(new Date().getFullYear() + 100)
+      );
+    }
+
+
     // calculate the total fee
     const { totalFee: membershipTotalFee } = membership.membershipFee;
-    console.log(membershipTotalFee, subscriptionFeePayload.totalFee);
 
     if (membershipTotalFee !== subscriptionFeePayload.totalFee) {
       throw new Error("Invalid subscription fee");

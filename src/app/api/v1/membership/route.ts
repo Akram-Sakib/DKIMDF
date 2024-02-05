@@ -4,7 +4,7 @@ import { getQueryParams } from "@/utils/getQueryParams";
 import pick from "@/utils/pick";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
-import { membershipFilterableFields } from "./membership.contants";
+import { membershipFilterableFields } from "./membership.constants";
 import { MembershipService } from "./membership.service";
 
 export const GET = withErrorHandler(

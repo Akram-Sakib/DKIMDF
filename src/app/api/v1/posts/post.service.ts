@@ -4,7 +4,7 @@ import { IGenericResponse } from "@/types/common";
 import { IPaginationOptions } from "@/types/pagination";
 import { Post, Prisma } from "@prisma/client";
 import { IPostFilterRequest } from "./post.interface";
-import { postSearchableFields } from "./post.contants";
+import { postSearchableFields } from "./post.constants";
 
 const create = async (data: Post): Promise<Post> => {
   const newData = await prisma.post.create({

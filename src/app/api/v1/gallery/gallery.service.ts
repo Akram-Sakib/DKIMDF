@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { IGenericResponse } from "@/types/common";
 import { IPaginationOptions } from "@/types/pagination";
 import { Prisma, Gallery } from "@prisma/client";
-import { gallerySearchableFields } from "./gallery.contants";
+import { gallerySearchableFields } from "./gallery.constants";
 import { IGalleryFilterRequest } from "./gallery.interface";
 
 const create = async (data: Gallery): Promise<Gallery> => {
