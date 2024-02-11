@@ -25,10 +25,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 // import FileUpload from "@/components/FileUpload";
-import FormInput from "../form/form-input";
-import FormSelect from "../form/form-select";
-import { useToast } from "../use-toast";
-import { Heading } from "./heading";
+import FormInput from "../formelements/form-input";
+import FormSelect from "../formelements/form-select";
+import { useToast } from "../ui/use-toast";
+import { Heading } from "../ui/dashboard/heading";
 // const ImgSchema = z.object({
 //   fileName: z.string(),
 //   name: z.string(),

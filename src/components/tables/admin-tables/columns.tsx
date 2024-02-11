@@ -1,10 +1,11 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { User } from "@/constants/data";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Country } from "@prisma/client";
+import { format } from "date-fns";
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<Country>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -29,16 +30,12 @@ export const columns: ColumnDef<User>[] = [
     header: "NAME",
   },
   {
-    accessorKey: "email",
-    header: "EMAIL",
+    accessorFn: (row) => format(new Date(row.createdAt), "dd/MM/yyyy HH:mm:ss"),
+    header: "CREATED AT",
   },
   {
-    accessorKey: "role",
-    header: "ROLE",
-  },
-  {
-    accessorKey: "status",
-    header: "STATUS",
+    accessorFn: (row) => format(new Date(row.updatedAt), "dd/MM/yyyy HH:mm:ss"),
+    header: "UPDATED AT",
   },
   {
     id: "actions",

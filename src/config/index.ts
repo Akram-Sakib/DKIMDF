@@ -1,5 +1,7 @@
 const config = {
   env: process.env.NODE_ENV,
+  baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
+  backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL,
   cloudinary: {
     cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
     api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,

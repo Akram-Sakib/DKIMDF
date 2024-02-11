@@ -4,14 +4,14 @@ import { useState } from "react";
 import { Separator } from "../separator";
 import { Heading } from "./heading";
 import Stepper from "../stepper/stepper";
-import UserForm from "../form/user-form";
-import FormInput from "../form/form-input";
+import UserForm from "../../formelements/user-form";
+import FormInput from "../../formelements/form-input";
 import { z } from "zod";
 import { Button } from "../button";
 import { cn } from "@/lib/utils";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
-import FormDatePicker from "../form/form-date-picker";
-import FormSelect from "../form/form-select";
+import FormDatePicker from "../../formelements/form-date-picker";
+import FormSelect from "../../formelements/form-select";
 import { GENDER } from "@/constants/data";
 
 const formSchema = z.object({

@@ -4,21 +4,21 @@ import { getQueryParams } from "@/utils/getQueryParams";
 import pick from "@/utils/pick";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
-import { countryFilterableFields } from "./countries.constants";
-import { CountryService } from "./countries.service";
+import { divisionFilterableFields } from "./divisions.constants";
+import { DivisionService } from "./divisions.service";
 
 export const GET = withErrorHandler(
   async (request: NextRequest, context: any) => {
     const queryParams = getQueryParams(request);
 
-    const filters = pick(queryParams, countryFilterableFields);
+    const filters = pick(queryParams, divisionFilterableFields);
     const options = pick(queryParams, ["limit", "page", "sortBy", "sortOrder"]);
-    const result = await CountryService.getAll(filters, options);
+    const result = await DivisionService.getAll(filters, options);
 
     const data = {
       statusCode: httpStatus.OK,
       success: true,
-      message: "All Categries Fetched Successfully!",
+      message: "All Divisions Fetched Successfully!",
       data: result,
     };
 

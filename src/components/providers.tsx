@@ -1,7 +1,10 @@
 "use client";
-import React from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider, SessionProviderProps } from "next-auth/react";
+import React from "react";
 import ThemeProvider from "./ui/dashboard/ThemeToggle/theme-provider";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 export default function Providers({
   session,
   children,
@@ -9,10 +12,29 @@ export default function Providers({
   session: SessionProviderProps["session"];
   children: React.ReactNode;
 }) {
+  const [queryClient] = React.useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // queryKey: ["countries", "country"],
+            // With SSR, we usually want to set some default staleTime
+            // above 0 to avoid refetching immediately on the client
+            // staleTime: 60 * 1000,
+          },
+        },
+      })
+  );
+
   return (
     <>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider session={session}>
+          <QueryClientProvider client={queryClient}>
+            {children}
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </SessionProvider>
       </ThemeProvider>
     </>
   );

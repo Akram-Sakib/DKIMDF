@@ -2,11 +2,11 @@
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import FormCheckBox from "@/components/ui/form/form-checkbox";
-import FormDatePicker from "@/components/ui/form/form-date-picker";
-import FormInput from "@/components/ui/form/form-input";
-import FormSelect from "@/components/ui/form/form-select";
-import UserForm from "@/components/ui/form/user-form";
+import FormCheckBox from "@/components/formelements/form-checkbox";
+import FormDatePicker from "@/components/formelements/form-date-picker";
+import FormInput from "@/components/formelements/form-input";
+import FormSelect from "@/components/formelements/form-select";
+import UserForm from "@/components/formelements/user-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GENDER } from "@/constants/data";
 import { cn } from "@/lib/utils";

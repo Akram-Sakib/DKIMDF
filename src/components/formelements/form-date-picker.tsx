@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { useFormContext } from "react-hook-form";
-import { Button } from "../button";
+import { Button } from "../ui/button";
 
 interface FormDatePickerProps {
   name: string;

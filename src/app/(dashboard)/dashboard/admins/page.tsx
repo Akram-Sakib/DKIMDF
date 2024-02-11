@@ -1,5 +1,5 @@
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
-import { AdminClient } from "@/components/ui/dashboard/admin-tables/cilent";
+import { AdminClient } from "@/components/tables/admin-tables/cilent";
 import { users } from "@/constants/data";
 const breadcrumbItems = [{ title: "Admins", link: "/dashboard/admins" }];
 

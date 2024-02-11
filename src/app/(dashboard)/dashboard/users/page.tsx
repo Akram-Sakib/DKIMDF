@@ -1,8 +1,8 @@
 import { buttonVariants } from "@/components/ui/button";
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
 import { Heading } from "@/components/ui/dashboard/heading";
-import { columns } from "@/components/ui/dashboard/user-tables/columns";
-import { UserTable } from "@/components/ui/dashboard/user-tables/user-table";
+import { columns } from "@/components/tables/user-tables/columns";
+import { UserTable } from "@/components/tables/user-tables/user-table";
 import { Separator } from "@/components/ui/separator";
 import { Employee } from "@/constants/data";
 import { cn } from "@/lib/utils";

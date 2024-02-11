@@ -38,8 +38,14 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
   });
 
-  /* this can be used to get the selectedrows 
-  console.log("value", table.getFilteredSelectedRowModel()); */
+  /* get selected rows ids */
+  // const selectedRowIds = table
+  //   .getFilteredSelectedRowModel()
+  //   .rows.map((row) => row?.original?.id);
+    // console.log(selectedRowIds);
+    
+    console.log(table.getCanNextPage());
+    
 
   return (
     <>
@@ -63,7 +69,7 @@ export function DataTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
                   );
@@ -82,7 +88,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}

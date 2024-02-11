@@ -11,10 +11,11 @@ import { User } from "@/constants/data";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { AlertModal } from "../../modal/alert-modal";
+import { AlertModal } from "../../ui/modal/alert-modal";
+import { Country } from "@prisma/client";
 
 interface CellActionProps {
-  data: User;
+  data: Country;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {

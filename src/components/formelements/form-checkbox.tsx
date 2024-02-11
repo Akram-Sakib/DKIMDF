@@ -8,7 +8,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
-import { Checkbox } from "../checkbox";
+import { Checkbox } from "../ui/checkbox";
 import Link from "next/link";
 interface FormCheckBoxProps {
   name: string;

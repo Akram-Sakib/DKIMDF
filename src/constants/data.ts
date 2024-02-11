@@ -1,5 +1,4 @@
-import { Icons } from "@/components/icons";
-import { NavItem, SidebarNavItem } from "@/types";
+import { NavItem } from "@/types";
 
 export type User = {
   id: number;
@@ -271,6 +270,14 @@ export type Employee = {
   profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
 };
 
+export type Country = {
+  id: string;
+  name: string;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export const navItems: NavItem[] = [
   {
     title: "Dashboard",
@@ -321,11 +328,18 @@ export const navItems: NavItem[] = [
     label: "payments",
   },
   {
+    title: "Places",
+    href: "/dashboard/places",
+    icon: "cityLocation",
+    label: "places",
+  },
+  {
     title: "Payments",
     href: "/dashboard/payment",
     icon: "banknote",
     label: "payments",
   },
+
   {
     title: "Logout",
     href: "/",

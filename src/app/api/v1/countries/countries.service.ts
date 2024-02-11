@@ -84,7 +84,6 @@ const getById = async (id: string): Promise<Country | null> => {
       id,
     },
   });
-
   return result;
 };
 

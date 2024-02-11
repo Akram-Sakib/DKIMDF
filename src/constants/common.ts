@@ -49,3 +49,10 @@ export const BLOODGROUP = [
     value: "o-",
   },
 ];
+
+export const QueryKeys = {
+  COUNTRIES: "countries",
+  COUNTRY: "country",
+  DIVISIONS: "divisions",
+  DIVISION: "division",
+};

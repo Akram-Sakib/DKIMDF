@@ -1,5 +1,5 @@
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
-import { ProductForm } from "@/components/ui/dashboard/product-form";
+import { ProductForm } from "@/components/forms/product-form";
 
 export default function Page() {
   const breadcrumbItems = [

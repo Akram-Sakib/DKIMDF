@@ -1,7 +1,7 @@
 
 const breadcrumbItems = [
-  { title: "Payment", link: "/dashboard/payment" },
-  { title: "History", link: "/dashboard/payment/history" },
+  { title: "Countries", link: "/dashboard/countries" },
+  { title: "Divisions", link: "/dashboard/countries/divisions" },
 ];
 
 import { buttonVariants } from "@/components/ui/button";
@@ -12,7 +12,7 @@ import { UserTable } from "@/components/tables/user-tables/user-table";
 import { Separator } from "@/components/ui/separator";
 import { Employee } from "@/constants/data";
 import { cn } from "@/lib/utils";
-import { CheckSquare2 } from "lucide-react";
+import { CheckSquare2, Plus } from "lucide-react";
 import Link from "next/link";
 
 type paramsProps = {
@@ -44,15 +44,15 @@ export default async function PaymentHistoryPage({
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`User (${totalUsers})`}
-            description="Manage users (Server side table functionalities.)"
+            title={`Divisions (${totalUsers})`}
+            description="Manage Division (Server side table functionalities.)"
           />
 
           <Link
-            href={"/dashboard/payment/buy-subscription"}
+            href={"/dashboard/divisions/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
-            <CheckSquare2 className="mr-2 h-4 w-4" />Buy Subscription
+            <Plus className="mr-2 h-4 w-4" />Add New Division
           </Link>
         </div>
         <Separator />

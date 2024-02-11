@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { getServerSession } from "next-auth";
 import Providers from "@/components/providers";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,16 +36,11 @@ export default async function RootLayout({
 }) {
   const session = await getServerSession();
   
-  const date = new Date(
-    new Date().setDate(new Date().getDate() + 7)
-  );
-  console.log(date.toISOString());
-  
- 
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
         <Providers session={session}>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   );

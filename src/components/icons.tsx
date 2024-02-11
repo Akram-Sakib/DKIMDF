@@ -1,7 +1,7 @@
 import { FaAdjust } from "react-icons/fa";
 import { RiAdminLine } from "react-icons/ri";
 import { MdOutlineCardMembership } from "react-icons/md";
-
+import { TbWorld } from "react-icons/tb";
 import {
   AlertTriangle,
   ArrowRight,
@@ -74,6 +74,7 @@ export const Icons = {
   gallery: BookImage,
   news: Newspaper,
   kanbanSquare: KanbanSquare,
+  cityLocation: TbWorld,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
