@@ -8,28 +8,42 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const columns: ColumnDef<Country>[] = [
+  // {
+  //   id: "SERIAL",
+  //   header: ({ table }) => (
+  //     <>SERIAL</>
+  //     // <Checkbox
+  //     //   checked={table.getIsAllPageRowsSelected()}
+  //     //   onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //     //   aria-label="Select all"
+  //     // />
+  //   ),
+  //   cell: ({ row, cell }) => {
+  //     return (
+  //       <>
+  //         {/* <Checkbox
+  //           checked={row.getIsSelected()}
+  //           onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //           aria-label="Select row"
+  //         /> */}
+  //       </>
+  //     );
+  //   },
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
+  // make a tanstack serial number cell which will be dynamic
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <>
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-          />
-        </>
-      );
-    },
+    id: "SERIAL",
+    header: "SERIAL",
     enableSorting: false,
     enableHiding: false,
+    cell: ({ row, table }) => {
+      const index = row.index + 1;
+      const pageSize = table.getState().pagination.pageSize;
+      const pageIndex = table.getState().pagination.pageIndex;
+      return <span>{index + pageSize * pageIndex}</span>;
+    },
   },
   {
     accessorKey: "name",

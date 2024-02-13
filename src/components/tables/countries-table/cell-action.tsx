@@ -7,15 +7,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { AlertModal } from "../../ui/modal/alert-modal";
+import { toast } from "@/components/ui/use-toast";
+import { QueryKeys } from "@/constants/common";
+import { axiosInstance } from "@/helpers/axiosInstance";
 import { Country } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { axiosInstance } from "@/helpers/axiosInstance";
-import { QueryKeys } from "@/constants/common";
-import { toast } from "@/components/ui/use-toast";
+import { Edit, MoreHorizontal, Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { AlertModal } from "../../ui/modal/alert-modal";
 
 interface CellActionProps {
   data: Country;
@@ -32,20 +32,20 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       const res = await axiosInstance.delete(`/countries/${data.id}`);
       return res;
     },
-    onSuccess: () => {
+    onSuccess: (res: any) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.COUNTRIES],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRY],
+        queryKey: [QueryKeys.COUNTRY, data.id],
       });
-      toast({
-        variant: "default",
-        description: "Country has been deleted successfully.",
-      });
-
-      router.refresh();
+      if (res.success) {
+        toast({
+          variant: "default",
+          description: "Country has been deleted successfully.",
+        });
+      }
       setOpen(false);
     },
     onError: (error: any) => {
@@ -80,7 +80,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/places/countries/${data.id}`)}
+            onClick={() =>
+              router.push(`/dashboard/places/countries/${data.id}`)
+            }
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>

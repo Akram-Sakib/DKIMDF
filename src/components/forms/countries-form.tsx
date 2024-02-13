@@ -3,10 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import config from "@/config";
+import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Country } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -14,15 +13,15 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import FormInput from "../formelements/form-input";
-import { AlertModal } from "../ui/modal/alert-modal";
-import { useToast } from "../ui/use-toast";
-import { Heading } from "../ui/dashboard/heading";
-import { QueryKeys } from "@/constants/common";
 import BreadCrumb from "../ui/dashboard/breadcrumb";
+import { Heading } from "../ui/dashboard/heading";
+import { AlertModal } from "../ui/modal/alert-modal";
+import { Skeleton } from "../ui/skeleton";
+import { useToast } from "../ui/use-toast";
 
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Please enter a country name" }),
+  name: z.string().min(2, { message: "Country name must be at least 2 characters." }),
   userId: z.string().min(1, { message: "Please enter a user id" }),
 });
 
@@ -36,16 +35,16 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
 
   const { data: initialData, isLoading: initialDataLoading } = useQuery({
     queryFn: async () => {
+      if (!params.countryId) return;
       const data = await axiosInstance.get(`/countries/${params.countryId}`);
       return data.data;
     },
-    queryKey: [QueryKeys.COUNTRY],
+    queryKey: [QueryKeys.COUNTRY, params.countryId],
   });
 
   const breadcrumbItems = [
     { title: "Places", link: "/dashboard/places/" },
     { title: "Countries", link: "/dashboard/places/countries" },
-    // { title: "New", link: "/dashboard/countries/new" },
     {
       title: initialData ? initialData.name : "New",
       link: `/dashboard/places/countries/${params.countryId}`,
@@ -57,20 +56,29 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
       const res = await axiosInstance.post(`/countries/create-country`, data);
       return res;
     },
-    onSuccess: () => {
+    onSuccess: (res: any) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.COUNTRIES],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRY],
+        queryKey: [QueryKeys.COUNTRY, params.countryId],
       });
-      toast({
-        variant: "default",
-        title: toastMessage,
-        description: "Country has been created successfully.",
-      });
-      router.push(`/dashboard/countries/`);
+
+      if (res.success) {
+        toast({
+          variant: "default",
+          title: toastMessage,
+          description: "Country has been created successfully.",
+        });
+        router.push(`/dashboard/places/countries/`);
+      } else {
+        toast({
+          variant: "destructive",
+          title: res.message,
+          description: "There was a problem with your request.",
+        });
+      }
     },
     onError: (error: any) => {
       toast({
@@ -89,25 +97,27 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
       );
       return res;
     },
-    onSuccess: () => {
-      // Invalidate and refetch
-      // Promise.all([
-      // queryClient.invalidateQueries([QueryKeys.COUNTRIES]),
+    onSuccess: (res: any) => {
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.COUNTRIES],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRY],
+        queryKey: [QueryKeys.COUNTRY, params.countryId],
       });
-      // ])
-      // queryClient.invalidateQueries({
-      //   queryKey: [QueryKeys.COUNTRIES, QueryKeys.COUNTRY],
-      // });
-      toast({
-        variant: "default",
-        title: toastMessage,
-        description: "Country has been updated successfully.",
-      });
+
+      if (res.success) {
+        toast({
+          variant: "default",
+          title: toastMessage,
+          description: "Country has been updated successfully.",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: res.message,
+          description: "There was a problem with your request.",
+        });
+      }
     },
     onError: (error: any) => {
       toast({
@@ -123,19 +133,27 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
       const res = await axiosInstance.delete(`/countries/${params.countryId}`);
       return res;
     },
-    onSuccess: () => {
+    onSuccess: (res: any) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.COUNTRIES],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRY],
+        queryKey: [QueryKeys.COUNTRY, params.countryId],
       });
-      toast({
-        variant: "default",
-        description: "Country has been deleted successfully.",
-      });
-      router.push(`/dashboard/countries/`);
+      if (res.success) {
+        toast({
+          variant: "default",
+          description: "Country has been deleted successfully.",
+        });
+        router.push(`/dashboard/places/countries/`);
+      } else {
+        toast({
+          variant: "destructive",
+          title: res.message,
+          description: "There was a problem with your request.",
+        });
+      }
     },
     onError: (error: any) => {
       toast({
@@ -149,7 +167,7 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
   const router = useRouter();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(initialDataLoading || false);
+  const [loading, setLoading] = useState(false);
   const [imgLoading, setImgLoading] = useState(false);
   const title = initialData ? "Edit Country" : "Create Country";
   const description = initialData ? "Edit a Country." : "Add a new Country";
@@ -172,14 +190,11 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
     try {
       console.log(data);
       setLoading(true);
-
       if (initialData) {
         updateMutation(data);
       } else {
         createMutation(data);
       }
-      // router.refresh();
-      // router.push(`/dashboard/countries`);
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -195,8 +210,6 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
     try {
       setLoading(true);
       deleteMutation();
-      // router.refresh();
-      // router.push(`/${params.countryId}/countries`);
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -208,7 +221,6 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
       setOpen(false);
     }
   };
-
 
   // const triggerImgUrlValidation = () => form.trigger("imgUrl");
   // if (isLoading) return <div>Loading...</div>;
@@ -223,18 +235,20 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
       />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
-        {initialData && (
-          <Button
-            disabled={
-              loading || createIsPending || updateIsPending || deleteIsPending
-            }
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
-        )}
+        <Button
+          disabled={
+            loading ||
+            initialDataLoading ||
+            createIsPending ||
+            updateIsPending ||
+            deleteIsPending
+          }
+          variant="destructive"
+          size="sm"
+          onClick={() => setOpen(true)}
+        >
+          <Trash className="h-4 w-4" />
+        </Button>
       </div>
       <Separator />
       <Form {...form}>
@@ -242,25 +256,43 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          <div className="md:grid md:grid-cols-3 gap-8">
-            <FormInput
-              name="name"
-              label="Name"
-              placeholder="Enter Country Name"
-              disabled={loading}
-              required
-            />
-            <FormInput
-              name="userId"
-              label="User Id"
-              placeholder="Enter User Id"
-              disabled={loading}
-              required
-            />
-          </div>
+          {initialDataLoading ? (
+            <div className="md:grid md:grid-cols-3 gap-8">
+              <div className="space-y-2">
+                <Skeleton className="w-1/2 h-4" />
+                <Skeleton className="w-full h-10" />
+              </div>
+              <div className="space-y-2">
+                <Skeleton className="w-1/2 h-4" />
+                <Skeleton className="w-full h-10" />
+              </div>
+              {/* <Skeleton className="w-full h-10" /> */}
+            </div>
+          ) : (
+            <div className="md:grid md:grid-cols-3 gap-8">
+              <FormInput
+                name="name"
+                label="Name"
+                placeholder="Enter Country Name"
+                disabled={loading}
+                required
+              />
+              <FormInput
+                name="userId"
+                label="User Id"
+                placeholder="Enter User Id"
+                disabled={loading}
+                required
+              />
+            </div>
+          )}
           <Button
             disabled={
-              loading || createIsPending || updateIsPending || deleteIsPending
+              initialDataLoading ||
+              loading ||
+              createIsPending ||
+              updateIsPending ||
+              deleteIsPending
             }
             className="ml-auto"
             type="submit"

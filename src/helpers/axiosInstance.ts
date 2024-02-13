@@ -38,6 +38,7 @@ axiosInstance.interceptors.response.use(
     const responseObject: ResponseSuccessType = {
       data: response?.data?.data,
       meta: response?.data?.meta,
+      success: response?.data?.success,
     };
     return responseObject;
   },

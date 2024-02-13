@@ -18,7 +18,7 @@ const AddNewCountryPage = async ({
   const { countryId } = params;
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: [QueryKeys.COUNTRY],
+    queryKey: [QueryKeys.COUNTRY, countryId],
     queryFn: async () => {
       const res = await axiosInstance.get(`/countries/${countryId}`);
 
