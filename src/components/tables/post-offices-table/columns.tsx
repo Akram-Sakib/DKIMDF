@@ -1,13 +1,12 @@
 "use client";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ColumnDef } from "@tanstack/react-table";
-import { CellAction } from "./cell-action";
-import { Division } from "@prisma/client";
-import { format } from "date-fns";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PostOffice } from "@prisma/client";
+import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import { ArrowUpDown } from "lucide-react";
+import { CellAction } from "./cell-action";
 
-export const columns: ColumnDef<Division>[] = [
+export const columns: ColumnDef<PostOffice>[] = [
   // {
   //   id: "SERIAL",
   //   header: ({ table }) => (

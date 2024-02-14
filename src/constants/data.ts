@@ -339,7 +339,6 @@ export const navItems: NavItem[] = [
     icon: "banknote",
     label: "payments",
   },
-
   {
     title: "Logout",
     href: "/",

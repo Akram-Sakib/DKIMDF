@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import FormInput from "../formelements/form-input";
+import FormSelect from "../formelements/form-select";
 import BreadCrumb from "../ui/dashboard/breadcrumb";
 import { Heading } from "../ui/dashboard/heading";
 import { AlertModal } from "../ui/modal/alert-modal";
@@ -21,7 +22,10 @@ import { useToast } from "../ui/use-toast";
 
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
-  name: z.string().min(2, { message: "Country name must be at least 2 characters." }),
+  name: z
+    .string()
+    .min(2, { message: "Division name must be at least 2 characters." }),
+  countryId: z.string().min(2, { message: "Please select a country" }),
   userId: z.string().min(1, { message: "Please enter a user id" }),
 });
 
@@ -29,49 +33,58 @@ type ProductFormValues = z.infer<typeof formSchema>;
 
 interface FormProps {}
 
-export const CountriesForm: React.FC<FormProps> = ({}) => {
+export const DivisionsForm: React.FC<FormProps> = ({}) => {
   const params = useParams();
   const queryClient = useQueryClient();
 
   const { data: initialData, isLoading: initialDataLoading } = useQuery({
     queryFn: async () => {
-      if (!params.countryId) return;
-      const data = await axiosInstance.get(`/countries/${params.countryId}`);
+      if (!params.id) return;
+      const data = await axiosInstance.get(`/divisions/${params.id}`);
       return data.data;
     },
-    queryKey: [QueryKeys.COUNTRY, params.countryId],
+    queryKey: [QueryKeys.DIVISION, params.id],
+  });
+
+  const { data: countries, isLoading: countriesLoading } = useQuery({
+    queryFn: async () => {
+      if (!params.id) return;
+      const data = await axiosInstance.get(`/countries?limit=100`);
+      return data.data;
+    },
+    queryKey: [QueryKeys.COUNTRIES, params.id],
   });
 
   const breadcrumbItems = [
     { title: "Places", link: "/dashboard/places/" },
-    { title: "Countries", link: "/dashboard/places/countries" },
+    { title: "Divisions", link: "/dashboard/places/divisions" },
     {
       title: initialData ? initialData.name : "New",
-      link: `/dashboard/places/countries/${params.countryId}`,
+      link: `/dashboard/places/divisions/${params.id}`,
     },
   ];
 
   const { mutate: createMutation, isPending: createIsPending } = useMutation({
     mutationFn: async (data: any) => {
-      const res = await axiosInstance.post(`/countries/create-country`, data);
+      const res = await axiosInstance.post(`/divisions/create-division`, data);
       return res;
     },
     onSuccess: (res: any) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRIES],
+        queryKey: [QueryKeys.DIVISIONS],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRY, params.countryId],
+        queryKey: [QueryKeys.DIVISION, params.id],
       });
 
       if (res.success) {
         toast({
           variant: "default",
           title: toastMessage,
-          description: "Country has been created successfully.",
+          description: "Division has been created successfully.",
         });
-        router.push(`/dashboard/places/countries/`);
+        router.push(`/dashboard/places/divisions/`);
       } else {
         toast({
           variant: "destructive",
@@ -91,25 +104,22 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
 
   const { mutate: updateMutation, isPending: updateIsPending } = useMutation({
     mutationFn: async (data: any) => {
-      const res = await axiosInstance.patch(
-        `/countries/${params.countryId}`,
-        data
-      );
+      const res = await axiosInstance.patch(`/divisions/${params.id}`, data);
       return res;
     },
     onSuccess: (res: any) => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRIES],
+        queryKey: [QueryKeys.DIVISIONS],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRY, params.countryId],
+        queryKey: [QueryKeys.DIVISION, params.id],
       });
 
       if (res.success) {
         toast({
           variant: "default",
           title: toastMessage,
-          description: "Country has been updated successfully.",
+          description: "Division has been updated successfully.",
         });
       } else {
         toast({
@@ -130,23 +140,23 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
 
   const { mutate: deleteMutation, isPending: deleteIsPending } = useMutation({
     mutationFn: async () => {
-      const res = await axiosInstance.delete(`/countries/${params.countryId}`);
+      const res = await axiosInstance.delete(`/divisions/${params.id}`);
       return res;
     },
     onSuccess: (res: any) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRIES],
+        queryKey: [QueryKeys.DIVISIONS],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRY, params.countryId],
+        queryKey: [QueryKeys.DIVISION, params.id],
       });
       if (res.success) {
         toast({
           variant: "default",
-          description: "Country has been deleted successfully.",
+          description: "Division has been deleted successfully.",
         });
-        router.push(`/dashboard/places/countries/`);
+        router.push(`/dashboard/places/divisions/`);
       } else {
         toast({
           variant: "destructive",
@@ -168,9 +178,10 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const title = initialData ? "Edit Country" : "Create Country";
-  const description = initialData ? "Edit a Country." : "Add a new Country";
-  const toastMessage = initialData ? "Country updated." : "Country created.";
+  // const [imgLoading, setImgLoading] = useState(false);
+  const title = initialData ? "Edit Division" : "Create Division";
+  const description = initialData ? "Edit a Division." : "Add a new Division";
+  const toastMessage = initialData ? "Division updated." : "Division created.";
   const action = initialData ? "Save changes" : "Create";
 
   const defaultValues = initialData
@@ -178,6 +189,7 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
     : {
         name: "",
         userId: "",
+        countryId: "",
       };
 
   const form = useForm<ProductFormValues>({
@@ -255,7 +267,7 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          {initialDataLoading ? (
+          {initialDataLoading || countriesLoading ? (
             <div className="md:grid md:grid-cols-3 gap-8">
               <div className="space-y-2">
                 <Skeleton className="w-1/2 h-4" />
@@ -272,8 +284,20 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
               <FormInput
                 name="name"
                 label="Name"
-                placeholder="Enter Country Name"
+                placeholder="Enter Division Name"
                 disabled={loading}
+                required
+              />
+              <FormSelect
+                name="countryId"
+                placeholder="Select A Country"
+                label="Country"
+                options={countries?.data.map((country: any) => ({
+                  value: country.id,
+                  label: country.name,
+                }))}
+                disabled={countriesLoading}
+                loading={countriesLoading}
                 required
               />
               <FormInput

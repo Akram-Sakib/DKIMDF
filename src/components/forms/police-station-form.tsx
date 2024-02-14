@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import FormInput from "../formelements/form-input";
+import FormSelect from "../formelements/form-select";
 import BreadCrumb from "../ui/dashboard/breadcrumb";
 import { Heading } from "../ui/dashboard/heading";
 import { AlertModal } from "../ui/modal/alert-modal";
@@ -21,7 +22,10 @@ import { useToast } from "../ui/use-toast";
 
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
-  name: z.string().min(2, { message: "Country name must be at least 2 characters." }),
+  name: z
+    .string()
+    .min(2, { message: "Police Station name must be at least 2 characters." }),
+  districtId: z.string().min(2, { message: "Please select a district" }),
   userId: z.string().min(1, { message: "Please enter a user id" }),
 });
 
@@ -29,49 +33,58 @@ type ProductFormValues = z.infer<typeof formSchema>;
 
 interface FormProps {}
 
-export const CountriesForm: React.FC<FormProps> = ({}) => {
+export const PoliceStationForm: React.FC<FormProps> = ({}) => {
   const params = useParams();
   const queryClient = useQueryClient();
 
   const { data: initialData, isLoading: initialDataLoading } = useQuery({
     queryFn: async () => {
-      if (!params.countryId) return;
-      const data = await axiosInstance.get(`/countries/${params.countryId}`);
+      if (!params.id) return;
+      const data = await axiosInstance.get(`/thana/${params.id}`);
       return data.data;
     },
-    queryKey: [QueryKeys.COUNTRY, params.countryId],
+    queryKey: [QueryKeys.THANA, params.id],
+  });
+
+  const { data: districts, isLoading: districtLoading } = useQuery({
+    queryFn: async () => {
+      if (!params.id) return;
+      const data = await axiosInstance.get(`/districts?limit=500`);
+      return data.data;
+    },
+    queryKey: [QueryKeys.DISTRICTS, params.id],
   });
 
   const breadcrumbItems = [
     { title: "Places", link: "/dashboard/places/" },
-    { title: "Countries", link: "/dashboard/places/countries" },
+    { title: "Police Station", link: "/dashboard/places/police-stations" },
     {
       title: initialData ? initialData.name : "New",
-      link: `/dashboard/places/countries/${params.countryId}`,
+      link: `/dashboard/places/police-stations/${params.id}`,
     },
   ];
 
   const { mutate: createMutation, isPending: createIsPending } = useMutation({
     mutationFn: async (data: any) => {
-      const res = await axiosInstance.post(`/countries/create-country`, data);
+      const res = await axiosInstance.post(`/thana/create-thana`, data);
       return res;
     },
     onSuccess: (res: any) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRIES],
+        queryKey: [QueryKeys.THANAS],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRY, params.countryId],
+        queryKey: [QueryKeys.THANA, params.id],
       });
 
       if (res.success) {
         toast({
           variant: "default",
           title: toastMessage,
-          description: "Country has been created successfully.",
+          description: "Police Station has been created successfully.",
         });
-        router.push(`/dashboard/places/countries/`);
+        router.push(`/dashboard/places/police-stations/`);
       } else {
         toast({
           variant: "destructive",
@@ -91,25 +104,22 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
 
   const { mutate: updateMutation, isPending: updateIsPending } = useMutation({
     mutationFn: async (data: any) => {
-      const res = await axiosInstance.patch(
-        `/countries/${params.countryId}`,
-        data
-      );
+      const res = await axiosInstance.patch(`/thana/${params.id}`, data);
       return res;
     },
     onSuccess: (res: any) => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRIES],
+        queryKey: [QueryKeys.THANAS],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRY, params.countryId],
+        queryKey: [QueryKeys.THANA, params.id],
       });
 
       if (res.success) {
         toast({
           variant: "default",
           title: toastMessage,
-          description: "Country has been updated successfully.",
+          description: "Police Station has been updated successfully.",
         });
       } else {
         toast({
@@ -130,23 +140,23 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
 
   const { mutate: deleteMutation, isPending: deleteIsPending } = useMutation({
     mutationFn: async () => {
-      const res = await axiosInstance.delete(`/countries/${params.countryId}`);
+      const res = await axiosInstance.delete(`/thana/${params.id}`);
       return res;
     },
     onSuccess: (res: any) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRIES],
+        queryKey: [QueryKeys.THANAS],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRY, params.countryId],
+        queryKey: [QueryKeys.THANA, params.id],
       });
       if (res.success) {
         toast({
           variant: "default",
-          description: "Country has been deleted successfully.",
+          description: "Police Station has been deleted successfully.",
         });
-        router.push(`/dashboard/places/countries/`);
+        router.push(`/dashboard/places/police-stations/`);
       } else {
         toast({
           variant: "destructive",
@@ -168,9 +178,14 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const title = initialData ? "Edit Country" : "Create Country";
-  const description = initialData ? "Edit a Country." : "Add a new Country";
-  const toastMessage = initialData ? "Country updated." : "Country created.";
+  // const [imgLoading, setImgLoading] = useState(false);
+  const title = initialData ? "Edit Police Station" : "Create Police Station";
+  const description = initialData
+    ? "Edit a Police Station."
+    : "Add a new Police Station";
+  const toastMessage = initialData
+    ? "Police Station updated."
+    : "Police Station created.";
   const action = initialData ? "Save changes" : "Create";
 
   const defaultValues = initialData
@@ -178,6 +193,7 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
     : {
         name: "",
         userId: "",
+        districtId: "",
       };
 
   const form = useForm<ProductFormValues>({
@@ -186,6 +202,8 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
   });
 
   const onSubmit = async (data: ProductFormValues) => {
+    console.log("Submitted data: ");
+
     try {
       console.log(data);
       setLoading(true);
@@ -234,20 +252,22 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
       />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
-        <Button
-          disabled={
-            loading ||
-            initialDataLoading ||
-            createIsPending ||
-            updateIsPending ||
-            deleteIsPending
-          }
-          variant="destructive"
-          size="sm"
-          onClick={() => setOpen(true)}
-        >
-          <Trash className="h-4 w-4" />
-        </Button>
+        {initialData && (
+          <Button
+            disabled={
+              loading ||
+              initialDataLoading ||
+              createIsPending ||
+              updateIsPending ||
+              deleteIsPending
+            }
+            variant="destructive"
+            size="sm"
+            onClick={() => setOpen(true)}
+          >
+            <Trash className="h-4 w-4" />
+          </Button>
+        )}
       </div>
       <Separator />
       <Form {...form}>
@@ -255,7 +275,7 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          {initialDataLoading ? (
+          {initialDataLoading || districtLoading ? (
             <div className="md:grid md:grid-cols-3 gap-8">
               <div className="space-y-2">
                 <Skeleton className="w-1/2 h-4" />
@@ -272,8 +292,20 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
               <FormInput
                 name="name"
                 label="Name"
-                placeholder="Enter Country Name"
+                placeholder="Enter Police Station Name"
                 disabled={loading}
+                required
+              />
+              <FormSelect
+                name="districtId"
+                placeholder="Select A Police Station"
+                label="Police Station"
+                options={districts?.data.map((district: any) => ({
+                  value: district.id,
+                  label: district.name,
+                }))}
+                disabled={districtLoading}
+                loading={districtLoading}
                 required
               />
               <FormInput

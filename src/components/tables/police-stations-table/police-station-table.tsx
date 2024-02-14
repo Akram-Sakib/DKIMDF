@@ -51,7 +51,7 @@ interface DataTableProps<TData, TValue> {
   };
 }
 
-export function DivisionsTable<TData, TValue>({
+export function PoliceStationTable<TData, TValue>({
   columns,
   data,
   pageNo,

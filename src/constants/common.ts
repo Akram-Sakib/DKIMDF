@@ -55,4 +55,12 @@ export const QueryKeys = {
   COUNTRY: "country",
   DIVISIONS: "divisions",
   DIVISION: "division",
+  DISTRICTS: "districts",
+  DISTRICT: "district",
+  THANAS: "thanas",
+  THANA: "thana",
+  POSTOFFICES: "postoffices",
+  POSTOFFICE: "postoffice",
+  VILLAGES: "villages",
+  VILLAGE: "village",
 };

@@ -1,9 +1,10 @@
-import { DivisionsClient } from "@/components/tables/divisions-table/divisions-client";
+
+import { PostOfficeClient } from "@/components/tables/post-offices-table/post-offices-client";
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
 import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";
 import { IGenericResponse } from "@/types/common";
-import { Country } from "@prisma/client";
+import { PostOffice } from "@prisma/client";
 import {
   HydrationBoundary,
   QueryClient,
@@ -11,7 +12,7 @@ import {
 } from "@tanstack/react-query";
 const breadcrumbItems = [
   { title: "Places", link: "/dashboard/places" },
-  { title: "Divisions", link: "/dashboard/places/divisions" },
+  { title: "Post Office", link: "/dashboard/places/post-offices" },
 ];
 type paramsProps = {
   searchParams: {
@@ -19,20 +20,20 @@ type paramsProps = {
   };
 };
 
-const DivisionsPage = async ({ searchParams }: paramsProps) => {
+const PostOfficePage = async ({ searchParams }: paramsProps) => {
   const page = Number(searchParams.page) || 1;
   const pageLimit = Number(searchParams.limit) || 10;
-  const country = searchParams.search || null;
+  const search = searchParams.search || null;
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: [QueryKeys.DIVISIONS],
+    queryKey: [QueryKeys.POSTOFFICES],
     queryFn: async () => {
       const res = await axiosInstance.get(
-        `/divisions?page=${page}&limit=${pageLimit}` +
-          (country ? `&search=${country}` : ``)
+        `/post-offices?page=${page}&limit=${pageLimit}` +
+          (search ? `&search=${search}` : ``)
       );
-      return res.data as IGenericResponse<Country[]>;
+      return res.data as IGenericResponse<PostOffice[]>;
     },
   });
 
@@ -41,11 +42,11 @@ const DivisionsPage = async ({ searchParams }: paramsProps) => {
       <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
         <BreadCrumb items={breadcrumbItems} />
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <DivisionsClient />
+          <PostOfficeClient />
         </HydrationBoundary>
       </div>
     </>
   );
 };
 
-export default DivisionsPage;
+export default PostOfficePage;

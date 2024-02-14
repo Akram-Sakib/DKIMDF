@@ -8,7 +8,6 @@ import FormInput from "@/components/formelements/form-input";
 import FormSelect from "@/components/formelements/form-select";
 import UserForm from "@/components/formelements/user-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GENDER } from "@/constants/data";
 import { cn } from "@/lib/utils";
 import { formSchema } from "@/schema/form-schema";
 import { useState } from "react";
@@ -17,6 +16,7 @@ import { FaLocationDot, FaUsers } from "react-icons/fa6";
 import { GiSevenPointedStar } from "react-icons/gi";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import Container from "@/components/ui/container";
+import { GENDER } from "@/constants/common";
 
 const RegistrationPage = () => {
   const onSubmit = (values: { [x: string]: any }): void => {

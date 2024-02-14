@@ -8,18 +8,18 @@ import { Separator } from "@/components/ui/separator";
 import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";
 import { IGenericResponse } from "@/types/common";
-import { Division } from "@prisma/client";
+import { Village } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Heading } from "../../ui/dashboard/heading";
 import { columns } from "./columns";
-import { DivisionsTable } from "./divisions-table";
+import { VillagesTable } from "./villages-table";
 
 interface ProductsClientProps {
   // data: User[];
 }
 
-export const DivisionsClient: React.FC<ProductsClientProps> = () => {
+export const VillagesClient: React.FC<ProductsClientProps> = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -28,26 +28,26 @@ export const DivisionsClient: React.FC<ProductsClientProps> = () => {
   const search = searchParams.get("search") || null;
 
   const { data, isLoading } = useQuery({
-    queryKey: [QueryKeys.DIVISIONS],
+    queryKey: [QueryKeys.VILLAGES],
     queryFn: async () => {
       const res = await axiosInstance.get(
-        `/divisions?page=${page}&limit=${limit}` +
+        `/villages?page=${page}&limit=${limit}` +
           (search ? `&search=${search}` : ``)
       );
-      return res.data as IGenericResponse<Division[]>;
+      return res.data as IGenericResponse<Village[]>;
     },
   });
 
   const pageCount = data?.meta?.total as number;
   const total = data?.meta?.total as number;
-  const allData = data?.data as Division[];
+  const allData = data?.data as Village[];
 
   let content = null;
   if (isLoading) {
     content = <p>Loading...</p>;
   } else {
     content = (
-      <DivisionsTable
+      <VillagesTable
         pageCount={pageCount}
         searchKey="name"
         columns={columns}
@@ -62,12 +62,12 @@ export const DivisionsClient: React.FC<ProductsClientProps> = () => {
     <>
       <div className="flex items-start justify-between">
         <Heading
-          title={`Divisions (${total})`}
-          description="Manage divisions for your business"
+          title={`Villages (${total})`}
+          description="Manage villages for your business"
         />
         <Button
           className="text-xs md:text-sm"
-          onClick={() => router.push(`/dashboard/places/divisions/new`)}
+          onClick={() => router.push(`/dashboard/places/villages/new`)}
         >
           <Plus className="mr-2 h-4 w-4" /> Add New
         </Button>

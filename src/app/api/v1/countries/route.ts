@@ -19,7 +19,7 @@ export const GET = withErrorHandler(
       statusCode: httpStatus.OK,
       success: true,
       message: "All Categries Fetched Successfully!",
-      data: result,
+      data: result ?? {},
     };
 
     return sendResponse(data);

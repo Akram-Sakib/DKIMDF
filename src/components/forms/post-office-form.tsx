@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import FormInput from "../formelements/form-input";
+import FormSelect from "../formelements/form-select";
 import BreadCrumb from "../ui/dashboard/breadcrumb";
 import { Heading } from "../ui/dashboard/heading";
 import { AlertModal } from "../ui/modal/alert-modal";
@@ -21,7 +22,11 @@ import { useToast } from "../ui/use-toast";
 
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
-  name: z.string().min(2, { message: "Country name must be at least 2 characters." }),
+  name: z
+    .string()
+    .min(2, { message: "Post Office name must be at least 2 characters." }),
+  thanaId: z.string().min(2, { message: "Please select a Police Station" }),
+  postCode: z.string().min(2, { message: "Please enter a post code" }),
   userId: z.string().min(1, { message: "Please enter a user id" }),
 });
 
@@ -29,49 +34,58 @@ type ProductFormValues = z.infer<typeof formSchema>;
 
 interface FormProps {}
 
-export const CountriesForm: React.FC<FormProps> = ({}) => {
+export const PostOfficesForm: React.FC<FormProps> = ({}) => {
   const params = useParams();
   const queryClient = useQueryClient();
 
   const { data: initialData, isLoading: initialDataLoading } = useQuery({
     queryFn: async () => {
-      if (!params.countryId) return;
-      const data = await axiosInstance.get(`/countries/${params.countryId}`);
+      if (!params.id) return;
+      const data = await axiosInstance.get(`/post-offices/${params.id}`);
       return data.data;
     },
-    queryKey: [QueryKeys.COUNTRY, params.countryId],
+    queryKey: [QueryKeys.POSTOFFICE, params.id],
+  });
+
+  const { data: thanas, isLoading: thanasLoading } = useQuery({
+    queryFn: async () => {
+      if (!params.id) return;
+      const data = await axiosInstance.get(`/thana?limit=500`);
+      return data.data;
+    },
+    queryKey: [QueryKeys.THANAS, params.id],
   });
 
   const breadcrumbItems = [
     { title: "Places", link: "/dashboard/places/" },
-    { title: "Countries", link: "/dashboard/places/countries" },
+    { title: "Post Offices", link: "/dashboard/places/post-offices" },
     {
       title: initialData ? initialData.name : "New",
-      link: `/dashboard/places/countries/${params.countryId}`,
+      link: `/dashboard/places/post-offices/${params.id}`,
     },
   ];
 
   const { mutate: createMutation, isPending: createIsPending } = useMutation({
     mutationFn: async (data: any) => {
-      const res = await axiosInstance.post(`/countries/create-country`, data);
+      const res = await axiosInstance.post(`/post-offices/create-post-office`, data);
       return res;
     },
     onSuccess: (res: any) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRIES],
+        queryKey: [QueryKeys.POSTOFFICES],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRY, params.countryId],
+        queryKey: [QueryKeys.POSTOFFICE, params.id],
       });
 
       if (res.success) {
         toast({
           variant: "default",
           title: toastMessage,
-          description: "Country has been created successfully.",
+          description: "Post Office has been created successfully.",
         });
-        router.push(`/dashboard/places/countries/`);
+        router.push(`/dashboard/places/post-offices/`);
       } else {
         toast({
           variant: "destructive",
@@ -91,25 +105,22 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
 
   const { mutate: updateMutation, isPending: updateIsPending } = useMutation({
     mutationFn: async (data: any) => {
-      const res = await axiosInstance.patch(
-        `/countries/${params.countryId}`,
-        data
-      );
+      const res = await axiosInstance.patch(`/post-offices/${params.id}`, data);
       return res;
     },
     onSuccess: (res: any) => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRIES],
+        queryKey: [QueryKeys.POSTOFFICES],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRY, params.countryId],
+        queryKey: [QueryKeys.POSTOFFICE, params.id],
       });
 
       if (res.success) {
         toast({
           variant: "default",
           title: toastMessage,
-          description: "Country has been updated successfully.",
+          description: "Post Office has been updated successfully.",
         });
       } else {
         toast({
@@ -130,23 +141,23 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
 
   const { mutate: deleteMutation, isPending: deleteIsPending } = useMutation({
     mutationFn: async () => {
-      const res = await axiosInstance.delete(`/countries/${params.countryId}`);
+      const res = await axiosInstance.delete(`/post-offices/${params.id}`);
       return res;
     },
     onSuccess: (res: any) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRIES],
+        queryKey: [QueryKeys.POSTOFFICES],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.COUNTRY, params.countryId],
+        queryKey: [QueryKeys.POSTOFFICE, params.id],
       });
       if (res.success) {
         toast({
           variant: "default",
-          description: "Country has been deleted successfully.",
+          description: "Post Office has been deleted successfully.",
         });
-        router.push(`/dashboard/places/countries/`);
+        router.push(`/dashboard/places/post-offices/`);
       } else {
         toast({
           variant: "destructive",
@@ -168,9 +179,10 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const title = initialData ? "Edit Country" : "Create Country";
-  const description = initialData ? "Edit a Country." : "Add a new Country";
-  const toastMessage = initialData ? "Country updated." : "Country created.";
+  // const [imgLoading, setImgLoading] = useState(false);
+  const title = initialData ? "Edit Post Office" : "Create Post Office";
+  const description = initialData ? "Edit a Post Office." : "Add a new Post Office";
+  const toastMessage = initialData ? "Post Office updated." : "Post Office created.";
   const action = initialData ? "Save changes" : "Create";
 
   const defaultValues = initialData
@@ -178,6 +190,8 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
     : {
         name: "",
         userId: "",
+        thanaId: "",
+        postCode: "",
       };
 
   const form = useForm<ProductFormValues>({
@@ -186,6 +200,8 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
   });
 
   const onSubmit = async (data: ProductFormValues) => {
+    console.log("Submitted data: ");
+
     try {
       console.log(data);
       setLoading(true);
@@ -234,20 +250,22 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
       />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
-        <Button
-          disabled={
-            loading ||
-            initialDataLoading ||
-            createIsPending ||
-            updateIsPending ||
-            deleteIsPending
-          }
-          variant="destructive"
-          size="sm"
-          onClick={() => setOpen(true)}
-        >
-          <Trash className="h-4 w-4" />
-        </Button>
+        {initialData && (
+          <Button
+            disabled={
+              loading ||
+              initialDataLoading ||
+              createIsPending ||
+              updateIsPending ||
+              deleteIsPending
+            }
+            variant="destructive"
+            size="sm"
+            onClick={() => setOpen(true)}
+          >
+            <Trash className="h-4 w-4" />
+          </Button>
+        )}
       </div>
       <Separator />
       <Form {...form}>
@@ -255,7 +273,7 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          {initialDataLoading ? (
+          {initialDataLoading || thanasLoading ? (
             <div className="md:grid md:grid-cols-3 gap-8">
               <div className="space-y-2">
                 <Skeleton className="w-1/2 h-4" />
@@ -272,8 +290,27 @@ export const CountriesForm: React.FC<FormProps> = ({}) => {
               <FormInput
                 name="name"
                 label="Name"
-                placeholder="Enter Country Name"
+                placeholder="Enter Post Office Name"
                 disabled={loading}
+                required
+              />
+              <FormInput
+                name="postCode"
+                label="Post Code"
+                placeholder="Enter Post Code"
+                disabled={loading}
+                required
+              />
+              <FormSelect
+                name="thanaId"
+                placeholder="Select A Police Station"
+                label="Police Station"
+                options={thanas?.data.map((thana: any) => ({
+                  value: thana.id,
+                  label: thana.name,
+                }))}
+                disabled={thanasLoading}
+                loading={thanasLoading}
                 required
               />
               <FormInput

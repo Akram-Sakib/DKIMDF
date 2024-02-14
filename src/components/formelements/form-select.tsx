@@ -29,6 +29,7 @@ interface FormSelectProps {
   options: Option[];
   required?: boolean;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 const FormSelect = ({
@@ -38,6 +39,7 @@ const FormSelect = ({
   options,
   disabled = false,
   required = false,
+  loading = false,
   ...props
 }: FormSelectProps) => {
   const { control } = useFormContext();
@@ -64,11 +66,17 @@ const FormSelect = ({
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {options.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
+              {loading ? (
+                <SelectItem value="loading" disabled>
+                  Loading...
                 </SelectItem>
-              ))}
+              ) : (
+                options.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))
+              )}
             </SelectContent>
           </Select>
           {/* <FormDescription>
