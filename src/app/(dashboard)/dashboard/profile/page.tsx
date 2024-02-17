@@ -2,18 +2,33 @@
 import { getUsers } from "@/app/api/v1/users/users.actions";
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
 import CreateProfileOne from "@/components/ui/dashboard/create-profile";
+import { QueryKeys } from "@/constants/common";
+import { axiosInstance } from "@/helpers/axiosInstance";
+import { IGenericResponse } from "@/types/common";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
 
 const breadcrumbItems = [{ title: "Profile", link: "/dashboard/profile" }];
 export default async function page() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.PROFILE],
+    queryFn: async () => {
+      const res = await axiosInstance.get(`/profile/me`);
+      return res.data as IGenericResponse<any>;
+    },
+  });
 
-  const users = await getUsers()
-  console.log(users);
-  
   return (
     <>
       <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
         <BreadCrumb items={breadcrumbItems} />
-        <CreateProfileOne />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <CreateProfileOne />
+        </HydrationBoundary>
       </div>
     </>
   );

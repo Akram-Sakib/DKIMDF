@@ -6,6 +6,7 @@ import prisma from '@/lib/prisma';
 import config from '@/config';
 import ApiError from '@/errors/apiError';
 import { jwtHelpers } from '@/helpers/jwtHelper';
+
 const loginUser = async (payload: {
   email: string;
   password: string;
@@ -27,10 +28,11 @@ const loginUser = async (payload: {
     },
   });
 
+
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
   }
-
+  
   if (
     isUserExist.password &&
     !(await isPasswordMatched(password, isUserExist?.password))

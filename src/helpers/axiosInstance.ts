@@ -4,6 +4,8 @@ import config from "@/config";
 import { IGenericErrorResponse, ResponseSuccessType } from "@/types/common";
 import axios from "axios";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { getCookie } from "./cookieHelper";
+import { ACCESS_TOKEN_KEY } from "@/constants/common";
 
 const axiosInstance = axios.create({
   baseURL: config.backendUrl,
@@ -16,13 +18,14 @@ axiosInstance.defaults.timeout = 60000;
 axiosInstance.interceptors.request.use(
   async function (config) {
     // Do something before request is sent
-    // const cookie = (await getCookie(ACCESS_TOKEN_KEY)) as RequestCookie;
-    // if (cookie) {
-    //   const accessToken = cookie.value;
-    //   if (accessToken) {
-    //     config.headers.Authorization = accessToken;
-    //   }
-    // }
+    const cookie = (await getCookie(ACCESS_TOKEN_KEY)) as RequestCookie;
+ 
+    if (cookie) {
+      const accessToken = cookie.value;
+      if (accessToken) {
+        config.headers.Authorization = accessToken;
+      }
+    }
     return config;
   },
   function (error) {

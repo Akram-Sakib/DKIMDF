@@ -12,7 +12,10 @@ import { cn } from "@/lib/utils";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import FormDatePicker from "../../formelements/form-date-picker";
 import FormSelect from "../../formelements/form-select";
-import { GENDER } from "@/constants/data";
+import { GENDER, QueryKeys } from "@/constants/common";
+import { useQuery } from "@tanstack/react-query";
+import { axiosInstance } from "@/helpers/axiosInstance";
+import { IGenericResponse } from "@/types/common";
 
 const formSchema = z.object({
   name: z.object({
@@ -47,7 +50,15 @@ const CreateProfileOne = () => {
     console.log(values);
   };
 
-  const defaultValues = {};
+  const { data: initialData, isLoading } = useQuery({
+    queryKey: [QueryKeys.PROFILE],
+    queryFn: async () => {
+      const res = await axiosInstance.get(`/profile/me`);
+      return res.data as IGenericResponse<any>;
+    },
+  });
+
+  const defaultValues = initialData ? initialData : {};
 
   return (
     <>

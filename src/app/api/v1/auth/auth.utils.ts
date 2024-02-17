@@ -1,15 +1,21 @@
-import prisma from '@/lib/prisma';
-import { User } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import prisma from "@/lib/prisma";
+import { User } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 export const isPasswordMatched = async (
   givenPassword: string,
   savedPassword: string
 ): Promise<boolean> => {
-  return await bcrypt.compare(givenPassword, savedPassword);
+  return await bcrypt.compare(
+    givenPassword,
+    // config.jwt.bcrypt_salt_rounds,
+    savedPassword
+  );
 };
 
-export const FindUserByPhoneNumber = async (phoneNumber: string): Promise<User | null> => {
+export const FindUserByPhoneNumber = async (
+  phoneNumber: string
+): Promise<User | null> => {
   const user = await prisma.user.findFirst({
     where: {
       phoneNumber,
@@ -17,7 +23,7 @@ export const FindUserByPhoneNumber = async (phoneNumber: string): Promise<User |
   });
 
   if (!user) {
-    throw new Error('User does not exist');
+    throw new Error("User does not exist");
   }
 
   return user;

@@ -1,11 +1,21 @@
 "use client";
 
+// import { deleteImage } from "@/app/api/cloudinary/cloudinary";
+import { CldImage, CldUploadButton } from "next-cloudinary";
+import { ComponentProps } from "react";
+import { useFormContext } from "react-hook-form";
+import { HiXMark } from "react-icons/hi2";
 import {
-  CldImage,
-  CldUploadButton,
-  CldUploadWidgetResults,
-} from "next-cloudinary";
-import React, { ComponentProps } from "react";
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { axiosInstance } from "@/helpers/axiosInstance";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "../ui/use-toast";
+
 interface CloudinaryImageUploadType {
   info: {
     access_mode: String;
@@ -35,32 +45,117 @@ interface CloudinaryImageUploadType {
   };
   event: String;
 }
-const FormCldImage = () => {
-  const [image, setImage] = React.useState("");
+const FormCldImage = ({
+  name,
+  label,
+  placeholder,
+  type = "text",
+  required = false,
+  disabled = false,
+  ...props
+}: {
+  name: string;
+  label?: string;
+  placeholder?: string;
+  type?: string;
+  required?: boolean;
+  disabled?: boolean;
+} & ComponentProps<"input">) => {
+  const { control, setValue, getValues } = useFormContext();
+  const image = getValues(name);
+
+  const { mutate } = useMutation({
+    mutationFn: async (data: any) => {
+      const res = await axiosInstance.post("cloudinary", data);
+      return res;
+    },
+    onSuccess: (res: any) => {
+      if (res.data === "ok") {
+        toast({
+          variant: "default",
+          title: "Image Deleted",
+          description: "Image has been deleted successfully.",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: res.message,
+          description: "There was a problem with your request.",
+        });
+      }
+    },
+    
+  });
+
+  const handleDeleteImage = async () => {
+    const imgSplit = image.split("/");
+    const imageName = imgSplit[imgSplit.length - 1].split(".")[0];
+    const imageId = imgSplit[imgSplit.length - 2];
+    const publicId = imageId + "/" + imageName;
+    if (image) {
+      mutate({ publicId });
+      setValue(name, "");
+    }
+  };
 
   return (
-    <>
-      {image && (
-        <CldImage
-          width="90"
-          height="60"
-          src={image}
-          alt="Description of my image"
-        />
-      )}
-      <CldUploadButton
-        uploadPreset="dkidmdf"
-        onUpload={(result) => {
-          setImage(result?.info?.secure_url);
-        }}
-        options={{
-          multiple: false,
-          maxFiles: 1,
-          maxFileSize: 1024 * 1024 * 1,
-        }}
-        className="bg-gray-950 text-white p-2 rounded-lg"
-      />
-    </>
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => {
+        return (
+          <FormItem className="space-x-4">
+            <FormLabel>
+              {label} {required && <span className="text-red-500">*</span>}
+            </FormLabel>
+            <FormControl>
+              <>
+                {image && (
+                  <div className="flex items-start">
+                    <CldImage
+                      width="90"
+                      height="90"
+                      className="rounded-full"
+                      src={image}
+                      alt="Description of my image"
+                    />
+                    {/* <Button
+                      // variant="destructive"
+                      size="sm"
+                    > */}
+                    <HiXMark
+                      className="h-4 w-4 cursor-pointer"
+                      onClick={handleDeleteImage}
+                    />
+                    {/* </Button> */}
+                  </div>
+                )}
+                {!image && (
+                  <CldUploadButton
+                    uploadPreset="dkidmdf"
+                    onUpload={(result) => {
+                      // setImage(result?.info?.secure_url);
+                      // console.log(result.event);
+                      console.log((result.info as any).public_id);
+                      if (result.event === "success") {
+                        setValue(name, (result.info as any)?.secure_url);
+                      }
+                    }}
+                    options={{
+                      multiple: false,
+                      maxFiles: 1,
+                      maxFileSize: 1024 * 1024 * 1,
+                    }}
+                    className="bg-gray-950 text-white p-2 rounded-lg"
+                  />
+                )}
+              </>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        );
+      }}
+    />
   );
 };
 

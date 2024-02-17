@@ -71,7 +71,7 @@ const FormSelect = ({
                   Loading...
                 </SelectItem>
               ) : (
-                options.map((option) => (
+                options?.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>

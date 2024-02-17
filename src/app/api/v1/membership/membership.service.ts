@@ -5,6 +5,7 @@ import { IPaginationOptions } from "@/types/pagination";
 import { Membership, MembershipFee, Prisma } from "@prisma/client";
 import { IMembershipFilterRequest } from "./membership.interface";
 import { membershipFilterableFields } from "./membership.constants";
+import { JwtPayload } from "jsonwebtoken";
 type MembershipServiceType = Prisma.MembershipGetPayload<{
   include: {
     membershipFee: true;
@@ -12,8 +13,10 @@ type MembershipServiceType = Prisma.MembershipGetPayload<{
 }>;
 const create = async (
   membershipFee: MembershipFee,
-  data: Membership
+  data: Membership,
+  user: JwtPayload
 ): Promise<Membership> => {
+  const userId = user.userId
   const newData = await prisma.$transaction(async (transactionClient) => {
     const {
       registrationFee,
@@ -28,7 +31,7 @@ const create = async (
     });
 
     const membershipData = await transactionClient.membership.create({
-      data: { ...data, memberShipFeeId: membershipFeeData.id },
+      data: { ...data, memberShipFeeId: membershipFeeData.id, userId },
       include: {
         membershipFee: true,
       },
@@ -86,8 +89,8 @@ const getAll = async (
       options.sortBy && options.sortOrder
         ? { [options.sortBy]: options.sortOrder }
         : {
-            createdAt: "desc",
-          },
+          createdAt: "desc",
+        },
     include: {
       membershipFee: true,
     },

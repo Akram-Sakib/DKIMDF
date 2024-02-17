@@ -35,7 +35,7 @@ const UserForm = ({
   useFormPersist(formId, {
     watch,
     setValue,
-    exclude: ["password", "image", "epiCard"],
+    exclude: ["password"],
   });
   // 2. Define a submit handler.
   // const onSubmit = (values: z.infer<typeof formSchema>) => {

@@ -1,68 +1,52 @@
-import { buttonVariants } from "@/components/ui/button";
+import { MembershipClient } from "@/components/tables/membership-table/membership-client";
+import { VillagesClient } from "@/components/tables/villages-table/villages-client";
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
-import { Heading } from "@/components/ui/dashboard/heading";
-import { columns } from "@/components/tables/user-tables/columns";
-import { UserTable } from "@/components/tables/user-tables/user-table";
-import { Separator } from "@/components/ui/separator";
-import { Employee } from "@/constants/data";
-import { cn } from "@/lib/utils";
-import { Plus } from "lucide-react";
-import Link from "next/link";
-
+import { QueryKeys } from "@/constants/common";
+import { axiosInstance } from "@/helpers/axiosInstance";
+import { IGenericResponse } from "@/types/common";
+import { Village } from "@prisma/client";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
 const breadcrumbItems = [
   { title: "Membership", link: "/dashboard/membership" },
-  { title: "List", link: "/dashboard/membership/list" },
+  { title: "List", link: "/dashboard/places/list" },
 ];
-
 type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
 };
 
-export default async function page({ searchParams }: paramsProps) {
+const MembershipListPage = async ({ searchParams }: paramsProps) => {
   const page = Number(searchParams.page) || 1;
   const pageLimit = Number(searchParams.limit) || 10;
-  const country = searchParams.search || null;
-  const offset = (page - 1) * pageLimit;
+  const search = searchParams.search || null;
 
-  const res = await fetch(
-    `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${pageLimit}` +
-      (country ? `&search=${country}` : "")
-  );
-  const userRes = await res.json();
-  const totalUsers = userRes.total_users; //1000
-  const pageCount = Math.ceil(totalUsers / pageLimit);
-  const user: Employee[] = userRes.users;
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.MEMBERSHIPS],
+    queryFn: async () => {
+      const res = await axiosInstance.get(
+        `/memberhsip?page=${page}&limit=${pageLimit}` +
+          (search ? `&search=${search}` : ``)
+      );
+      return res.data as IGenericResponse<Village[]>;
+    },
+  });
+
   return (
     <>
-      <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
+      <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
         <BreadCrumb items={breadcrumbItems} />
-
-        <div className="flex items-start justify-between">
-          <Heading
-            title={`Membership (${totalUsers})`}
-            description="Manage Membership (Server side table functionalities.)"
-          />
-
-          <Link
-            href={"/dashboard/membership/new"}
-            className={cn(buttonVariants({ variant: "default" }))}
-          >
-            <Plus className="mr-2 h-4 w-4" /> Add New
-          </Link>
-        </div>
-        <Separator />
-
-        <UserTable
-          searchKey="country"
-          pageNo={page}
-          columns={columns}
-          totalUsers={totalUsers}
-          data={user}
-          pageCount={pageCount}
-        />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <MembershipClient />
+        </HydrationBoundary>
       </div>
     </>
   );
-}
+};
+
+export default MembershipListPage;

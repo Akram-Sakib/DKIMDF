@@ -11,9 +11,9 @@ const MembershipSchema = z.object({
       .max(255),
     type: z.enum([...MEMBERSHIP_TYPE] as [string, ...string[]]),
     membershipFee: z.object({
-      registrationFee: z.string().min(3).max(255),
-      smartCardFee: z.string().min(3).max(255),
-      membershipFee: z.string().min(3).max(255),
+      registrationFee: z.string().min(1).max(255),
+      smartCardFee: z.string().min(1).max(255),
+      membershipFee: z.string().min(1).max(255),
     }),
   }),
 });

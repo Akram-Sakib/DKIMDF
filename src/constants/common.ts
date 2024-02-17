@@ -50,6 +50,29 @@ export const BLOODGROUP = [
   },
 ];
 
+export const MEMBERSHIP_TYPE = [
+  {
+    label: "Weekly",
+    value: "weekly",
+  },
+  {
+    label: "Monthly",
+    value: "monthly",
+  },
+  {
+    label: "Yearly",
+    value: "yearly",
+  },
+  {
+    label: "HalfYearly",
+    value: "halfYearly",
+  },
+  {
+    label: "Lifetime",
+    value: "lifetime",
+  },
+];
+
 export const QueryKeys = {
   COUNTRIES: "countries",
   COUNTRY: "country",
@@ -63,4 +86,16 @@ export const QueryKeys = {
   POSTOFFICE: "postoffice",
   VILLAGES: "villages",
   VILLAGE: "village",
+  MEMBERSHIPS: "memberships",
+  MEMBERSHIP: "membership",
+  PROFILE: "profile",
 };
+
+export const ACCESS_TOKEN_KEY = "accessToken";
+
+export const ENUM = {
+  GRAND_ADMIN: "grand_admin",
+  SUPER_ADMIN: "super_admin",
+  ADMIN: "admin",
+  MEMBER: "member",
+}

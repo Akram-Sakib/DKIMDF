@@ -5,11 +5,24 @@ import { IPaginationOptions } from "@/types/pagination";
 import { Country, Prisma } from "@prisma/client";
 import { countrySearchableFields } from "./countries.constants";
 import { ICountryFilterRequest } from "./countries.interface";
+import { JwtPayload } from "jsonwebtoken";
 
-const create = async (data: Country): Promise<Country> => {
+const create = async (data: Country, user: JwtPayload): Promise<Country> => {
+  const userId = user.userId;
+  const isExist = await prisma.country.findFirst({
+    where: {
+      name: data.name,
+    },
+  });
+
+  if (isExist) {
+    throw new Error('Country already exists');
+  }
+  
   const newData = await prisma.country.create({
     data: {
       ...data,
+      userId
     },
   });
 
@@ -58,8 +71,8 @@ const getAll = async (
       options.sortBy && options.sortOrder
         ? { [options.sortBy]: options.sortOrder }
         : {
-            createdAt: 'desc',
-          },
+          createdAt: 'desc',
+        },
   });
 
   const total = await prisma.country.count({

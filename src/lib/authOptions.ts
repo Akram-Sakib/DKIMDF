@@ -1,3 +1,6 @@
+import { AuthService } from "@/app/api/v1/auth/auth.service";
+import { ACCESS_TOKEN_KEY } from "@/constants/common";
+import { setToCookie } from "@/helpers/cookieHelper";
 import { jwtHelpers } from "@/helpers/jwtHelper";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -25,27 +28,35 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         // Add logic here to look up the user from the credentials supplied
 
-        const result = await login({
-          email: credentials?.email,
-          password: credentials?.password,
-        });
+        const { email, password } = credentials as any;
+        // const result = await login({
+        //   email: credentials?.email,
+        //   password: credentials?.password,
+        // });
 
-        const data = result?.data;
+        const result = await AuthService.loginUser({
+          email,
+          // phoneNumber,
+          password,
+        }) as any;
+        // console.log(result);
 
-        const message = (result as any)?.message;
+        // const data = result?.data;
+
+        // const message = (result as any)?.message;
 
         const verifiedToken: any = jwtHelpers.verifyToken(
-          data?.accessToken,
+          result?.accessToken,
           process.env.JWT_SECRET!
         );
         // const { data, message } = await res.json();
-        if (data) {
+        if (result) {
           // Any object returned will be saved in `user` property of the JWT
-          return { ...data, ...verifiedToken };
+
+          return { ...result, ...verifiedToken };
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
-          throw new Error(message);
-
+          throw new Error("Invalid credentials");
           // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
       },
@@ -67,14 +78,14 @@ export const authOptions: NextAuthOptions = {
         process.env.JWT_SECRET!
       );
 
-      if (!verifiedToken) {
-        const { data }: Record<string, any> = await getNewAccessToken(
-          token?.accessToken
-        );
+      // if (!verifiedToken) {
+      //   const { data }: Record<string, any> = await getNewAccessToken(
+      //     token?.accessToken
+      //   );
 
-        console.log("New token generated", data);
-        token.accessToken = data?.accessToken;
-      }
+      //   console.log("New token generated", data);
+      //   token.accessToken = data?.accessToken;
+      // }
 
       setToCookie(ACCESS_TOKEN_KEY, token?.accessToken);
 
