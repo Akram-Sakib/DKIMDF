@@ -63,7 +63,7 @@ export const CountriesClient: React.FC<ProductsClientProps> = () => {
     <>
       <div className="flex items-start justify-between">
         <Heading
-          title={`Countries (${total})`}
+          title={`Countries (${ isLoading ? "0" :total})`}
           description="Manage countries for your business"
         />
         <Button

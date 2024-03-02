@@ -20,10 +20,10 @@ export default function DashboardPage() {
           <h2 className="text-3xl font-bold tracking-tight">
             Hi, Welcome back 👋
           </h2>
-          <div className="hidden md:flex items-center space-x-2">
+          {/* <div className="hidden md:flex items-center space-x-2">
             <CalendarDateRangePicker />
             <Button>Download</Button>
-          </div>
+          </div> */}
         </div>
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsList>

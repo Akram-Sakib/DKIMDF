@@ -14,6 +14,11 @@ const config = {
     refreshTokenExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
     bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
   },
-};
+  sslCommerz: {
+    store_id: process.env.SSL_COMMERZ_STORE_ID,
+    store_passwd: process.env.SSL_COMMERZ_STORE_PASSWORD,
+    is_live: false,
+  },
+}
 
 export default config;

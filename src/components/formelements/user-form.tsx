@@ -17,7 +17,7 @@ interface UserFormProps {
   formId: string;
 }
 
-const UserForm = ({
+const PersistForm = ({
   children,
   formSchema,
   onSubmit,
@@ -53,4 +53,4 @@ const UserForm = ({
   );
 };
 
-export default UserForm;
+export default PersistForm;

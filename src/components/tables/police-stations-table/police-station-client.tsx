@@ -62,7 +62,7 @@ export const PoliceStationClient: React.FC<ProductsClientProps> = () => {
     <>
       <div className="flex items-start justify-between">
         <Heading
-          title={`Police Stations (${total})`}
+          title={`Police Stations (${ isLoading ? "0" :total})`}
           description="Manage Police Station for your business"
         />
         <Button

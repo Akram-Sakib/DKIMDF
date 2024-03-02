@@ -5,9 +5,9 @@ const SubscriptionSchema = z.object({
     // startTime: z.coerce.date(),
     // endTime: z.coerce.date(),
     subscriptionFee: z.object({
-      registrationFee: z.string().min(3).max(255),
-      smartCardFee: z.string().min(3).max(255),
-      subscriptionFee: z.string().min(3).max(255),
+      registrationFee: z.string().min(1).max(255).optional(),
+      smartCardFee: z.string().min(1).max(255).optional(),
+      subscriptionFee: z.string().min(1).max(255),
     }),
   }),
 });
@@ -18,9 +18,9 @@ const SubscriptionUpdateSchema = z.object({
     // endTime: z.coerce.date().optional(),
     subscriptionFee: z
       .object({
-        registrationFee: z.string().min(3).max(255).optional(),
-        smartCardFee: z.string().min(3).max(255).optional(),
-        subscriptionFee: z.string().min(3).max(255).optional(),
+        registrationFee: z.string().min(1).max(255).optional(),
+        smartCardFee: z.string().min(1).max(255).optional(),
+        subscriptionFee: z.string().min(1).max(255).optional(),
       })
       .optional(),
   }),

@@ -5,11 +5,23 @@ import { IPaginationOptions } from "@/types/pagination";
 import { Division, Prisma } from "@prisma/client";
 import { divisionSearchableFields } from "./divisions.constants";
 import { IDivisionFilterRequest } from "./divisions.interface";
+import { JwtPayload } from "jsonwebtoken";
 
-const create = async (data: Division): Promise<Division> => {
+const create = async (data: Division, user: JwtPayload): Promise<Division> => {
+  const userId = user.userId;
+  const isExist = await prisma.division.findFirst({
+    where: {
+      name: data.name,
+    },
+  });
+
+  if (isExist) {
+    throw new Error('Division already exists');
+  }
+
   const newData = await prisma.division.create({
     data: {
-      ...data,
+      ...data, userId
     },
   });
 
@@ -58,8 +70,8 @@ const getAll = async (
       options.sortBy && options.sortOrder
         ? { [options.sortBy]: options.sortOrder }
         : {
-            createdAt: 'desc',
-          },
+          createdAt: 'desc',
+        },
   });
 
   const total = await prisma.division.count({

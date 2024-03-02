@@ -5,11 +5,14 @@ import { IPaginationOptions } from "@/types/pagination";
 import { Village, Prisma } from "@prisma/client";
 import { villageSearchableFields } from "./villages.constants";
 import { IVillageFilterRequest } from "./villages.interface";
+import { JwtPayload } from "jsonwebtoken";
 
-const create = async (data: Village): Promise<Village> => {
+const create = async (data: Village, user: JwtPayload): Promise<Village> => {
+  const userId = user.userId;
+
   const newData = await prisma.village.create({
     data: {
-      ...data,
+      ...data, userId
     },
   });
 
@@ -58,8 +61,8 @@ const getAll = async (
       options.sortBy && options.sortOrder
         ? { [options.sortBy]: options.sortOrder }
         : {
-            createdAt: 'desc',
-          },
+          createdAt: 'desc',
+        },
   });
 
   const total = await prisma.village.count({

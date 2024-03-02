@@ -32,23 +32,22 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     resolver: zodResolver(userAuthSchema),
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
   const searchParams = useSearchParams();
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
-    console.log(data);
 
     const signInResult = await signIn("my-app-credentials", {
-      email: data.email.toLowerCase(),
+      email: data.email,
       // phoneNumber: data.phoneNumber,
       password: data.password,
-      redirect: false,
+      redirect: true,
       callbackUrl: searchParams?.get("from") || "/dashboard",
     });
 
     setIsLoading(false);
-
+    console.log(signInResult);
+    
     if (!signInResult?.ok) {
       return toast({
         title: "Something went wrong.",
@@ -58,8 +57,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     }
 
     return toast({
-      title: "Check your email",
-      description: "We sent you a login link. Be sure to check your spam too.",
+      title: "Sign In Successful",
+      description: "You have successfully signed in.",
     });
   }
 
@@ -98,7 +97,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={isLoading || isGitHubLoading}
+              disabled={isLoading}
               {...register("email")}
             />
             {errors?.email && (
@@ -118,7 +117,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="password"
               autoCorrect="off"
-              disabled={isLoading || isGitHubLoading}
+              disabled={isLoading}
               {...register("password")}
             />
             {errors?.password && (

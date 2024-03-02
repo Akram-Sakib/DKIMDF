@@ -8,148 +8,228 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  // url = env("DATABASE_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model User {
-  id          String       @id @default(uuid())
-  phoneNumber String       @unique
-  password    String
-  email       String?      @unique
-  role        Role
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  isDisabled  Boolean      @default(false)
-  posts       Post[]
-  gallery     Gallery[]
-  grandAdmin  GrandAdmin?
-  superAdmin  SuperAdmin?
-  admin       Admin?
-  member      Member?
-  project     Project[]
-  membership  Membership[]
-  villages    Village[]
-  postOffices PostOffice[]
-  thana       Thana[]
-  districts   District[]
-  divisions   Division[]
-  countries   Country[]
+  id               String            @id @default(uuid())
+  phoneNumber      String            @unique
+  password         String
+  email            String?           @unique
+  role             Role
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  isDisabled       Boolean           @default(false)
+  posts            Post[]
+  gallery          Gallery[]
+  grandAdmin       GrandAdmin?
+  superAdmin       SuperAdmin?
+  admin            Admin?
+  member           Member?
+  project          Project[]
+  membership       Membership[]
+  villages         Village[]
+  postOffices      PostOffice[]
+  thana            Thana[]
+  districts        District[]
+  divisions        Division[]
+  countries        Country[]
+  presentAddress   PresentAddress?
+  permanentAddress PermanentAddress?
 
   @@map(name: "users")
 }
 
 model Member {
-  id                    String         @id @default(uuid())
-  firstName             String
-  lastName              String
-  phoneNumber           String         @unique
-  email                 String?        @unique
-  imageUrl              String
-  gender                Gender
-  dateOfBirth           DateTime
-  education             String?
-  bloodGroup            String?
-  nidNumber             String         @unique
-  occupation            String?
-  referenceId           String?
-  spouseName            String?
-  fathersName           String?
-  mothersName           String?
-  presentAddress        String?
-  permanentAddress      String?
+  id                 String           @id @default(uuid())
+  firstName          String
+  lastName           String
+  phoneNumber        String           @unique
+  email              String?          @unique
+  imageUrl           String
+  gender             Gender
+  dateOfBirth        DateTime
+  education          String?
+  bloodGroup         String?
+  nidNumber          String           @unique
+  occupation         String?
+  referenceId        String?
+  spouseName         String?
+  fathersName        String?
+  mothersName        String?
+  presentAddressId   String           @unique
+  permanentAddressId String           @unique
+  presentAddress     PresentAddress   @relation(fields: [presentAddressId], references: [id], onDelete: Cascade)
+  permanentAddress   PermanentAddress @relation(fields: [permanentAddressId], references: [id], onDelete: Cascade)
+
+  registrationAddress   RegisteringAddress
   infoVerificationPhoto String?
-  createdAt             DateTime       @default(now())
-  updatedAt             DateTime       @updatedAt
-  userId                String         @unique
-  // membershipId          String     @unique
-  user                  User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  // membership            Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  userId                String             @unique
+  user                  User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   subscription          Subscription[]
 
   @@map(name: "member")
 }
 
 model GrandAdmin {
-  id                    String   @id @default(uuid())
-  firstName             String
-  lastName              String
-  phoneNumber           String   @unique
-  email                 String?  @unique
-  imageUrl              String
-  gender                Gender
-  dateOfBirth           DateTime
-  education             String?
-  bloodGroup            String?
-  nidNumber             String   @unique
-  occupation            String?
-  spouseName            String?
-  fathersName           String?
-  mothersName           String?
-  presentAddress        String?
-  permanentAddress      String?
+  id          String   @id @default(uuid())
+  firstName   String
+  lastName    String
+  phoneNumber String   @unique
+  email       String?  @unique
+  imageUrl    String
+  gender      Gender
+  dateOfBirth DateTime
+  education   String?
+  bloodGroup  String?
+  nidNumber   String?
+  occupation  String?
+  spouseName  String?
+  fathersName String?
+  mothersName String?
+
+  // presentAddressId      String           @unique
+  // permanentAddressId    String           @unique
+  // presentAddress        PresentAddress   @relation(fields: [presentAddressId], references: [id], onDelete: Cascade)
+  // permanentAddress      PermanentAddress @relation(fields: [permanentAddressId], references: [id], onDelete: Cascade)
+
   infoVerificationPhoto String?
   userId                String   @unique
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
-  user                  User     @relation(fields: [userId], references: [id])
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map(name: "grand_admin")
 }
 
 model SuperAdmin {
-  id                    String    @id @default(uuid())
-  firstName             String
-  lastName              String
-  phoneNumber           String    @unique
-  email                 String?   @unique
-  imageUrl              String?
-  gender                Gender
-  dateOfBirth           DateTime?
-  education             String?
-  bloodGroup            String?
-  nidNumber             String    @unique
-  occupation            String?
-  referenceId           String?
-  spouseName            String?
-  fathersName           String?
-  mothersName           String?
-  presentAddress        String?
-  permanentAddress      String?
+  id                  String    @id @default(uuid())
+  firstName           String
+  lastName            String
+  phoneNumber         String    @unique
+  email               String?   @unique
+  imageUrl            String?
+  gender              Gender    @default(male)
+  dateOfBirth         DateTime?
+  education           String?
+  bloodGroup          String?
+  nidNumber           String?
+  occupation          String?
+  referenceId         String?
+  spouseName          String?
+  fathersName         String?
+  mothersName         String?
+  authorizationScope  String
+  authorizationArea   String
+  authorizationAreaId String
+
+  // presentAddressId   String           @unique
+  // permanentAddressId String           @unique
+  // presentAddress     PresentAddress   @relation(fields: [presentAddressId], references: [id], onDelete: Cascade)
+  // permanentAddress   PermanentAddress @relation(fields: [permanentAddressId], references: [id], onDelete: Cascade)
+
   infoVerificationPhoto String?
-  userId                String    @unique
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
-  user                  User      @relation(fields: [userId], references: [id])
+  userId                String   @unique
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map(name: "super_admin")
 }
 
 model Admin {
-  id                    String    @id @default(uuid())
-  firstName             String
-  lastName              String
-  phoneNumber           String    @unique
-  email                 String?   @unique
-  imageUrl              String?
-  gender                Gender
-  dateOfBirth           DateTime?
-  education             String?
-  bloodGroup            String?
-  nidNumber             String    @unique
-  occupation            String?
-  referenceId           String?
-  spouseName            String?
-  fathersName           String?
-  mothersName           String?
-  presentAddress        String?
-  permanentAddress      String?
+  id                  String    @id @default(uuid())
+  firstName           String
+  lastName            String
+  phoneNumber         String    @unique
+  email               String?   @unique
+  imageUrl            String?
+  gender              Gender    @default(male)
+  dateOfBirth         DateTime?
+  education           String?
+  bloodGroup          String?
+  nidNumber           String?
+  occupation          String?
+  referenceId         String?
+  spouseName          String?
+  fathersName         String?
+  mothersName         String?
+  authorizationScope  String
+  authorizationArea   String
+  authorizationAreaId String
+
+  // presentAddressId   String           @unique
+  // permanentAddressId String           @unique
+  // presentAddress     PresentAddress   @relation(fields: [presentAddressId], references: [id], onDelete: Cascade)
+  // permanentAddress   PermanentAddress @relation(fields: [permanentAddressId], references: [id], onDelete: Cascade)
+
   infoVerificationPhoto String?
-  userId                String    @unique
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
-  user                  User      @relation(fields: [userId], references: [id])
+  userId                String   @unique
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map(name: "admin")
+}
+
+model PresentAddress {
+  id           String @id @default(uuid())
+  countryId    String @unique
+  divisionId   String @unique
+  districtId   String @unique
+  thanaId      String @unique
+  postOfficeId String @unique
+  villageId    String @unique
+  userId       String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  country    Country    @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  division   Division   @relation(fields: [divisionId], references: [id], onDelete: Cascade)
+  district   District   @relation(fields: [districtId], references: [id], onDelete: Cascade)
+  thana      Thana      @relation(fields: [thanaId], references: [id], onDelete: Cascade)
+  postOffice PostOffice @relation(fields: [postOfficeId], references: [id], onDelete: Cascade)
+  village    Village    @relation(fields: [villageId], references: [id], onDelete: Cascade)
+  member     Member?
+
+  // grandAdmin GrandAdmin?
+  // superAdmin SuperAdmin?
+  // admin      Admin?
+
+  @@map("present_address")
+}
+
+model PermanentAddress {
+  id           String @id @default(uuid())
+  countryId    String @unique
+  divisionId   String @unique
+  districtId   String @unique
+  thanaId      String @unique
+  postOfficeId String @unique
+  villageId    String @unique
+  userId       String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  country    Country    @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  division   Division   @relation(fields: [divisionId], references: [id], onDelete: Cascade)
+  district   District   @relation(fields: [districtId], references: [id], onDelete: Cascade)
+  thana      Thana      @relation(fields: [thanaId], references: [id], onDelete: Cascade)
+  postOffice PostOffice @relation(fields: [postOfficeId], references: [id], onDelete: Cascade)
+  village    Village    @relation(fields: [villageId], references: [id], onDelete: Cascade)
+  member     Member?
+  // grandAdmin GrandAdmin?
+  // superAdmin SuperAdmin?
+  // admin      Admin?
+
+  @@map("permanent_address")
 }
 
 model Category {
@@ -260,8 +340,8 @@ model Subscription {
 
 model SubscriptionFee {
   id              String         @id @default(uuid())
-  registrationFee String         @default("0")
-  smartCardFee    String         @default("0")
+  registrationFee String?        @default("0")
+  smartCardFee    String?        @default("0")
   subscriptionFee String         @default("0")
   totalFee        String         @default("0")
   createdAt       DateTime       @default(now())
@@ -273,14 +353,16 @@ model SubscriptionFee {
 
 model Village {
   id        String   @id @default(uuid())
-  name      String   @unique
+  name      String
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  postOfficeId String
-  postOffice   PostOffice @relation(fields: [postOfficeId], references: [id])
+  postOfficeId     String
+  postOffice       PostOffice        @relation(fields: [postOfficeId], references: [id])
+  presentAddress   PresentAddress?
+  permanentAddress PermanentAddress?
 
   @@map("villages")
 }
@@ -292,11 +374,13 @@ model PostOffice {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  thanaId  String
-  userId   String
-  user     User      @relation(fields: [userId], references: [id])
-  thana    Thana     @relation(fields: [thanaId], references: [id])
-  villages Village[]
+  thanaId          String
+  userId           String
+  user             User              @relation(fields: [userId], references: [id])
+  thana            Thana             @relation(fields: [thanaId], references: [id])
+  villages         Village[]
+  presentAddress   PresentAddress?
+  permanentAddress PermanentAddress?
 
   @@map("post_offices")
 }
@@ -307,11 +391,13 @@ model Thana {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  districtId  String
-  district    District     @relation(fields: [districtId], references: [id])
-  userId      String
-  user        User         @relation(fields: [userId], references: [id])
-  postOffices PostOffice[]
+  districtId       String
+  district         District          @relation(fields: [districtId], references: [id])
+  userId           String
+  user             User              @relation(fields: [userId], references: [id])
+  postOffices      PostOffice[]
+  presentAddress   PresentAddress?
+  permanentAddress PermanentAddress?
 
   @@map("thana")
 }
@@ -322,11 +408,13 @@ model District {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  divisionId String
-  division   Division @relation(fields: [divisionId], references: [id])
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
-  thana      Thana[]
+  divisionId       String
+  division         Division          @relation(fields: [divisionId], references: [id])
+  userId           String
+  user             User              @relation(fields: [userId], references: [id])
+  thana            Thana[]
+  presentAddress   PresentAddress?
+  permanentAddress PermanentAddress?
 
   @@map("districts")
 }
@@ -337,11 +425,13 @@ model Division {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId    String
-  user      User       @relation(fields: [userId], references: [id])
-  countryId String
-  country   Country    @relation(fields: [countryId], references: [id])
-  districts District[]
+  userId           String
+  user             User              @relation(fields: [userId], references: [id])
+  countryId        String
+  country          Country           @relation(fields: [countryId], references: [id])
+  districts        District[]
+  presentAddress   PresentAddress?
+  permanentAddress PermanentAddress?
 
   @@map("divisions")
 }
@@ -352,9 +442,11 @@ model Country {
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  divisions Division[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  divisions        Division[]
+  presentAddress   PresentAddress?
+  permanentAddress PermanentAddress?
 
   @@map("countries")
 }
@@ -379,4 +471,9 @@ enum Gender {
   female
   third_gender
   transgender
+}
+
+enum RegisteringAddress {
+  present
+  permanent
 }

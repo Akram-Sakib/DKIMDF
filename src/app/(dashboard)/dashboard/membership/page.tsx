@@ -38,7 +38,7 @@ const MembershipPage = () => {
             </CardDescription>
           </CardHeader>
           <CardFooter>
-            <Link href={"/dashboard/membership/new"}>
+            <Link href={"/dashboard/membership/list/new"}>
               <Button>Create</Button>
             </Link>
           </CardFooter>

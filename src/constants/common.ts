@@ -89,6 +89,14 @@ export const QueryKeys = {
   MEMBERSHIPS: "memberships",
   MEMBERSHIP: "membership",
   PROFILE: "profile",
+  SUBSCRIPTIONS: "subscriptions",
+  SUBSCRIPTION: "subscription",
+  SUPERADMINS: "superadmins",
+  SUPERADMIN: "superadmin",
+  ADMINS: "admins",
+  ADMIN: "admin",
+  MEMBERS: "members",
+  MEMBER: "member",
 };
 
 export const ACCESS_TOKEN_KEY = "accessToken";

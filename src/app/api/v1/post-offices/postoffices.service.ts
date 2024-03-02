@@ -5,11 +5,13 @@ import { IPaginationOptions } from "@/types/pagination";
 import { PostOffice, Prisma } from "@prisma/client";
 import { postOfficeSearchableFields } from "./postoffices.constants";
 import { IPostOfficeFilterRequest } from "./postoffices.interface";
+import { JwtPayload } from "jsonwebtoken";
 
-const create = async (data: PostOffice): Promise<PostOffice> => {
+const create = async (data: PostOffice, user: JwtPayload): Promise<PostOffice> => {
+  const userId = user.userId;
   const newData = await prisma.postOffice.create({
     data: {
-      ...data,
+      ...data, userId
     },
   });
 
@@ -58,8 +60,8 @@ const getAll = async (
       options.sortBy && options.sortOrder
         ? { [options.sortBy]: options.sortOrder }
         : {
-            createdAt: 'desc',
-          },
+          createdAt: 'desc',
+        },
   });
 
   const total = await prisma.postOffice.count({

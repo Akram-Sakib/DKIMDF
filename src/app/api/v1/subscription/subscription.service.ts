@@ -1,3 +1,4 @@
+import { calculateEndTime } from './subscription.utils';
 import { paginationHelpers } from "@/helpers/paginationHelper";
 import prisma from "@/lib/prisma";
 import { IGenericResponse } from "@/types/common";
@@ -5,18 +6,48 @@ import { IPaginationOptions } from "@/types/pagination";
 import { Subscription, SubscriptionFee, Prisma } from "@prisma/client";
 import { ISubscriptionFilterRequest } from "./subscription.interface";
 import { subscriptionFilterableFields } from "./subscription.constants";
+import { JwtPayload } from "jsonwebtoken";
 
 const create = async (
   subscriptionFeePayload: SubscriptionFee,
-  subscriptionPayload: Subscription
+  subscriptionPayload: Subscription,
+  user: JwtPayload
 ): Promise<Subscription> => {
+
+  const memberId = user.userId
+
+  const existingSubscription = await prisma.subscription.findFirst({
+    where: {
+      memberId,
+    },
+  });
+
+  if (existingSubscription) {
+    // get the end time of the existing subscription
+    const { endTime } = existingSubscription;
+    // set the start time of the new subscription to the end time of the existing subscription
+    subscriptionPayload.startTime = new Date(endTime);
+  }
+
+
   const newData = await prisma.$transaction(async (transactionClient) => {
     // calculate the subscription total fee
     const { registrationFee, smartCardFee, subscriptionFee } =
       subscriptionFeePayload;
-    const totalFee =
-      Number(registrationFee) + Number(smartCardFee) + Number(subscriptionFee);
+
+    let totalFee = 0;
+    if ((registrationFee === undefined && smartCardFee === undefined) && subscriptionFee) {
+      console.log(registrationFee, smartCardFee, subscriptionFee);
+
+      totalFee = Number(subscriptionFee);
+    } else {
+      console.log(registrationFee, smartCardFee, subscriptionFee);
+
+      totalFee =
+        Number(registrationFee) + Number(smartCardFee) + Number(subscriptionFee);
+    }
     subscriptionFeePayload.totalFee = String(totalFee);
+    console.log(totalFee);
 
     // get the membership fee from membership table
     const membership = await transactionClient.membership.findUnique({
@@ -32,42 +63,57 @@ const create = async (
       throw new Error("Membership not found");
     }
 
-    subscriptionPayload.startTime = new Date(
-      new Date().setDate(new Date().getDate())
-    );
-    // calculate the end time based on the membership type
-    if (membership?.type === "weekly") {
-      subscriptionPayload.endTime = new Date(
-        new Date().setDate(new Date().getDate() + 7)
-      );
-    } else if (membership?.type === "monthly") {
-      subscriptionPayload.endTime = new Date(
-        new Date().setMonth(new Date().getMonth() + 1)
-      );
-    } else if (
-      membership?.type === "halfYearly" &&
-      subscriptionPayload.endTime
-    ) {
-      subscriptionPayload.endTime = new Date(
-        new Date().setMonth(new Date().getMonth() + 6)
-      );
-    } else if (membership?.type === "yearly") {
-      subscriptionPayload.endTime = new Date(
-        new Date().setFullYear(new Date().getFullYear() + 1)
-      );
-    } else if (membership?.type === "lifeTime") {
-      subscriptionPayload.endTime = new Date(
-        new Date().setFullYear(new Date().getFullYear() + 100)
-      );
-    }
+    calculateEndTime(membership, subscriptionPayload);
+
+    // subscriptionPayload.startTime = new Date(
+    //   new Date().setDate(new Date().getDate())
+    // );
+    // // calculate the end time based on the membership type
+    // if (membership?.type === "weekly") {
+    //   subscriptionPayload.endTime = new Date(
+    //     new Date().setDate(new Date().getDate() + 7)
+    //   );
+    // } else if (membership?.type === "monthly") {
+    //   subscriptionPayload.endTime = new Date(
+    //     new Date().setMonth(new Date().getMonth() + 1)
+    //   );
+    // } else if (
+    //   membership?.type === "halfYearly" &&
+    //   subscriptionPayload.endTime
+    // ) {
+    //   subscriptionPayload.endTime = new Date(
+    //     new Date().setMonth(new Date().getMonth() + 6)
+    //   );
+    // } else if (membership?.type === "yearly") {
+    //   subscriptionPayload.endTime = new Date(
+    //     new Date().setFullYear(new Date().getFullYear() + 1)
+    //   );
+    // } else if (membership?.type === "lifeTime") {
+    //   subscriptionPayload.endTime = new Date(
+    //     new Date().setFullYear(new Date().getFullYear() + 100)
+    //   );
+    // }
 
 
     // calculate the total fee
-    const { totalFee: membershipTotalFee } = membership.membershipFee;
+    const { totalFee: membershipTotalFee, membershipFee } = membership.membershipFee;
 
-    if (membershipTotalFee !== subscriptionFeePayload.totalFee) {
-      throw new Error("Invalid subscription fee");
+    if ((registrationFee === undefined && smartCardFee === undefined) && subscriptionFee) {
+      console.log(registrationFee, smartCardFee, subscriptionFee);
+      console.log(subscriptionFeePayload.totalFee);
+
+      if (subscriptionFee !== subscriptionFeePayload.totalFee) {
+        throw new Error("Invalid subscription fee");
+      }
+    } else {
+      console.log(membershipTotalFee, subscriptionFeePayload.totalFee);
+
+      if (membershipTotalFee !== subscriptionFeePayload.totalFee) {
+        throw new Error("Invalid subscription fee");
+
+      }
     }
+
 
     const subscriptionFeeData = await transactionClient.subscriptionFee.create({
       data: subscriptionFeePayload,
@@ -76,6 +122,7 @@ const create = async (
     const subscriptionData = await transactionClient.subscription.create({
       data: {
         ...subscriptionPayload,
+        memberId,
         subscriptionFeeId: subscriptionFeeData.id,
       },
       include: {
@@ -135,8 +182,8 @@ const getAll = async (
       options.sortBy && options.sortOrder
         ? { [options.sortBy]: options.sortOrder }
         : {
-            createdAt: "desc",
-          },
+          createdAt: "desc",
+        },
     include: {
       subscriptionFee: true,
     },

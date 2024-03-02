@@ -11,8 +11,8 @@ const CreateMember = async (request: NextRequest) => {
   await UserValidation.MemberUserSchema.parseAsync({
     body,
   });
-  const { member, ...userData } = body;
-  const result = await UserService.createMember(member, userData, request);
+  const { member, presentAddress, permanentAddress, ...userData } = body;
+  const result = await UserService.createMember(member, presentAddress, permanentAddress, userData);
 
   return sendResponse<Omit<User, "password">>({
     statusCode: httpStatus.OK,

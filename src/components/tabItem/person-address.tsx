@@ -5,12 +5,15 @@ import { useQuery } from "@tanstack/react-query";
 import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";
 import FormSelect from "../formelements/form-select";
+import { useState } from "react";
+import { Checkbox } from "../ui/checkbox";
 
 const PersonAddress = ({
   handlePrevNextTabs,
 }: {
   handlePrevNextTabs: (type: "prev" | "next") => void;
 }) => {
+  const [isSameAddress, setIsSameAddress] = useState<boolean>(false);
   const { data: countries, isLoading: CountriesLoading } = useQuery({
     queryKey: [QueryKeys.COUNTRIES],
     queryFn: async () => {
@@ -59,80 +62,194 @@ const PersonAddress = ({
     },
   });
 
+  const disableCountriesLoading = isSameAddress
+    ? isSameAddress
+    : CountriesLoading;
+  const disableDivisionsLoading = isSameAddress
+    ? isSameAddress
+    : DivisionsLoading;
+  const disableDistrictsLoading = isSameAddress
+    ? isSameAddress
+    : DistrictsLoading;
+  const disableThanasLoading = isSameAddress ? isSameAddress : ThanasLoading;
+  const disablePostOfficesLoading = isSameAddress
+    ? isSameAddress
+    : PostOfficesLoading;
+  const disableVillagesLoading = isSameAddress
+    ? isSameAddress
+    : VillagesLoading;
+
   return (
     <div className="space-y-5">
-      <FormSelect
-        name="country"
-        label="Country"
-        options={countries?.data.map((country: any) => ({
-          label: country.name,
-          value: country.id,
-        }))}
-        loading={CountriesLoading}
-        disabled={CountriesLoading}
-        placeholder="Select Country"
-        required={true}
-      />
-      <FormSelect
-        name="division"
-        label="Division"
-        options={divisions?.data.map((division: any) => ({
-          label: division.name,
-          value: division.id,
-        }))}
-        loading={DivisionsLoading}
-        disabled={DivisionsLoading}
-        placeholder="Select Division"
-        required={true}
-      />
-      <FormSelect
-        name="district"
-        label="District"
-        options={districts?.data.map((district: any) => ({
-          label: district.name,
-          value: district.id,
-        }))}
-        loading={DistrictsLoading}
-        disabled={DistrictsLoading}
-        placeholder="Select District"
-        required={true}
-      />
-      <FormSelect
-        name="thana"
-        label="Thana"
-        options={thanas?.data.map((thana: any) => ({
-          label: thana.name,
-          value: thana.id,
-        }))}
-        loading={ThanasLoading}
-        disabled={ThanasLoading}
-        placeholder="Select Thana"
-        required={true}
-      />
-      <FormSelect
-        name="postOffice"
-        label="Post Office"
-        options={postOffices?.data.map((postOffice: any) => ({
-          label: postOffice.name,
-          value: postOffice.id,
-        }))}
-        loading={PostOfficesLoading}
-        disabled={PostOfficesLoading}
-        placeholder="Select Post Office"
-        required={true}
-      />
-      <FormSelect
-        name="village"
-        label="Village"
-        options={villages?.data.map((village: any) => ({
-          label: village.name,
-          value: village.id,
-        }))}
-        loading={VillagesLoading}
-        disabled={VillagesLoading}
-        placeholder="Select Village"
-        required={true}
-      />
+      <div className="grid grid-cols-2 gap-x-10">
+        <div className="space-y-5">
+          <h2 className="text-2xl font-bold">Permanent Address</h2>
+          <div className="space-y-5">
+            <FormSelect
+              name="permanentAddress.country"
+              label="Country"
+              options={countries?.data.map((country: any) => ({
+                label: country.name,
+                value: country.id,
+              }))}
+              loading={CountriesLoading}
+              disabled={CountriesLoading}
+              placeholder="Select Country"
+              required={true}
+            />
+            <FormSelect
+              name="permanentAddress.division"
+              label="Division"
+              options={divisions?.data.map((division: any) => ({
+                label: division.name,
+                value: division.id,
+              }))}
+              loading={DivisionsLoading}
+              disabled={DivisionsLoading}
+              placeholder="Select Division"
+              required={true}
+            />
+            <FormSelect
+              name="permanentAddress.district"
+              label="District"
+              options={districts?.data.map((district: any) => ({
+                label: district.name,
+                value: district.id,
+              }))}
+              loading={DistrictsLoading}
+              disabled={DistrictsLoading}
+              placeholder="Select District"
+              required={true}
+            />
+            <FormSelect
+              name="permanentAddress.thana"
+              label="Thana"
+              options={thanas?.data.map((thana: any) => ({
+                label: thana.name,
+                value: thana.id,
+              }))}
+              loading={ThanasLoading}
+              disabled={ThanasLoading}
+              placeholder="Select Thana"
+              required={true}
+            />
+            <FormSelect
+              name="permanentAddress.postOffice"
+              label="Post Office"
+              options={postOffices?.data.map((postOffice: any) => ({
+                label: postOffice.name,
+                value: postOffice.id,
+              }))}
+              loading={PostOfficesLoading}
+              disabled={PostOfficesLoading}
+              placeholder="Select Post Office"
+              required={true}
+            />
+            <FormSelect
+              name="permanentAddress.village"
+              label="Village"
+              options={villages?.data.map((village: any) => ({
+                label: village.name,
+                value: village.id,
+              }))}
+              loading={VillagesLoading}
+              disabled={VillagesLoading}
+              placeholder="Select Village"
+              required={true}
+            />
+          </div>
+        </div>
+        <div className="space-y-5">
+          <h2 className="text-2xl font-bold">Present Address</h2>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="terms"
+              checked={isSameAddress}
+              onCheckedChange={(e) => setIsSameAddress(!isSameAddress)}
+            />
+            <label
+              htmlFor="terms"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Same as Present Address
+            </label>
+          </div>
+          <div className="space-y-5">
+            <FormSelect
+              name="presentAddress.country"
+              label="Country"
+              options={countries?.data.map((country: any) => ({
+                label: country.name,
+                value: country.id,
+              }))}
+              loading={CountriesLoading}
+              disabled={disableCountriesLoading}
+              placeholder="Select Country"
+              required={true}
+            />
+            <FormSelect
+              name="presentAddress.division"
+              label="Division"
+              options={divisions?.data.map((division: any) => ({
+                label: division.name,
+                value: division.id,
+              }))}
+              loading={DivisionsLoading}
+              disabled={disableDivisionsLoading}
+              placeholder="Select Division"
+              required={true}
+            />
+            <FormSelect
+              name="presentAddress.district"
+              label="District"
+              options={districts?.data.map((district: any) => ({
+                label: district.name,
+                value: district.id,
+              }))}
+              loading={DistrictsLoading}
+              disabled={disableDistrictsLoading}
+              placeholder="Select District"
+              required={true}
+            />
+            <FormSelect
+              name="presentAddress.thana"
+              label="Thana"
+              options={thanas?.data.map((thana: any) => ({
+                label: thana.name,
+                value: thana.id,
+              }))}
+              loading={ThanasLoading}
+              disabled={disableThanasLoading}
+              placeholder="Select Thana"
+              required={true}
+            />
+            <FormSelect
+              name="presentAddress.postOffice"
+              label="Post Office"
+              options={postOffices?.data.map((postOffice: any) => ({
+                label: postOffice.name,
+                value: postOffice.id,
+              }))}
+              loading={PostOfficesLoading}
+              disabled={disablePostOfficesLoading}
+              placeholder="Select Post Office"
+              required={true}
+            />
+            <FormSelect
+              name="presentAddress.village"
+              label="Village"
+              options={villages?.data.map((village: any) => ({
+                label: village.name,
+                value: village.id,
+              }))}
+              loading={VillagesLoading}
+              disabled={disableVillagesLoading}
+              placeholder="Select Village"
+              required={true}
+            />
+          </div>
+        </div>
+      </div>
       <div className="space-x-4 flex">
         <Button
           onClick={() => handlePrevNextTabs("prev")}

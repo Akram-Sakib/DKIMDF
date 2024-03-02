@@ -5,11 +5,13 @@ import { IPaginationOptions } from "@/types/pagination";
 import { Thana, Prisma } from "@prisma/client";
 import { thanaSearchableFields } from "./thana.constants";
 import { IThanaFilterRequest } from "./thana.interface";
+import { JwtPayload } from "jsonwebtoken";
 
-const create = async (data: Thana): Promise<Thana> => {
+const create = async (data: Thana, user: JwtPayload): Promise<Thana> => {
+  const userId = user.userId;
   const newData = await prisma.thana.create({
     data: {
-      ...data,
+      ...data, userId
     },
   });
 
@@ -58,8 +60,8 @@ const getAll = async (
       options.sortBy && options.sortOrder
         ? { [options.sortBy]: options.sortOrder }
         : {
-            createdAt: 'desc',
-          },
+          createdAt: 'desc',
+        },
   });
 
   const total = await prisma.thana.count({

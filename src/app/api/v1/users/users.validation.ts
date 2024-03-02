@@ -21,7 +21,7 @@ const SuperAdminUserSchema = z.object({
       gender: z.enum([...GENDER.map((gn) => gn.value)] as [
         string,
         ...string[]
-      ]),
+      ]).optional(),
       dateOfBirth: z
         .string({ required_error: "Date of Birth is required" })
         .optional(),
@@ -34,7 +34,7 @@ const SuperAdminUserSchema = z.object({
           ...string[]
         ])
         .optional(),
-      nidNumber: z.string({ required_error: "NID Number is required" }),
+      nidNumber: z.string({ required_error: "NID Number is required" }).optional(),
       occupation: z
         .string({ required_error: "Occupation is required" })
         .optional(),
@@ -50,12 +50,12 @@ const SuperAdminUserSchema = z.object({
       mothersName: z
         .string({ required_error: "Mothers Name is required" })
         .optional(),
-      presentAddress: z
-        .string({ required_error: "Present Address is required" })
-        .optional(),
-      permanentAddress: z
-        .string({ required_error: "Permanent Address is required" })
-        .optional(),
+      // presentAddress: z
+      //   .string({ required_error: "Present Address is required" })
+      //   .optional(),
+      // permanentAddress: z
+      //   .string({ required_error: "Permanent Address is required" })
+      //   .optional(),
       infoVerificationPhoto: z
         .string({ required_error: "Info Verification is required" })
         .optional(),

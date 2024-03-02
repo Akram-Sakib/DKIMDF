@@ -3,8 +3,27 @@ import Container from "../container";
 import LanguageSelect from "../languageSwitch/languageSelect";
 import MenuButton from "./menuButton";
 import ProfileButton from "./profileButton";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
+import { QueryKeys } from "@/constants/common";
+import { axiosInstance } from "@/helpers/axiosInstance";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.PROFILE],
+    queryFn: async () => {
+      const res = await axiosInstance.get(`/profile/me`);
+      return res.data as any;
+    },
+  });
+
+  // const profileData = await queryClient.getQueryData<any>([QueryKeys.PROFILE]);
+
   const routes = [
     { label: "Home", href: "/" },
     { label: "Projects", href: "/projects" },
@@ -12,7 +31,7 @@ const Navbar = () => {
     { label: "News", href: "/news" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
-    { label: "Register", href: "/registration" },
+    { label: "Login", href: "/login" },
     { label: "Dashboard", href: "/dashboard" },
   ];
 
@@ -33,15 +52,17 @@ const Navbar = () => {
             </Link>
           </div>
           <nav className="flex items-center space-x-4 md:space-x-6 lg:space-x-8 text-lg">
-            {routes.map((route) => (
-              <Link
-                key={route.label}
-                href={route.href}
-                className="hidden sm:block text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100 border-transparent px-2 rounded border"
-              >
-                {route.label}
-              </Link>
-            ))}
+            {routes.map((route) => {
+              return (
+                <Link
+                  key={route.label}
+                  href={route.href}
+                  className="hidden sm:block text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100 border-transparent px-2 rounded border"
+                >
+                  {route.label}
+                </Link>
+              );
+            })}
           </nav>
           <div className="flex items-center gap-x-2 md:gap-x-3">
             {/* <Button
@@ -54,7 +75,10 @@ const Navbar = () => {
               <Sun className="h-6 w-6 md:h-7 md:w-7 hidden dark:block transition-all" />
               <Moon className="h-6 w-6 md:h-7 md:w-7 block dark:hidden transition-all" />
             </Button> */}
-            <ProfileButton />
+
+            <HydrationBoundary state={dehydrate(queryClient)}>
+              <ProfileButton />
+            </HydrationBoundary>
             <LanguageSelect />
           </div>
         </div>

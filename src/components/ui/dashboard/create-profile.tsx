@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Separator } from "../separator";
 import { Heading } from "./heading";
 import Stepper from "../stepper/stepper";
-import UserForm from "../../formelements/user-form";
+import PersistForm from "../../formelements/user-form";
 import FormInput from "../../formelements/form-input";
 import { z } from "zod";
 import { Button } from "../button";
@@ -12,23 +12,13 @@ import { cn } from "@/lib/utils";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import FormDatePicker from "../../formelements/form-date-picker";
 import FormSelect from "../../formelements/form-select";
-import { GENDER, QueryKeys } from "@/constants/common";
+import { BLOODGROUP, GENDER, QueryKeys } from "@/constants/common";
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "@/helpers/axiosInstance";
 import { IGenericResponse } from "@/types/common";
-
-const formSchema = z.object({
-  name: z.object({
-    firstName: z
-      .string({ required_error: "First Name is required" })
-      .min(3)
-      .max(100),
-    lastName: z
-      .string({ required_error: "Last Name is required" })
-      .min(3)
-      .max(100),
-  }),
-});
+import ProfileAddressTab from "@/components/tabItem/profile-address-tab";
+import { memberSchema } from "@/schema/form-schema";
+import FormCldImage from "@/components/formelements/form-cldImage";
 
 const CreateProfileOne = () => {
   const title = "Profile";
@@ -37,7 +27,12 @@ const CreateProfileOne = () => {
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
-  const steps = ["Personal Details", "Family Details", "Person Address"];
+  const steps = [
+    "Personal Details",
+    "Family Details",
+    "Person Address",
+    "Reconciliations",
+  ];
 
   const goToNextStep = () =>
     setCurrentStep((prev) => (prev === steps.length - 1 ? prev : prev + 1));
@@ -58,6 +53,9 @@ const CreateProfileOne = () => {
     },
   });
 
+  console.log(initialData);
+  
+
   const defaultValues = initialData ? initialData : {};
 
   return (
@@ -70,10 +68,10 @@ const CreateProfileOne = () => {
         <div className={cn("md:ml-12 my-12")}>
           <Stepper currentStep={currentStep} label={steps} />
         </div>
-        <UserForm
+        <PersistForm
           onSubmit={onSubmit}
           defaultValues={defaultValues}
-          formSchema={formSchema}
+          formSchema={memberSchema}
           className="mt-20 md:w-1/2"
           formId="create-profile"
         >
@@ -105,11 +103,6 @@ const CreateProfileOne = () => {
                   options={GENDER}
                   required
                 />
-                <FormInput
-                  name="spouseName"
-                  label="Spouse Name"
-                  placeholder="Spouse Name"
-                />
                 <FormDatePicker name="dateOfBirth" label="Date Of Birth" />
                 <FormInput
                   name="phoneNumber"
@@ -127,10 +120,12 @@ const CreateProfileOne = () => {
                   label="Latest Education"
                   placeholder="Latest Education"
                 />
-                <FormInput
+                <FormSelect
+                  options={BLOODGROUP}
                   name="bloodGroup"
                   label="Blood Group"
-                  placeholder="Blood Group"
+                  placeholder="Select Blood Group"
+                  required
                 />
                 <FormInput
                   name="occupation"
@@ -150,41 +145,21 @@ const CreateProfileOne = () => {
           )}
           {currentStep === 1 && (
             <div className="space-y-8">
-              <div className="space-y-5 grid grid-cols-2 gap-x-10 gap-y-4">
+              <div className="grid grid-cols-1 gap-x-10 gap-y-4">
                 <FormInput
                   name="fathersName"
-                  label="Father Name"
+                  label="Father's Name"
                   placeholder="Father Name"
                 />
                 <FormInput
                   name="mothersName"
-                  label="Mother Name"
+                  label="Mother's Name"
                   placeholder="Mother Name"
                 />
                 <FormInput
-                  name="fathersOccupation"
-                  label="Fathers Occupation"
-                  placeholder="Fathers Occupation"
-                />
-                <FormInput
-                  name="mothersOccupation"
-                  label="Mothers Occupation"
-                  placeholder="Mothers Occupation"
-                />
-                <FormInput
-                  name="fathersMobileNumber"
-                  label="Fathers Mobile Number"
-                  placeholder="Fathers Mobile Number"
-                />
-                <FormInput
-                  name="fathersNidNumber"
-                  label="Fathers NID Number"
-                  placeholder="Fathers NID Number"
-                />
-                <FormInput
-                  name="mothersNidNumber"
-                  label="Mothers NID Number"
-                  placeholder="Mothers NID Number"
+                  name="spouseName"
+                  label="Spouse Name"
+                  placeholder="Spouse Name"
                 />
               </div>
               <div className="space-x-4 flex">
@@ -208,52 +183,29 @@ const CreateProfileOne = () => {
             </div>
           )}
           {currentStep === 2 && (
+            <ProfileAddressTab
+              goToPreviousStep={goToPreviousStep}
+              goToNextStep={goToNextStep}
+            />
+          )}
+          {currentStep === 3 && (
             <div className="space-y-8">
-              <div className=" grid grid-cols-2 gap-x-10 gap-y-4">
-                <FormInput
-                  name="country"
-                  label="Country"
-                  placeholder="Country"
+              <div className="grid grid-cols-2 gap-x-10 gap-y-4">
+                <FormCldImage
+                  name="imageUrl"
+                  label="Your Image"
+                  required
+                  width="100"
+                  height="100"
+                  className="rounded-full"
                 />
-                <FormInput
-                  name="division"
-                  label="Division"
-                  placeholder="Division"
-                />
-                <FormInput
-                  name="district"
-                  label="District"
-                  placeholder="District"
-                />
-                <FormInput
-                  name="union"
-                  label="Municipality / Union"
-                  placeholder="Municipality / Union"
-                />
-                <FormInput
-                  name="wardNo"
-                  label="Ward No"
-                  placeholder="Ward No"
-                />
-                <FormInput
-                  name="village"
-                  label="Village / Area"
-                  placeholder="Village / Area"
-                />
-                <FormInput
-                  name="postOffice"
-                  label="Post Office"
-                  placeholder="Post Office"
-                />
-                <FormInput
-                  name="postCode"
-                  label="Post Code"
-                  placeholder="Post Code"
-                />
-                <FormInput
-                  name="roadNo"
-                  label="Road No"
-                  placeholder="Road No"
+                <FormCldImage
+                  name="infoVerificationPhoto"
+                  label="Your Driving License or Passport image"
+                  height="300"
+                  width="300"
+                  className="rounded-lg"
+                  required
                 />
               </div>
               <div className="space-x-4 flex">
@@ -274,7 +226,7 @@ const CreateProfileOne = () => {
               </div>
             </div>
           )}
-        </UserForm>
+        </PersistForm>
         {/* <section className="flex mt-10 gap-x-12">
           <button
             onClick={goToPreviousStep}

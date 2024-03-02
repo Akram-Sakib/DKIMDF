@@ -40,3 +40,28 @@ export const DELETE = withErrorHandler(
     });
   }
 );
+
+export const PATCH = withErrorHandler(
+  async (
+    req: NextRequest,
+    {
+      params,
+    }: {
+      params: { id: string };
+    }
+  ) => {
+    const { id } = params;
+    const body = await req.json();
+    // await UserValidation.MemberUserSchema.parseAsync({
+    //   body,
+    // });
+    const result = await UserService.updateUser(id, body);
+
+    return sendResponse<Omit<User, "password">>({
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "User Updated Successfully!",
+      data: result,
+    });
+  }
+);

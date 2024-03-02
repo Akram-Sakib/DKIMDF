@@ -62,7 +62,7 @@ export const MembershipClient: React.FC<ProductsClientProps> = () => {
     <>
       <div className="flex items-start justify-between">
         <Heading
-          title={`Memberships (${total})`}
+          title={`Memberships (${ isLoading ? "0" :total})`}
           description="Manage memberships for your business"
         />
         <Button

@@ -1,18 +1,15 @@
 "use client";
 
-import FormCheckBox from "@/components/formelements/form-checkbox";
-import FormCldImage from "@/components/formelements/form-cldImage";
-import UserForm from "@/components/formelements/user-form";
-import { Button } from "@/components/ui/button";
+import PersistForm from "@/components/formelements/user-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { formSchema } from "@/schema/form-schema";
+import { memberSchema } from "@/schema/form-schema";
 import { useState } from "react";
 import { FaUser } from "react-icons/fa";
-import { FaArrowLeftLong, FaLocationDot, FaUsers } from "react-icons/fa6";
+import { FaLocationDot, FaUsers } from "react-icons/fa6";
 import { GiSevenPointedStar } from "react-icons/gi";
 import FamilyIntro from "../tabItem/family-intro";
-import PersonIntro from "../tabItem/person-intro";
 import PersonAddress from "../tabItem/person-address";
+import PersonIntro from "../tabItem/person-intro";
 import Reconciliation from "../tabItem/reconciliation";
 
 const RegistrationForm = () => {
@@ -92,10 +89,10 @@ const RegistrationForm = () => {
   ];
 
   return (
-    <UserForm
+    <PersistForm
       onSubmit={onSubmit}
       defaultValues={defaultValues}
-      formSchema={formSchema}
+      formSchema={memberSchema}
       className="w-full items-center gap-5 mt-10"
       formId="registration"
     >
@@ -124,7 +121,7 @@ const RegistrationForm = () => {
           </TabsContent>
         ))}
       </Tabs>
-    </UserForm>
+    </PersistForm>
   );
 };
 

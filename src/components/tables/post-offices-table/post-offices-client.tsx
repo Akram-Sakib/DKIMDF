@@ -62,7 +62,7 @@ export const PostOfficeClient: React.FC<ProductsClientProps> = () => {
     <>
       <div className="flex items-start justify-between">
         <Heading
-          title={`Post Offices (${total})`}
+          title={`Post Offices (${ isLoading ? "0" :total})`}
           description="Manage Post Offices for your business"
         />
         <Button

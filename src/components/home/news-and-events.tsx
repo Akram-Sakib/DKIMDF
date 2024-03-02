@@ -38,20 +38,20 @@ const NewsAndEvents = () => {
       title: "Festival of Architecture and Interior",
       href: "/news/news-slug-name",
     },
-    // {
-    //   id: 5,
-    //   image: EventsImage2,
-    //   icon: <TbWorld />,
-    //   title: "Designing Club Culture",
-    //   href: "/news/news-slug-name",
-    // },
-    // {
-    //   id: 6,
-    //   image: EventsImage3,
-    //   icon: <TbWorld />,
-    //   title: "Nairobi Design Week",
-    //   href: "/news/news-slug-name",
-    // },
+    {
+      id: 5,
+      image: EventsImage2,
+      icon: <TbWorld />,
+      title: "Designing Club Culture",
+      href: "/news/news-slug-name",
+    },
+    {
+      id: 6,
+      image: EventsImage3,
+      icon: <TbWorld />,
+      title: "Nairobi Design Week",
+      href: "/news/news-slug-name",
+    },
   ];
 
   return (

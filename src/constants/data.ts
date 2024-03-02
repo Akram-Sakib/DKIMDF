@@ -292,16 +292,22 @@ export const navItems: NavItem[] = [
     label: "profile",
   },
   {
-    title: "Admins",
-    href: "/dashboard/admins",
+    title: "Manage Admins",
+    href: "/dashboard/manage-admins",
     icon: "admin",
-    label: "admins",
+    label: "manageAdmins",
   },
   {
     title: "Users",
     href: "/dashboard/users",
     icon: "user",
     label: "users",
+  },
+  {
+    title: "Members",
+    href: "/dashboard/members",
+    icon: "user",
+    label: "members",
   },
   {
     title: "Gallery",
@@ -338,6 +344,12 @@ export const navItems: NavItem[] = [
     href: "/dashboard/payment",
     icon: "banknote",
     label: "payments",
+  },
+  {
+    title: "Subscription",
+    href: "/dashboard/subscription",
+    icon: "banknote",
+    label: "subscription",
   },
   {
     title: "Logout",

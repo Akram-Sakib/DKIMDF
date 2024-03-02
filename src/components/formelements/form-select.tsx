@@ -16,6 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect } from "react";
 
 type Option = {
   label: string;
@@ -42,7 +44,22 @@ const FormSelect = ({
   loading = false,
   ...props
 }: FormSelectProps) => {
-  const { control } = useFormContext();
+  const { control, getValues } = useFormContext();
+
+  // const value = getValues(name);
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   return (
     <FormField
@@ -56,7 +73,16 @@ const FormSelect = ({
           </FormLabel>
           <Select
             disabled={disabled}
-            onValueChange={field.onChange}
+            onValueChange={(selectedValue) => {
+              field.onChange(selectedValue);
+              if (name === "superAdmin.authorizationScope") {
+                router.push(
+                  pathname +
+                    "?" +
+                    createQueryString("authorizationScope", selectedValue)
+                );
+              }
+            }}
             defaultValue={field.value}
             {...props}
           >

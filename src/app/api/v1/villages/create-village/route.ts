@@ -4,14 +4,18 @@ import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { VillageService } from "../villages.service";
 import { VillageValidation } from "../villages.validation";
+import auth from "@/lib/authMiddleware";
+import { ENUM } from "@/constants/common";
 
 export const POST = withErrorHandler(
   async (request: NextRequest) => {
+    await auth([ENUM.GRAND_ADMIN, ENUM.SUPER_ADMIN, ENUM.ADMIN], request);
+    const user = (request as any).user
     const body = await request.json();
     await VillageValidation.VillageSchema.parseAsync({
       body,
     });
-    const result = await VillageService.create(body);
+    const result = await VillageService.create(body, user);
 
     const data = {
       statusCode: httpStatus.OK,

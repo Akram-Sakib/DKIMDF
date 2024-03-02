@@ -5,11 +5,23 @@ import { IPaginationOptions } from "@/types/pagination";
 import { District, Prisma } from "@prisma/client";
 import { districtSearchableFields } from "./districts.constants";
 import { IDistrictFilterRequest } from "./districts.interface";
+import { JwtPayload } from "jsonwebtoken";
 
-const create = async (data: District): Promise<District> => {
+const create = async (data: District, user: JwtPayload): Promise<District> => {
+  const isExist = await prisma.district.findFirst({
+    where: {
+      name: data.name,
+    },
+  });
+
+  if (isExist) {
+    throw new Error('District already exists');
+  }
+  
+  const userId = user.userId;
   const newData = await prisma.district.create({
     data: {
-      ...data,
+      ...data, userId
     },
   });
 
@@ -58,8 +70,8 @@ const getAll = async (
       options.sortBy && options.sortOrder
         ? { [options.sortBy]: options.sortOrder }
         : {
-            createdAt: "desc",
-          },
+          createdAt: "desc",
+        },
   });
 
   const total = await prisma.district.count({

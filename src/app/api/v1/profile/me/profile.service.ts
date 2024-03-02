@@ -14,13 +14,13 @@ const getProfile = async (user: JwtPayload): Promise<Admin | SuperAdmin | GrandA
     result = await prisma.grandAdmin.findUnique({
       where: {
         userId,
-      },
+      }
     });
   } else if (role === ENUM.SUPER_ADMIN) {
     result = await prisma.superAdmin.findUnique({
       where: {
         userId,
-      },
+      }
     });
   }
   else if (role === ENUM.ADMIN) {
@@ -35,6 +35,10 @@ const getProfile = async (user: JwtPayload): Promise<Admin | SuperAdmin | GrandA
       where: {
         userId,
       },
+      include: {
+        presentAddress: true,
+        permanentAddress: true
+      }
     });
   }
 

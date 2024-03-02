@@ -62,7 +62,7 @@ export const VillagesClient: React.FC<ProductsClientProps> = () => {
     <>
       <div className="flex items-start justify-between">
         <Heading
-          title={`Villages (${total})`}
+          title={`Villages (${ isLoading ? "0" :total})`}
           description="Manage villages for your business"
         />
         <Button

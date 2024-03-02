@@ -26,29 +26,6 @@ import {
   FormMessage,
 } from "../ui/form";
 
-// const frameworks = [
-//   {
-//     value: "next.js",
-//     label: "Next.js",
-//   },
-//   {
-//     value: "sveltekit",
-//     label: "SvelteKit",
-//   },
-//   {
-//     value: "nuxt.js",
-//     label: "Nuxt.js",
-//   },
-//   {
-//     value: "remix",
-//     label: "Remix",
-//   },
-//   {
-//     value: "astro",
-//     label: "Astro",
-//   },
-// ];
-
 interface FormComboBoxProps {
   placeholder: string;
   name: string;
@@ -67,7 +44,6 @@ export function FormComboBox({
   options,
 }: FormComboBoxProps) {
   const [open, setOpen] = React.useState(false);
-  //   const [value, setValue] = React.useState("");
   const { control, getValues, setValue } = useFormContext();
   const value = getValues(name);
 
@@ -78,62 +54,69 @@ export function FormComboBox({
       render={({ field }) => {
         return (
           <FormItem>
-            <FormLabel>
-              {label} {required && <span className="text-red-500">*</span>}
-            </FormLabel>
-            <FormControl>
-              <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={open}
-                    className="w-[200px] justify-between"
-                  >
-                    {value
-                      ? options.find((option) => option.value === value)?.label
-                      : placeholder}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
-                  <Command>
-                    <CommandInput placeholder="Search..." />
-                    {isLoading && <CommandEmpty>Loading...</CommandEmpty>}
-                    {options?.length === 0 && (
-                      <CommandEmpty>No Data Found</CommandEmpty>
-                    )}
-                    <CommandGroup>
-                      {!isLoading &&
-                        options.map((option) => (
-                          <CommandItem
-                            key={option.value}
-                            value={option.value}
-                            onSelect={(currentValue) => {
-                              setValue(
-                                name,
-                                currentValue === value ? "" : currentValue
-                              );
-                              setOpen(false);
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                value === option.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                            {option.label}
-                          </CommandItem>
-                        ))}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            </FormControl>
-            <FormMessage />
+            <div className="flex flex-col gap-y-3">
+              <FormLabel>
+                {label} {required && <span className="text-red-500">*</span>}
+              </FormLabel>
+              <FormControl aria-disabled={isLoading}>
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={open}
+                      className="w-[300px] justify-between"
+                    >
+                      {value
+                        ? options.find((option) => option.value === value)
+                            ?.label
+                        : placeholder}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[300px] p-0">
+                    <Command>
+                      <CommandInput
+                        placeholder="Search..."
+                        // onValueChange={(value) => setSearch(value)}
+                      />
+                      {isLoading && <CommandEmpty>Loading...</CommandEmpty>}
+                      {options?.length === 0 && (
+                        <CommandEmpty>No Data Found</CommandEmpty>
+                      )}
+                      <CommandGroup>
+                        {!isLoading &&
+                          options.map((option) => (
+                            <CommandItem
+                              key={option.value}
+                              value={option.label}
+                              onSelect={(currentValue) => {
+                                const value = options.find(
+                                  (option) =>
+                                    option.label.toLowerCase() === currentValue
+                                )?.value;
+                                setValue(name, value ?? "");
+                                setOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  value === option.value
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {option.label}
+                            </CommandItem>
+                          ))}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </FormControl>
+              <FormMessage />
+            </div>
           </FormItem>
         );
       }}

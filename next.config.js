@@ -22,6 +22,11 @@ const nextConfig = {
         hostname: "cdn.hashnode.com",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "**",
+      },
     ],
   },
 };

@@ -18,7 +18,7 @@ export const GET = withErrorHandler(
     const data = {
       statusCode: httpStatus.OK,
       success: true,
-      message: "All Categries Fetched Successfully!",
+      message: "All Countries Fetched Successfully!",
       data: result ?? {},
     };
 

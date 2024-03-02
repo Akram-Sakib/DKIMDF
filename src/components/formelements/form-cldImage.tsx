@@ -1,10 +1,12 @@
 "use client";
 
 // import { deleteImage } from "@/app/api/cloudinary/cloudinary";
+import { cn } from "@/lib/utils";
 import { CldImage, CldUploadButton } from "next-cloudinary";
-import { ComponentProps } from "react";
+import { ComponentProps, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { HiXMark } from "react-icons/hi2";
+import { FaXmark } from "react-icons/fa6";
+import { Button } from "../ui/button";
 import {
   FormControl,
   FormField,
@@ -12,9 +14,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { axiosInstance } from "@/helpers/axiosInstance";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { toast } from "../ui/use-toast";
 
 interface CloudinaryImageUploadType {
   info: {
@@ -52,6 +51,9 @@ const FormCldImage = ({
   type = "text",
   required = false,
   disabled = false,
+  width = "90",
+  height = "90",
+  className,
   ...props
 }: {
   name: string;
@@ -60,40 +62,42 @@ const FormCldImage = ({
   type?: string;
   required?: boolean;
   disabled?: boolean;
-} & ComponentProps<"input">) => {
+  width?: string;
+  height?: string;
+  className?: string;
+} & ComponentProps<"img">) => {
   const { control, setValue, getValues } = useFormContext();
   const image = getValues(name);
+  // const { mutate } = useMutation({
+  //   mutationFn: async (data: any) => {
+  //     const res = await axiosInstance.post("cloudinary", data);
+  //     return res;
+  //   },
+  //   onSuccess: (res: any) => {
+  //     if (res.data === "ok") {
+  //       toast({
+  //         variant: "default",
+  //         title: "Image Deleted",
+  //         description: "Image has been deleted successfully.",
+  //       });
+  //     } else {
+  //       toast({
+  //         variant: "destructive",
+  //         title: res.message,
+  //         description: "There was a problem with your request.",
+  //       });
+  //     }
+  //   },
 
-  const { mutate } = useMutation({
-    mutationFn: async (data: any) => {
-      const res = await axiosInstance.post("cloudinary", data);
-      return res;
-    },
-    onSuccess: (res: any) => {
-      if (res.data === "ok") {
-        toast({
-          variant: "default",
-          title: "Image Deleted",
-          description: "Image has been deleted successfully.",
-        });
-      } else {
-        toast({
-          variant: "destructive",
-          title: res.message,
-          description: "There was a problem with your request.",
-        });
-      }
-    },
-    
-  });
+  // });
 
   const handleDeleteImage = async () => {
-    const imgSplit = image.split("/");
-    const imageName = imgSplit[imgSplit.length - 1].split(".")[0];
-    const imageId = imgSplit[imgSplit.length - 2];
-    const publicId = imageId + "/" + imageName;
+    // const imgSplit = image.split("/");
+    // const imageName = imgSplit[imgSplit.length - 1].split(".")[0];
+    // const imageId = imgSplit[imgSplit.length - 2];
+    // const publicId = imageId + "/" + imageName;
     if (image) {
-      mutate({ publicId });
+      // mutate({ publicId });
       setValue(name, "");
     }
   };
@@ -111,23 +115,24 @@ const FormCldImage = ({
             <FormControl>
               <>
                 {image && (
-                  <div className="flex items-start">
+                  <div className="relative flex items-start gap-x-2">
                     <CldImage
-                      width="90"
-                      height="90"
-                      className="rounded-full"
+                      width={width as any}
+                      height={height as any}
+                      className={cn(className)}
                       src={image}
-                      alt="Description of my image"
+                      alt="Description of my image" 
                     />
-                    {/* <Button
-                      // variant="destructive"
+                    <Button
+                      variant="destructive"
                       size="sm"
-                    > */}
-                    <HiXMark
-                      className="h-4 w-4 cursor-pointer"
-                      onClick={handleDeleteImage}
-                    />
-                    {/* </Button> */}
+                      className="px-2 py-0"
+                    >
+                      <FaXmark
+                        className="h-4 w-6 cursor-pointer bold"
+                        onClick={handleDeleteImage}
+                      />
+                    </Button>
                   </div>
                 )}
                 {!image && (
