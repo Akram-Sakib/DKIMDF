@@ -5,10 +5,12 @@ import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { DivisionService } from "../divisions.service";
 import { DivisionValidation } from "../divisions.validation";
+import auth from "@/lib/authMiddleware";
+import { ENUMUSER } from "@/constants/common";
 
 export const GET = withErrorHandler(async (request, context) => {
+  await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], request);
   const { id } = context.params;
-
   const result = await DivisionService.getById(id);
 
   const data = {
@@ -30,6 +32,8 @@ export const PATCH = withErrorHandler(
       params: { id: string };
     }
   ) => {
+
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
     const { id } = params;
     const body = await req.json();
     await DivisionValidation.DivisionUpdateSchema.parseAsync({
@@ -55,6 +59,8 @@ export const DELETE = withErrorHandler(
       params: { id: string };
     }
   ) => {
+
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
     const { id } = params;
     const result = await DivisionService.deleteById(id);
 

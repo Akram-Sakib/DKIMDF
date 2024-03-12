@@ -8,16 +8,20 @@ import {
 } from "@/components/ui/card";
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
 import { Heading } from "@/components/ui/dashboard/heading";
+import { authOptions } from "@/lib/authOptions";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
-import React from "react";
 const breadcrumbItems = [{ title: "Admins", link: "/dashboard/manage-admins" }];
 
-const AdminManagementPage = () => {
+const AdminManagementPage = async () => {
+  // get server session
+  const session = (await getServerSession(authOptions)) as any;
+  // console.log(session.role);
+
+  const isGrandOrSuperAdmin =
+    session.role === "grand_admin" || session.role === "super_admin";
+
   const places = [
-    // {
-    //   title: "Grand Admin",
-    //   link: "/dashboard/manage-admins/grand-admin",
-    // },
     {
       title: "Super Admins",
       link: "/dashboard/manage-admins/super-admins",
@@ -27,6 +31,11 @@ const AdminManagementPage = () => {
       link: "/dashboard/manage-admins/admins",
     },
   ];
+
+  // if its not grand or super admin then remove super admin from the list
+  if (!isGrandOrSuperAdmin) {
+    places.shift();
+  }
 
   return (
     <>

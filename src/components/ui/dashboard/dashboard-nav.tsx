@@ -4,10 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Icons } from "@/components/icons";
+import { logout } from "@/lib/logout";
 import { cn } from "@/lib/utils";
 import { NavItem } from "@/types";
 import { Dispatch, SetStateAction } from "react";
-import { logout } from "@/lib/logout";
 
 interface DashboardNavProps {
   items: NavItem[];
@@ -25,7 +25,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
     <nav className="grid items-start gap-2">
       {items.map((item, index) => {
         const Icon = Icons[item.icon || "arrowRight"];
-        
+
         if (item.label === "logout") {
           return (
             <button key={index} onClick={logout}>

@@ -135,9 +135,9 @@ export function AdminsTable<TData, TValue>({
   const searchValue = table.getColumn(searchKey)?.getFilterValue() as string;
 
   /* get selected rows ids */
-  const selectedRowIds = table
-    .getFilteredSelectedRowModel()
-    .rows.map((row) => (row.original as any).id);
+  // const selectedRowIds = table
+  //   .getFilteredSelectedRowModel()
+  //   .rows.map((row) => (row.original as any).id);
 
   // React.useEffect(() => {
   //   if (debounceValue.length > 0) {
@@ -198,7 +198,7 @@ export function AdminsTable<TData, TValue>({
   }, [searchValue]);
 
   const onDelete = () => {
-    console.log("delete", selectedRowIds);
+    // console.log("delete", selectedRowIds);
   };
 
   return (
@@ -218,7 +218,7 @@ export function AdminsTable<TData, TValue>({
           }
           className="w-full md:max-w-sm"
         />
-        {selectedRowIds.length > 0 && (
+        {/* {selectedRowIds.length > 0 && (
           <Button
             // disabled={
             //   loading || createIsPending || updateIsPending || deleteIsPending
@@ -229,7 +229,7 @@ export function AdminsTable<TData, TValue>({
           >
             <Trash className="h-4 w-4" />
           </Button>
-        )}
+        )} */}
       </div>
       <ScrollArea className="rounded-md border h-[calc(80vh-220px)]">
         <Table className="relative">

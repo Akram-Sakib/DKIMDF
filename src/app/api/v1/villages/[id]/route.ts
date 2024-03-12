@@ -5,10 +5,12 @@ import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { VillageService } from "../villages.service";
 import { VillageValidation } from "../villages.validation";
+import auth from "@/lib/authMiddleware";
+import { ENUMUSER } from "@/constants/common";
 
 export const GET = withErrorHandler(async (request, context) => {
+  await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], request);
   const { id } = context.params;
-
   const result = await VillageService.getById(id);
 
   const data = {
@@ -32,6 +34,7 @@ export const PATCH = withErrorHandler(
   ) => {
     const { id } = params;
     const body = await req.json();
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
     await VillageValidation.VillageUpdateSchema.parseAsync({
       body,
     });
@@ -55,6 +58,8 @@ export const DELETE = withErrorHandler(
       params: { id: string };
     }
   ) => {
+
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
     const { id } = params;
     const result = await VillageService.deleteById(id);
 

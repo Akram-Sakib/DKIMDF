@@ -22,8 +22,9 @@ const Navbar = async () => {
     },
   });
 
-  // const profileData = await queryClient.getQueryData<any>([QueryKeys.PROFILE]);
-
+  const profileData = await queryClient.getQueryData<any>([QueryKeys.PROFILE]);
+  // console.log(profileData.id);
+  
   const routes = [
     { label: "Home", href: "/" },
     { label: "Projects", href: "/projects" },
@@ -34,6 +35,11 @@ const Navbar = async () => {
     { label: "Login", href: "/login" },
     { label: "Dashboard", href: "/dashboard" },
   ];
+
+  const filteredRoutes = routes.filter((route) => {
+    // Hide Login if profileData exists, hide Dashboard otherwise
+    return (profileData?.id ? route.label !== "Login" : route.label !== "Dashboard");
+  });
 
   return (
     <div
@@ -52,7 +58,7 @@ const Navbar = async () => {
             </Link>
           </div>
           <nav className="flex items-center space-x-4 md:space-x-6 lg:space-x-8 text-lg">
-            {routes.map((route) => {
+            {filteredRoutes.map((route) => {
               return (
                 <Link
                   key={route.label}

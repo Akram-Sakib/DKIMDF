@@ -11,12 +11,59 @@ import FamilyIntro from "../tabItem/family-intro";
 import PersonAddress from "../tabItem/person-address";
 import PersonIntro from "../tabItem/person-intro";
 import Reconciliation from "../tabItem/reconciliation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { axiosInstance } from "@/helpers/axiosInstance";
+import { QueryKeys } from "@/constants/common";
+import { toast } from "../ui/use-toast";
 
 const RegistrationForm = () => {
+  const queryClient = useQueryClient();
+  const { mutate: createMutation, isPending: createIsPending } = useMutation({
+    mutationFn: async (data: any) => {
+      const res = await axiosInstance.post(`/users/create-member`, data);
+      return res;
+    },
+    onSuccess: (res: any) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.MEMBERS],
+      });
+      // queryClient.invalidateQueries({
+      //   queryKey: [QueryKeys.MEMBER, params.id],
+      // });
+
+      if (res.success) {
+        // console.log(res.data.paymentGatewayPageURL);
+        toast({
+          variant: "default",
+          title: "Registration Successful",
+          description: "Your registration has been successfully submitted.",
+        });
+
+        // redirect to ssl commerz sandbox url from success
+        window.location.replace(res.data.paymentGatewayPageURL);
+      } else {
+        toast({
+          variant: "destructive",
+          title: res.message,
+          description: "There was a problem with your request.",
+        });
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      });
+    },
+  });
+
   const onSubmit = (values: { [x: string]: any }): void => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    createMutation(values);
   };
 
   const defaultValues = {

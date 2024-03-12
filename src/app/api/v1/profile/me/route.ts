@@ -1,4 +1,4 @@
-import { ENUM } from "@/constants/common";
+import { ENUMUSER } from "@/constants/common";
 import auth from "@/lib/authMiddleware";
 import sendResponse from "@/lib/sendResponse";
 import withErrorHandler from "@/lib/withErrorHandler";
@@ -10,7 +10,7 @@ import { ProfileValidation } from "./profile.validation";
 
 export const GET = withErrorHandler(
   async (request: NextRequest, context: any) => {
-    await auth([ENUM.GRAND_ADMIN, ENUM.SUPER_ADMIN, ENUM.ADMIN, ENUM.MEMBER], request)
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN, ENUMUSER.MEMBER], request)
     const user = (request as any).user;
     const result = await ProfileService.getProfile(user);
 
@@ -30,12 +30,18 @@ export const PATCH = withErrorHandler(
   async (
     request: NextRequest,
   ) => {
-    await auth([ENUM.GRAND_ADMIN, ENUM.SUPER_ADMIN, ENUM.ADMIN, ENUM.MEMBER], request)
-    const body = await request.json();
-    await ProfileValidation.ProfileUpdateSchema.parseAsync({
-      body,
-    });
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN, ENUMUSER.MEMBER], request)
     const user = (request as any).user;
+    const body = await request.json();
+    if (user.role === ENUMUSER.GRAND_ADMIN) {
+      await ProfileValidation.GrandAdminProfileUpdateSchema.parseAsync({
+        body,
+      });
+    } else {
+      await ProfileValidation.ProfileUpdateSchema.parseAsync({
+        body,
+      });
+    }
     const result = await ProfileService.updateProfile(user, body);
 
     return sendResponse<Admin | SuperAdmin | GrandAdmin | Member | null>({

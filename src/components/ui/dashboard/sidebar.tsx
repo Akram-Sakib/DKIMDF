@@ -1,6 +1,8 @@
 import { navItems } from "@/constants/data";
 import { cn } from "@/lib/utils";
 import { DashboardNav } from "./dashboard-nav";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
 
 // import { Playlist } from "../data/playlists";
 
@@ -8,7 +10,10 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   // playlists: Playlist[];
 }
 
-export default function Sidebar({ className }: SidebarProps) {
+export default async function Sidebar({ className }: SidebarProps) {
+  const session = (await getServerSession(authOptions)) as any;
+  const role = session?.role;
+
   return (
     <div className={cn("py-16 border", className)}>
       <div className="space-y-4 py-4">
@@ -17,7 +22,7 @@ export default function Sidebar({ className }: SidebarProps) {
             Overview
           </h2>
           <div className="space-y-1">
-            <DashboardNav items={navItems} />
+            <DashboardNav items={navItems(role)} />
           </div>
 
           {/* <ScrollArea className="h-[300px] px-1">

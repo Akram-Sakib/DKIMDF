@@ -10,7 +10,7 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";
-import { Village } from "@prisma/client";
+import { Admin } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -18,7 +18,7 @@ import { useState } from "react";
 import { AlertModal } from "../../ui/modal/alert-modal";
 
 interface CellActionProps {
-  data: Village;
+  data: Admin;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -29,21 +29,21 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const queryClient = useQueryClient();
   const { mutate: deleteMutation, isPending: deleteIsPending } = useMutation({
     mutationFn: async () => {
-      const res = await axiosInstance.delete(`/villages/${data.id}`);
+      const res = await axiosInstance.delete(`/admins/${data.id}`);
       return res;
     },
     onSuccess: (res: any) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.VILLAGES],
+        queryKey: [QueryKeys.ADMINS],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.VILLAGE, data.id],
+        queryKey: [QueryKeys.ADMIN, data.id],
       });
       if (res.success) {
         toast({
           variant: "default",
-          description: "Village has been deleted successfully.",
+          description: "Admin has been deleted successfully.",
         });
       }
       setOpen(false);
@@ -81,7 +81,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
           <DropdownMenuItem
             onClick={() =>
-              router.push(`/dashboard/places/villages/${data.id}`)
+              router.push(`/dashboard/manage-admins/admins/${data.id}`)
             }
           >
             <Edit className="mr-2 h-4 w-4" /> Update

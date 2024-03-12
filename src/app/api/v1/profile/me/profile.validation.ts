@@ -1,6 +1,10 @@
-import { BLOODGROUP, GENDERTYPE } from "@/constants/common";
+import { BLOODGROUP, GENDER } from "@/constants/common";
+import { grandAdminProfileSchema } from "@/schema/profile-schema";
 import { z } from "zod";
 
+const GrandAdminProfileUpdateSchema = z.object({
+  body: grandAdminProfileSchema
+})
 
 const ProfileUpdateSchema = z.object({
   body: z.object({
@@ -9,10 +13,7 @@ const ProfileUpdateSchema = z.object({
     phoneNumber: z.string().optional(),
     email: z.string().optional(),
     imageUrl: z.string().optional(),
-    gender: z.enum([...GENDERTYPE] as [
-      string,
-      ...string[]
-    ])
+    gender: z.enum([...GENDER.map((gn) => gn.value)] as [string, ...string[]])
       .optional(),
     dateOfBirth: z.string().optional(),
     education: z.string().optional(),
@@ -27,12 +28,79 @@ const ProfileUpdateSchema = z.object({
     spouseName: z.string().optional(),
     fathersName: z.string().optional(),
     mothersName: z.string().optional(),
-    presentAddress: z.string().optional(),
-    permanentAddress: z.string().optional(),
+    presentAddress: z.object({
+      countryId: z
+        .string({ required_error: "Country is required" })
+        .min(3)
+        .max(100)
+        .optional(),
+      divisionId: z
+        .string({ required_error: "Division is required" })
+        .min(3)
+        .max(100)
+        .optional(),
+      districtId: z
+        .string({ required_error: "District is required" })
+        .min(3)
+        .max(100)
+        .optional(),
+      postOfficeId: z
+        .string({ required_error: "Post Office is required" })
+        .min(3)
+        .max(100)
+        .optional(),
+      thanaId: z
+        .string({
+          required_error: "Police Station is required",
+        })
+        .min(3)
+        .max(100)
+        .optional(),
+      villageId: z
+        .string({ required_error: "Village is required" })
+        .min(3)
+        .max(100)
+        .optional(),
+    }),
+    permanentAddress: z.object({
+      countryId: z
+        .string({ required_error: "Country is required" })
+        .min(3)
+        .max(100)
+        .optional(),
+      divisionId: z
+        .string({ required_error: "Division is required" })
+        .min(3)
+        .max(100)
+        .optional(),
+      districtId: z
+        .string({ required_error: "District is required" })
+        .min(3)
+        .max(100)
+        .optional(),
+      postOfficeId: z
+        .string({ required_error: "Post Office is required" })
+        .min(3)
+        .max(100)
+        .optional(),
+      thanaId: z
+        .string({
+          required_error: "Police Station is required",
+        })
+        .min(3)
+        .max(100)
+        .optional(),
+      villageId: z
+        .string({ required_error: "Village is required" })
+        .min(3)
+        .max(100)
+        .optional(),
+    }),
     infoVerificationPhoto: z.string().optional(),
   }),
 });
 
 export const ProfileValidation = {
-  ProfileUpdateSchema
+  ProfileUpdateSchema,
+  GrandAdminProfileUpdateSchema
 };

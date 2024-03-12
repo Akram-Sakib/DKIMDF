@@ -1,24 +1,13 @@
+import { QueryKeys } from "@/constants/common";
+import { axiosInstance } from "@/helpers/axiosInstance";
+import { IGenericResponse } from "@/types/common";
+import { Membership } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import FormCheckBox from "../formelements/form-checkbox";
 import FormCldImage from "../formelements/form-cldImage";
-import { Button } from "../ui/button";
-import { useQuery } from "@tanstack/react-query";
-import { QueryKeys } from "@/constants/common";
-import { axiosInstance } from "@/helpers/axiosInstance";
-import { Membership } from "@prisma/client";
-import { IGenericResponse } from "@/types/common";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { Separator } from "../ui/separator";
 import FormMembershipCard from "../formelements/form-membership-card";
+import { Button } from "../ui/button";
 
 const Reconciliation = ({
   handlePrevNextTabs,
@@ -36,7 +25,7 @@ const Reconciliation = ({
   return (
     <div className="space-y-5">
       <FormCldImage
-        name="imageUrl"
+        name="member.imageUrl"
         label="Your Image"
         required
         width="100"
@@ -44,7 +33,7 @@ const Reconciliation = ({
         className="rounded-full"
       />
       <FormCldImage
-        name="infoVerificationPhoto"
+        name="member.infoVerificationPhoto"
         label="Your Driving License or Passport image"
         height="300"
         width="300"
@@ -60,18 +49,18 @@ const Reconciliation = ({
             <FormMembershipCard
               key={membership.id}
               membership={membership}
-              name="membershipId"
+              name="member.membershipId"
               label="Membership"
               required
             />
           ))}
         </div>
       )}
-      <FormCheckBox
-        name="termsAggrement"
+      {/* <FormCheckBox
+        name="member.termsAggrement"
         label="Do you agree with our terms & conditions"
         required
-      />
+      /> */}
       <div className="flex gap-x-4">
         <Button
           onClick={() => handlePrevNextTabs("prev")}

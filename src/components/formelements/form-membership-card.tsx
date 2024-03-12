@@ -2,7 +2,7 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
@@ -30,17 +30,16 @@ const FormMembershipCard = ({
   const { control, getValues, setValue } = useFormContext();
   const selectedId = getValues(name);
 
-  const handleSubscriptionFee = (
-    registrationFee: string,
-    smartCardFee: string,
-    subscriptionFee: string
-  ) => {
-    setValue("subscriptionFee", {
-      registrationFee,
-      smartCardFee,
-      subscriptionFee,
-    });
-  };
+  const handleSubscription = () =>
+    // registrationFee: string,
+    // smartCardFee: string,
+    // subscriptionFee: string
+    {
+      setValue("member.subscription", {
+        // current date
+        startTime: new Date().toISOString(),
+      });
+    };
 
   return (
     <FormField
@@ -51,11 +50,10 @@ const FormMembershipCard = ({
           <FormItem
             onClick={() => {
               setValue(name, membership.id);
-              handleSubscriptionFee(
-                membership.membershipFee.registrationFee,
-                membership.membershipFee.smartCardFee,
-                membership.membershipFee.membershipFee
-              );
+              handleSubscription();
+              // membership.membershipFee.registrationFee,
+              // membership.membershipFee.smartCardFee,
+              // membership.membershipFee.membershipFee
             }}
           >
             <FormControl>

@@ -75,7 +75,12 @@ const FormSelect = ({
             disabled={disabled}
             onValueChange={(selectedValue) => {
               field.onChange(selectedValue);
-              if (name === "superAdmin.authorizationScope") {
+              if (
+                name === "superAdmin.authorizationScope" ||
+                name === "admin.authorizationScope" ||
+                name === "grandAdmin.authorizationScope" ||
+                name === "authorizationScope"
+              ) {
                 router.push(
                   pathname +
                     "?" +

@@ -25,3 +25,4 @@ const CreateMember = async (request: NextRequest) => {
 const handlers = withErrorHandler(CreateMember);
 
 export { handlers as POST };
+

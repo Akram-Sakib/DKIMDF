@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { Heading } from "../../ui/dashboard/heading";
 import { columns } from "./columns";
 import { SuperAdminsTable } from "./super-admins-table";
+import { useSession } from "next-auth/react";
 
 interface ProductsClientProps {
   // data: User[];
@@ -22,7 +23,8 @@ interface ProductsClientProps {
 export const SuperAdminsClient: React.FC<ProductsClientProps> = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-
+  const { status, data: sessionData } = useSession();
+  const role = (sessionData as any)?.role 
   const page = Number(searchParams.get("page")) || 1;
   const limit = Number(searchParams.get("limit")) || 10;
   const search = searchParams.get("search") || null;
@@ -49,11 +51,12 @@ export const SuperAdminsClient: React.FC<ProductsClientProps> = () => {
     content = (
       <SuperAdminsTable
         pageCount={pageCount}
-        searchKey="name"
+        searchKey="email"
         columns={columns}
         data={allData}
         total={total}
         pageNo={page}
+        role={role}
       />
     );
   }
@@ -65,12 +68,16 @@ export const SuperAdminsClient: React.FC<ProductsClientProps> = () => {
           title={`Super Admins (${isLoading ? "0" : total})`}
           description="Manage Super Admins for your business"
         />
-        <Button
-          className="text-xs md:text-sm"
-          onClick={() => router.push(`/dashboard/manage-admins/super-admins/new`)}
-        >
-          <Plus className="mr-2 h-4 w-4" /> Add New
-        </Button>
+        {((status === "authenticated") && (role === "grand_admin")) && (
+          <Button
+            className="text-xs md:text-sm"
+            onClick={() =>
+              router.push(`/dashboard/manage-admins/super-admins/new`)
+            }
+          >
+            <Plus className="mr-2 h-4 w-4" /> Add New
+          </Button>
+        )}
       </div>
       <Separator />
       {content}

@@ -101,7 +101,7 @@ export const QueryKeys = {
 
 export const ACCESS_TOKEN_KEY = "accessToken";
 
-export const ENUM = {
+export const ENUMUSER = {
   GRAND_ADMIN: "grand_admin",
   SUPER_ADMIN: "super_admin",
   ADMIN: "admin",

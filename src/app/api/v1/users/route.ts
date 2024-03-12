@@ -3,8 +3,12 @@ import withErrorHandler from "@/lib/withErrorHandler";
 import httpStatus from "http-status";
 import { UserService } from "./users.service";
 import { NextRequest } from "next/server";
+import auth from "@/lib/authMiddleware";
+import { ENUMUSER } from "@/constants/common";
 
 const GetUsers = async (request: NextRequest, params: any) => {
+
+  await auth([ENUMUSER.GRAND_ADMIN], request);
   const result = await UserService.getUsers();
 
   const data = {
@@ -19,4 +23,4 @@ const GetUsers = async (request: NextRequest, params: any) => {
 
 const handlers = withErrorHandler(GetUsers);
 
-export { handlers as GET}
+export { handlers as GET }

@@ -32,9 +32,9 @@ const SubscriptionPage = () => {
         </Card>
         <Card className="w-[350px]">
           <CardHeader>
-            <CardTitle>Create New Subscription</CardTitle>
+            <CardTitle>Extend Your Subscription</CardTitle>
             <CardDescription>
-              Create new subscription for your account
+              Extend your subscription for more time
             </CardDescription>
           </CardHeader>
           <CardFooter>

@@ -8,20 +8,32 @@ import type { NextRequest } from "next/server";
 //   admin: `${envConfig.siteUrl}/dashboard`,
 // };
 
-const excludePathsForBuyerAndSeller: string[] = [
-    "/dashboard/manage-buyers",
-    "/dashboard/manage-sellers",
-    "/dashboard/manage-admins",
-    "/dashboard/manage-reviews",
-    "/dashboard/categories",
-];
+const onlyForAdmin = (dynamicRoute: string) => {
+    return {
+        routes: ["/dashboard/manage-admins/super-admins"],
+        dynamicRoutes: [
+            `/dashboard/manage-admins/super-admins/${dynamicRoute}`,
+        ]
+    }
+};
 
-const excludePathsForAdminBuyerAndSeller = ["/dashboard/manage-admins"];
+const excludeForMemberAndAdmin = (dynamicRoute: string) => {
+    return {
+        routes: ["/dashboard/manage-admins/super-admins"],
+        dynamicRoutes: [
+            `/dashboard/manage-admins/super-admins/${dynamicRoute}`,
+        ]
+    }
+};
 
-const excludePathsForBuyer: string[] = [
-    "/dashboard/manage-orders",
-    "/dashboard/manage-tasks",
-];
+const excludeForMember = (dynamicRoute: string) => {
+    return {
+        routes: ["/dashboard/manage-admins", "/dashboard/membership", "/dashboard/projects", "/dashboard/news", "/dashboard/gallery", "/dashboard/members", "/dashboard/membership", "/dashboard/places"],
+        dynamicRoutes: [
+
+        ]
+    }
+};
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
@@ -31,50 +43,48 @@ export async function middleware(request: NextRequest) {
         req: request,
     });
 
-    const role = token?.role as string;
-    // console.log(token);
 
-    const isGrandAdmin = role === "seller";
+    // console.log(!token && pathname !== "/login");
+
+    const role = token?.role as string;
+
+    const isGrandAdmin = role === "grand_admin";
     const isSuperAdmin = role === "super_admin";
     const isAdmin = role === "admin";
     const isMember = role === "member";
 
-    //   if (!isSuperAdmin && excludePathsForAdminBuyerAndSeller.includes(pathname)) {
-    //     return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
-    //   }
 
-    //   if (isBuyer && excludePathsForBuyer.includes(pathname)) {
-    //     return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
-    //   }
-
-    //   if (
-    //     (isSeller || isBuyer) &&
-    //     excludePathsForBuyerAndSeller.includes(pathname)
-    //   ) {
-    //     return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
-    //   }
-
-    if (!token && request.nextUrl.pathname !== "/login") {
-        return NextResponse.redirect(new URL("/login", request.nextUrl));
-    } else if (token && request.nextUrl.pathname === "/login") {
+    if (!token && pathname !== "/login") {
+        return NextResponse.redirect(new URL(`/login?from=${pathname}`, request.nextUrl));
+    } else if (token && pathname === "/login") {
         return NextResponse.redirect(new URL("/", request.nextUrl));
+    }
+    
+    // Prioritize Grand Admin check for unrestricted access
+    if (isGrandAdmin) {
+        return NextResponse.next();
+    }
+
+    if (!isGrandAdmin && pathname.startsWith(onlyForAdmin(pathname.split("/")[4]).dynamicRoutes[0])) {
+        return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+    }
+    if (isAdmin || isMember) {
+        const redirectRoute = excludeForMemberAndAdmin(pathname.split("/")[4]).routes.find(route => pathname.startsWith(route));
+        if (redirectRoute) {
+            return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+        }
+    }
+
+    if (isMember) {
+        const redirectRoute = excludeForMember(pathname.split("/")[4]).routes.find(route => pathname.startsWith(route));
+        if (redirectRoute) {
+            return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+        }
     }
 
     return NextResponse.next();
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
-    matcher: ["/projects", "/login:page*", "/dashboard/:page*"],
+    matcher: ["/projects", "/login", "/dashboard/:page*"],
 };
-
-// if (
-//   (role === "admin" && pathname.startsWith("/admin")) ||
-//   (role === "seller" && pathname.startsWith("/seller"))
-// ) {
-//   return NextResponse.next();
-// }
-
-// if (pathname === "/" && role && role in rolesRedirect) {
-//   return NextResponse.redirect(rolesRedirect[role] as string);
-// }

@@ -7,15 +7,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User } from "@/constants/data";
+import { toast } from "@/components/ui/use-toast";
+import { QueryKeys } from "@/constants/common";
+import { axiosInstance } from "@/helpers/axiosInstance";
+import { Member } from "@prisma/client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AlertModal } from "../../ui/modal/alert-modal";
-import { Country } from "@prisma/client";
 
 interface CellActionProps {
-  data: Country;
+  data: Member;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -23,7 +26,40 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const onConfirm = async () => {};
+  const queryClient = useQueryClient();
+  const { mutate: deleteMutation, isPending: deleteIsPending } = useMutation({
+    mutationFn: async () => {
+      const res = await axiosInstance.delete(`/members/${data.id}`);
+      return res;
+    },
+    onSuccess: (res: any) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.MEMBERS],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.MEMBER, data.id],
+      });
+      if (res.success) {
+        toast({
+          variant: "default",
+          description: "Member has been deleted successfully.",
+        });
+      }
+      setOpen(false);
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      });
+    },
+  });
+
+  const onConfirm = async () => {
+    deleteMutation();
+  };
 
   return (
     <>
@@ -31,7 +67,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onConfirm}
-        loading={loading}
+        loading={loading || deleteIsPending}
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -44,7 +80,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/user/${data.id}`)}
+            onClick={() =>
+              router.push(`/dashboard/members/${data.id}`)
+            }
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>

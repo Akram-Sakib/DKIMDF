@@ -6,14 +6,17 @@ import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { superAdminFilterableFields } from "./superAdmin.constants";
 import { SuperAdminService } from "./superAdmin.service";
+import auth from "@/lib/authMiddleware";
+import { ENUMUSER } from "@/constants/common";
 
 export const GET = withErrorHandler(
   async (request: NextRequest, context: any) => {
     const queryParams = getQueryParams(request);
-
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN], request);
+    const user = (request as any).user
     const filters = pick(queryParams, superAdminFilterableFields);
     const options = pick(queryParams, ["limit", "page", "sortBy", "sortOrder"]);
-    const result = await SuperAdminService.getAll(filters, options);
+    const result = await SuperAdminService.getAll(filters, options, user);
 
     const data = {
       statusCode: httpStatus.OK,

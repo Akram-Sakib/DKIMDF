@@ -23,6 +23,7 @@ import { FormComboBox } from "../formelements/form-combobox";
 import FormDatePicker from "../formelements/form-date-picker";
 import PersistForm from "../formelements/user-form";
 import FormCldImage from "../formelements/form-cldImage";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
@@ -47,7 +48,7 @@ const formSchema = z.object({
     authorizationArea: z
       .string()
       .min(2, { message: "Invalid authorization area." }),
-    dateOfBirth: z.string().optional(),
+    dateOfBirth: z.coerce.date().optional(),
     education: z.string().optional(),
     bloodGroup: z
       .enum([...BLOODGROUP.map((group) => group.value)] as [
@@ -61,6 +62,22 @@ const formSchema = z.object({
     fathersName: z.string().optional(),
     mothersName: z.string().optional(),
     spouseName: z.string().optional(),
+  }),
+  presentAddress: z.object({
+    countryId: z.string().optional(),
+    divisionId: z.string().optional(),
+    districtId: z.string().optional(),
+    thanaId: z.string().optional(),
+    postOfficeId: z.string().optional(),
+    villageId: z.string().optional(),
+  }),
+  permanentAddress: z.object({
+    countryId: z.string().optional(),
+    divisionId: z.string().optional(),
+    districtId: z.string().optional(),
+    thanaId: z.string().optional(),
+    postOfficeId: z.string().optional(),
+    villageId: z.string().optional(),
   }),
 });
 
@@ -68,27 +85,40 @@ const formUpdateSchema = z.object({
   phoneNumber: z.string().optional(),
   email: z.string().email({ message: "Invalid email address." }).optional(),
   password: z.string().optional(),
-  superAdmin: z.object({
-    imageUrl: z.string().optional(),
-    firstName: z.string().optional(),
-    lastName: z.string().optional(),
-    authorizationScope: z.string().optional(),
-    authorizationArea: z.string().optional(),
-    dateOfBirth: z.string().optional(),
-    education: z.string().optional(),
-    bloodGroup: z
-      .enum([...BLOODGROUP.map((group) => group.value)] as [
-        string,
-        ...string[]
-      ])
-      .optional(),
-    nidNumber: z.string().optional(),
-    occupation: z.string().optional(),
-    referenceId: z.string().optional(),
-    fathersName: z.string().optional(),
-    mothersName: z.string().optional(),
-    spouseName: z.string().optional(),
+  // superAdmin: z.object({
+  imageUrl: z.string().optional(),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  authorizationScope: z.string().optional(),
+  authorizationArea: z.string().optional(),
+  dateOfBirth: z.coerce.date().optional(),
+  education: z.string().optional(),
+  bloodGroup: z
+    .enum([...BLOODGROUP.map((group) => group.value)] as [string, ...string[]])
+    .optional(),
+  nidNumber: z.string().optional(),
+  occupation: z.string().optional(),
+  referenceId: z.string().optional(),
+  fathersName: z.string().optional(),
+  mothersName: z.string().optional(),
+  spouseName: z.string().optional(),
+  presentAddress: z.object({
+    countryId: z.string().optional(),
+    divisionId: z.string().optional(),
+    districtId: z.string().optional(),
+    thanaId: z.string().optional(),
+    postOfficeId: z.string().optional(),
+    villageId: z.string().optional(),
   }),
+  permanentAddress: z.object({
+    countryId: z.string().optional(),
+    divisionId: z.string().optional(),
+    districtId: z.string().optional(),
+    thanaId: z.string().optional(),
+    postOfficeId: z.string().optional(),
+    villageId: z.string().optional(),
+  }),
+  // }),
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -118,7 +148,7 @@ export const SuperAdminForm: React.FC<FormProps> = ({}) => {
       return data.data;
     },
     queryKey: [QueryKeys.COUNTRIES, params.id],
-    enabled: authorizationScope === "country",
+    // enabled: authorizationScope === "country",
   });
 
   const { data: divisions, isLoading: divisionsLoading } = useQuery({
@@ -128,7 +158,7 @@ export const SuperAdminForm: React.FC<FormProps> = ({}) => {
       return data.data;
     },
     queryKey: [QueryKeys.DIVISIONS, params.id],
-    enabled: authorizationScope === "division",
+    // enabled: authorizationScope === "division",
   });
 
   const { data: districts, isLoading: districtsLoading } = useQuery({
@@ -138,7 +168,7 @@ export const SuperAdminForm: React.FC<FormProps> = ({}) => {
       return data.data;
     },
     queryKey: [QueryKeys.DISTRICTS, params.id],
-    enabled: authorizationScope === "district",
+    // enabled: authorizationScope === "district",
   });
 
   const { data: thanas, isLoading: thanasLoading } = useQuery({
@@ -148,7 +178,7 @@ export const SuperAdminForm: React.FC<FormProps> = ({}) => {
       return data.data;
     },
     queryKey: [QueryKeys.THANAS, params.id],
-    enabled: authorizationScope === "thana",
+    // enabled: authorizationScope === "thana",
   });
 
   const { data: postOffices, isLoading: postOfficesLoading } = useQuery({
@@ -158,7 +188,7 @@ export const SuperAdminForm: React.FC<FormProps> = ({}) => {
       return data.data;
     },
     queryKey: [QueryKeys.POSTOFFICE, params.id],
-    enabled: authorizationScope === "postOffice",
+    // enabled: authorizationScope === "postOffice",
   });
 
   const { data: villages, isLoading: villagesLoading } = useQuery({
@@ -168,7 +198,7 @@ export const SuperAdminForm: React.FC<FormProps> = ({}) => {
       return data.data;
     },
     queryKey: [QueryKeys.VILLAGES, params.id],
-    enabled: authorizationScope === "village",
+    // enabled: authorizationScope === "village",
   });
 
   // set to the authorization scope area which is enabled
@@ -279,7 +309,7 @@ export const SuperAdminForm: React.FC<FormProps> = ({}) => {
   const { mutate: updateMutation, isPending: updateIsPending } = useMutation({
     mutationFn: async (data: any) => {
       const res = await axiosInstance.patch(
-        `/users/${initialData.userId}`,
+        `/super-admins/${initialData.id}`,
         data
       );
       return res;
@@ -430,6 +460,8 @@ export const SuperAdminForm: React.FC<FormProps> = ({}) => {
     }
   };
 
+  const isUpdate = initialData ? "" : "superAdmin.";
+
   // const triggerImgUrlValidation = () => form.trigger("imgUrl");
   // if (isLoading) return <div>Loading...</div>;
   return (
@@ -461,176 +493,338 @@ export const SuperAdminForm: React.FC<FormProps> = ({}) => {
         )}
       </div>
       <Separator />
-      <PersistForm
-        // {...form}
-        formSchema={initialData ? formUpdateSchema : formSchema}
-        onSubmit={onSubmit}
-        defaultValues={defaultValues}
-        formId="superAdminForm"
-        className="space-y-8 w-full"
-      >
-        {/* <form
+      <ScrollArea>
+        <PersistForm
+          // {...form}
+          formSchema={initialData ? formUpdateSchema : formSchema}
+          onSubmit={onSubmit}
+          defaultValues={defaultValues}
+          formId="superAdminForm"
+          className="space-y-8 w-full"
+        >
+          {/* <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         > */}
-        {initialDataLoading ? (
-          <div className="md:grid md:grid-cols-3 gap-8">
-            <div className="space-y-2">
-              <Skeleton className="w-1/2 h-4" />
-              <Skeleton className="w-full h-10" />
+          {initialDataLoading ? (
+            <div className="md:grid md:grid-cols-3 gap-8">
+              <div className="space-y-2">
+                <Skeleton className="w-1/2 h-4" />
+                <Skeleton className="w-full h-10" />
+              </div>
+              <div className="space-y-2">
+                <Skeleton className="w-1/2 h-4" />
+                <Skeleton className="w-full h-10" />
+              </div>
+              {/* <Skeleton className="w-full h-10" /> */}
             </div>
-            <div className="space-y-2">
-              <Skeleton className="w-1/2 h-4" />
-              <Skeleton className="w-full h-10" />
-            </div>
-            {/* <Skeleton className="w-full h-10" /> */}
-          </div>
-        ) : (
-          <div className="md:grid md:grid-cols-3 gap-8">
-            <FormCldImage
-              name="superAdmin.imageUrl"
-              label="Super Admin Image"
-              placeholder="Select Super Admin Image"
-              disabled={loading}
-            />
-            <FormInput
-              name="superAdmin.firstName"
-              label="First Name"
-              placeholder="Enter Super Admins First Name"
-              disabled={loading}
-              required
-            />
-            <FormInput
-              name="superAdmin.lastName"
-              label="Last Name"
-              placeholder="Enter Super Admins Last Name"
-              disabled={loading}
-              required
-            />
-            <FormInput
-              name="phoneNumber"
-              label="Phone Number"
-              placeholder="Enter Super Admins Phone Number"
-              disabled={loading}
-              required
-            />
-            <FormInput
-              name="email"
-              label="Email"
-              placeholder="Enter Super Admins Email"
-              disabled={loading}
-              required
-            />
-            {!initialData && (
-              <FormInput
-                name="password"
-                label="Password"
-                type="password"
-                placeholder="Enter Super Admins Password"
-                disabled={loading}
-                required
-              />
-            )}
-            <FormSelect
-              name="superAdmin.authorizationScope"
-              placeholder="Select Scope of Authorization"
-              label="Super Admin Authorization Scope"
-              options={[
-                { value: "country", label: "Country" },
-                { value: "division", label: "Division" },
-                { value: "district", label: "District" },
-                { value: "thana", label: "Thana" },
-                { value: "postOffice", label: "Post Office" },
-                { value: "village", label: "Village" },
-              ]}
-              disabled={loading}
-              required
-            />
-            <FormComboBox
-              name="superAdmin.authorizationArea"
-              placeholder="Select Area of Authorization"
-              label="Super Admin Authorization Area"
-              options={
-                authorizationArea?.map((area: any) => ({
-                  value: area.id,
-                  label: area.name,
-                })) || []
-              }
-              isLoading={loading || countriesLoading || divisionsLoading}
-              required
-            />
-            <FormDatePicker
-              name="superAdmin.dateOfBirth"
-              label="Date of Birth"
-              placeholder="Select Date of Birth"
-              // disabled={loading}
-            />
-            <FormInput
-              name="superAdmin.education"
-              label="Education"
-              placeholder="Enter Super Admins Education"
-              disabled={loading}
-            />
-            <FormSelect
-              name="superAdmin.bloodGroup"
-              placeholder="Select Blood Group"
-              label="Blood Group"
-              options={BLOODGROUP}
-              disabled={loading}
-            />
-            <FormInput
-              name="superAdmin.nidNumber"
-              label="NID Number"
-              placeholder="Enter Super Admins NID Number"
-              disabled={loading}
-            />
-            <FormInput
-              name="superAdmin.occupation"
-              label="Occupation"
-              placeholder="Enter Super Admins Occupation"
-              disabled={loading}
-            />
-            <FormInput
-              name="superAdmin.referenceId"
-              label="Reference ID"
-              placeholder="Enter Super Admins Reference ID"
-              disabled={loading}
-            />
-            <FormInput
-              name="superAdmin.fathersName"
-              label="Fathers Name"
-              placeholder="Enter Super Admins Fathers Name"
-              disabled={loading}
-            />
-            <FormInput
-              name="superAdmin.mothersName"
-              label="Mothers Name"
-              placeholder="Enter Super Admins Mothers Name"
-              disabled={loading}
-            />
-            <FormInput
-              name="superAdmin.spouseName"
-              label="Spouse Name"
-              placeholder="Enter Super Admins Spouse Name"
-              disabled={loading}
-            />
-          </div>
-        )}
-        <Button
-          disabled={
-            initialDataLoading ||
-            loading ||
-            createIsPending ||
-            updateIsPending ||
-            deleteIsPending
-          }
-          className="ml-auto"
-          type="submit"
-        >
-          {action}
-        </Button>
-        {/* </form> */}
-      </PersistForm>
+          ) : (
+            <>
+              <div className="md:grid md:grid-cols-3 gap-8">
+                <FormCldImage
+                  name={`${isUpdate}imageUrl`}
+                  label="Super Admin Image"
+                  placeholder="Select Super Admin Image"
+                  disabled={loading}
+                />
+                <FormInput
+                  name={`${isUpdate}firstName`}
+                  label="First Name"
+                  placeholder="Enter Super Admins First Name"
+                  disabled={loading}
+                  required
+                />
+                <FormInput
+                  name={`${isUpdate}lastName`}
+                  label="Last Name"
+                  placeholder="Enter Super Admins Last Name"
+                  disabled={loading}
+                  required
+                />
+                <FormInput
+                  name="phoneNumber"
+                  label="Phone Number"
+                  placeholder="Enter Super Admins Phone Number"
+                  disabled={loading}
+                  required
+                />
+                <FormInput
+                  name="email"
+                  label="Email"
+                  placeholder="Enter Super Admins Email"
+                  disabled={loading}
+                  required
+                />
+                {!initialData && (
+                  <FormInput
+                    name="password"
+                    label="Password"
+                    type="password"
+                    placeholder="Enter Super Admins Password"
+                    disabled={loading}
+                    required
+                  />
+                )}
+                <FormSelect
+                  name={`${isUpdate}authorizationScope`}
+                  placeholder="Select Scope of Authorization"
+                  label="Super Admin Authorization Scope"
+                  options={[
+                    { value: "country", label: "Country" },
+                    { value: "division", label: "Division" },
+                    { value: "district", label: "District" },
+                    { value: "thana", label: "Thana" },
+                    { value: "postOffice", label: "Post Office" },
+                    { value: "village", label: "Village" },
+                  ]}
+                  disabled={loading}
+                  required
+                />
+                <FormComboBox
+                  name={`${isUpdate}authorizationArea`}
+                  placeholder="Select Area of Authorization"
+                  label="Super Admin Authorization Area"
+                  options={
+                    authorizationArea?.map((area: any) => ({
+                      value: area.id,
+                      label: area.name,
+                    })) || []
+                  }
+                  isLoading={loading || countriesLoading || divisionsLoading}
+                  required
+                />
+                <FormDatePicker
+                  name={`${isUpdate}dateOfBirth`}
+                  label="Date of Birth"
+                  placeholder="Select Date of Birth"
+                  // disabled={loading}
+                />
+                <FormInput
+                  name={`${isUpdate}education`}
+                  label="Education"
+                  placeholder="Enter Super Admins Education"
+                  disabled={loading}
+                />
+                <FormSelect
+                  name={`${isUpdate}bloodGroup`}
+                  placeholder="Select Blood Group"
+                  label="Blood Group"
+                  options={BLOODGROUP}
+                  disabled={loading}
+                />
+                <FormInput
+                  name={`${isUpdate}nidNumber`}
+                  label="NID Number"
+                  placeholder="Enter Super Admins NID Number"
+                  disabled={loading}
+                />
+                <FormInput
+                  name={`${isUpdate}occupation`}
+                  label="Occupation"
+                  placeholder="Enter Super Admins Occupation"
+                  disabled={loading}
+                />
+                <FormInput
+                  name={`${isUpdate}referenceId`}
+                  label="Reference ID"
+                  placeholder="Enter Super Admins Reference ID"
+                  disabled={loading}
+                />
+                <FormInput
+                  name={`${isUpdate}fathersName`}
+                  label="Fathers Name"
+                  placeholder="Enter Super Admins Fathers Name"
+                  disabled={loading}
+                />
+                <FormInput
+                  name={`${isUpdate}mothersName`}
+                  label="Mothers Name"
+                  placeholder="Enter Super Admins Mothers Name"
+                  disabled={loading}
+                />
+                <FormInput
+                  name={`${isUpdate}spouseName`}
+                  label="Spouse Name"
+                  placeholder="Enter Super Admins Spouse Name"
+                  disabled={loading}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-x-10">
+                <div>
+                  <h2 className="text-2xl font-semibold mb-4">
+                    Present Address
+                  </h2>
+                  <Separator className="mb-4" />
+                  <FormSelect
+                    name="presentAddress.countryId"
+                    label="Country"
+                    options={countries?.data.map((country: any) => ({
+                      label: country.name,
+                      value: country.id,
+                    }))}
+                    loading={countriesLoading}
+                    disabled={countriesLoading || !countries?.data.length}
+                    placeholder="Select Country"
+                    required={true}
+                  />
+                  <FormSelect
+                    name="presentAddress.divisionId"
+                    label="Division"
+                    options={divisions?.data.map((division: any) => ({
+                      label: division.name,
+                      value: division.id,
+                    }))}
+                    loading={divisionsLoading}
+                    disabled={divisionsLoading || !divisions?.data.length}
+                    placeholder="Select Division"
+                    required={true}
+                  />
+                  <FormSelect
+                    name="presentAddress.districtId"
+                    label="District"
+                    options={districts?.data.map((district: any) => ({
+                      label: district.name,
+                      value: district.id,
+                    }))}
+                    loading={districtsLoading}
+                    disabled={districtsLoading || !districts?.data.length}
+                    placeholder="Select District"
+                    required={true}
+                  />
+                  <FormSelect
+                    name="presentAddress.thanaId"
+                    label="Thana"
+                    options={thanas?.data.map((thana: any) => ({
+                      label: thana.name,
+                      value: thana.id,
+                    }))}
+                    loading={thanasLoading}
+                    disabled={thanasLoading || !thanas?.data.length}
+                    placeholder="Select Thana"
+                    required={true}
+                  />
+                  <FormSelect
+                    name="presentAddress.postOfficeId"
+                    label="Post Office"
+                    options={postOffices?.data.map((postOffice: any) => ({
+                      label: postOffice.name,
+                      value: postOffice.id,
+                    }))}
+                    loading={postOfficesLoading}
+                    disabled={postOfficesLoading || !postOffices?.data.length}
+                    placeholder="Select Post Office"
+                    required={true}
+                  />
+                  <FormSelect
+                    name="presentAddress.villageId"
+                    label="Village"
+                    options={villages?.data.map((village: any) => ({
+                      label: village.name,
+                      value: village.id,
+                    }))}
+                    loading={villagesLoading}
+                    disabled={villagesLoading || !villages?.data.length}
+                    placeholder="Select Village"
+                    required={true}
+                  />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-semibold mb-4">
+                    Permanent Address
+                  </h2>
+                  <Separator className="mb-4" />
+                  <FormSelect
+                    name="permanentAddress.countryId"
+                    label="Country"
+                    options={countries?.data.map((country: any) => ({
+                      label: country.name,
+                      value: country.id,
+                    }))}
+                    loading={countriesLoading}
+                    disabled={countriesLoading || !countries?.data.length}
+                    placeholder="Select Country"
+                    required={true}
+                  />
+                  <FormSelect
+                    name="permanentAddress.divisionId"
+                    label="Division"
+                    options={divisions?.data.map((division: any) => ({
+                      label: division.name,
+                      value: division.id,
+                    }))}
+                    loading={divisionsLoading}
+                    disabled={divisionsLoading || !divisions?.data.length}
+                    placeholder="Select Division"
+                    required={true}
+                  />
+                  <FormSelect
+                    name="permanentAddress.districtId"
+                    label="District"
+                    options={districts?.data.map((district: any) => ({
+                      label: district.name,
+                      value: district.id,
+                    }))}
+                    loading={districtsLoading}
+                    disabled={districtsLoading || !districts?.data.length}
+                    placeholder="Select District"
+                    required={true}
+                  />
+                  <FormSelect
+                    name="permanentAddress.thanaId"
+                    label="Thana"
+                    options={thanas?.data.map((thana: any) => ({
+                      label: thana.name,
+                      value: thana.id,
+                    }))}
+                    loading={thanasLoading}
+                    disabled={thanasLoading || !thanas?.data.length}
+                    placeholder="Select Thana"
+                    required={true}
+                  />
+                  <FormSelect
+                    name="permanentAddress.postOfficeId"
+                    label="Post Office"
+                    options={postOffices?.data.map((postOffice: any) => ({
+                      label: postOffice.name,
+                      value: postOffice.id,
+                    }))}
+                    loading={postOfficesLoading}
+                    disabled={postOfficesLoading || !postOffices?.data.length}
+                    placeholder="Select Post Office"
+                    required={true}
+                  />
+                  <FormSelect
+                    name="permanentAddress.villageId"
+                    label="Village"
+                    options={villages?.data.map((village: any) => ({
+                      label: village.name,
+                      value: village.id,
+                    }))}
+                    loading={villagesLoading}
+                    disabled={villagesLoading || !villages?.data.length}
+                    placeholder="Select Village"
+                    required={true}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+          <Button
+            disabled={
+              initialDataLoading ||
+              loading ||
+              createIsPending ||
+              updateIsPending ||
+              deleteIsPending
+            }
+            className="ml-auto"
+            type="submit"
+          >
+            {action}
+          </Button>
+          {/* </form> */}
+        </PersistForm>
+      </ScrollArea>
     </>
   );
 };

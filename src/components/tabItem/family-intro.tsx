@@ -11,17 +11,17 @@ const FamilyIntro = ({
   return (
     <div className="space-y-5">
       <FormInput
-        name="fathersName"
+        name="member.fathersName"
         label="Father Name"
         placeholder="Father Name"
       />
       <FormInput
-        name="mothersName"
+        name="member.mothersName"
         label="Mother Name"
         placeholder="Mother Name"
       />
       <FormInput
-        name="spouseName"
+        name="member.spouseName"
         label="Spouse Name"
         placeholder="Spouse Name"
       />

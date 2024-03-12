@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import FormSelect from "../formelements/form-select";
 import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
 
 const ProfileAddressTab = ({
   goToPreviousStep,
@@ -28,6 +29,7 @@ const ProfileAddressTab = ({
       const response = await axiosInstance.get("/divisions?limit=1000");
       return response.data;
     },
+    enabled: countries?.data.length > 0,
   });
 
   const { data: districts, isLoading: DistrictsLoading } = useQuery({
@@ -36,6 +38,7 @@ const ProfileAddressTab = ({
       const response = await axiosInstance.get("/districts?limit=1000");
       return response.data;
     },
+    enabled: divisions?.data.length > 0,
   });
 
   const { data: thanas, isLoading: ThanasLoading } = useQuery({
@@ -44,6 +47,7 @@ const ProfileAddressTab = ({
       const response = await axiosInstance.get("/thana?limit=1000");
       return response.data;
     },
+    enabled: districts?.data.length > 0,
   });
 
   const { data: postOffices, isLoading: PostOfficesLoading } = useQuery({
@@ -52,6 +56,7 @@ const ProfileAddressTab = ({
       const response = await axiosInstance.get("/post-offices?limit=1000");
       return response.data;
     },
+    enabled: thanas?.data.length > 0,
   });
 
   const { data: villages, isLoading: VillagesLoading } = useQuery({
@@ -60,13 +65,15 @@ const ProfileAddressTab = ({
       const response = await axiosInstance.get("/villages?limit=1000");
       return response.data;
     },
+    enabled: postOffices?.data.length > 0,
   });
 
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-2 gap-x-10 gap-y-4">
         <div>
-          <h2 className="text-xl font-semibold mb-4">Present Address</h2>
+          <h2 className="text-2xl font-semibold mb-4">Present Address</h2>
+          <Separator className="mb-4" />
           <FormSelect
             name="presentAddress.countryId"
             label="Country"
@@ -75,7 +82,7 @@ const ProfileAddressTab = ({
               value: country.id,
             }))}
             loading={CountriesLoading}
-            disabled={CountriesLoading}
+            disabled={CountriesLoading || !countries?.data.length}
             placeholder="Select Country"
             required={true}
           />
@@ -87,7 +94,7 @@ const ProfileAddressTab = ({
               value: division.id,
             }))}
             loading={DivisionsLoading}
-            disabled={DivisionsLoading}
+            disabled={DivisionsLoading || !divisions?.data.length}
             placeholder="Select Division"
             required={true}
           />
@@ -99,7 +106,7 @@ const ProfileAddressTab = ({
               value: district.id,
             }))}
             loading={DistrictsLoading}
-            disabled={DistrictsLoading}
+            disabled={DistrictsLoading || !districts?.data.length}
             placeholder="Select District"
             required={true}
           />
@@ -111,7 +118,7 @@ const ProfileAddressTab = ({
               value: thana.id,
             }))}
             loading={ThanasLoading}
-            disabled={ThanasLoading}
+            disabled={ThanasLoading || !thanas?.data.length}
             placeholder="Select Thana"
             required={true}
           />
@@ -123,7 +130,7 @@ const ProfileAddressTab = ({
               value: postOffice.id,
             }))}
             loading={PostOfficesLoading}
-            disabled={PostOfficesLoading}
+            disabled={PostOfficesLoading || !postOffices?.data.length}
             placeholder="Select Post Office"
             required={true}
           />
@@ -135,13 +142,14 @@ const ProfileAddressTab = ({
               value: village.id,
             }))}
             loading={VillagesLoading}
-            disabled={VillagesLoading}
+            disabled={VillagesLoading || !villages?.data.length}
             placeholder="Select Village"
             required={true}
           />
         </div>
         <div>
-          <h2 className="text-xl font-semibold mb-4">Permanent Address</h2>
+          <h2 className="text-2xl font-semibold mb-4">Permanent Address</h2>
+          <Separator className="mb-4" />
           <FormSelect
             name="permanentAddress.countryId"
             label="Country"
@@ -150,7 +158,7 @@ const ProfileAddressTab = ({
               value: country.id,
             }))}
             loading={CountriesLoading}
-            disabled={CountriesLoading}
+            disabled={CountriesLoading || !countries?.data.length}
             placeholder="Select Country"
             required={true}
           />
@@ -162,7 +170,7 @@ const ProfileAddressTab = ({
               value: division.id,
             }))}
             loading={DivisionsLoading}
-            disabled={DivisionsLoading}
+            disabled={DivisionsLoading || !divisions?.data.length}
             placeholder="Select Division"
             required={true}
           />
@@ -174,7 +182,7 @@ const ProfileAddressTab = ({
               value: district.id,
             }))}
             loading={DistrictsLoading}
-            disabled={DistrictsLoading}
+            disabled={DistrictsLoading || !districts?.data.length}
             placeholder="Select District"
             required={true}
           />
@@ -186,7 +194,7 @@ const ProfileAddressTab = ({
               value: thana.id,
             }))}
             loading={ThanasLoading}
-            disabled={ThanasLoading}
+            disabled={ThanasLoading || !thanas?.data.length}
             placeholder="Select Thana"
             required={true}
           />
@@ -198,7 +206,7 @@ const ProfileAddressTab = ({
               value: postOffice.id,
             }))}
             loading={PostOfficesLoading}
-            disabled={PostOfficesLoading}
+            disabled={PostOfficesLoading || !postOffices?.data.length}
             placeholder="Select Post Office"
             required={true}
           />
@@ -210,7 +218,7 @@ const ProfileAddressTab = ({
               value: village.id,
             }))}
             loading={VillagesLoading}
-            disabled={VillagesLoading}
+            disabled={VillagesLoading || !villages?.data.length}
             placeholder="Select Village"
             required={true}
           />

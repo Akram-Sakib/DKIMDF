@@ -1,9 +1,14 @@
 import prisma from "@/lib/prisma";
-import { Admin, Member, PermanentAddress, PresentAddress, SuperAdmin, User } from "@prisma/client";
-import { type NextRequest, type NextResponse } from "next/server";
+import { Admin, GrandAdmin, Member, PermanentAddress, PresentAddress, SuperAdmin, User } from "@prisma/client";
+import { type NextRequest } from "next/server";
 import { calculateEndTime } from "../subscription/subscription.utils";
 // @ts-ignore-next-line
-import SSLCommerzPayment from 'sslcommerz-lts';
+import { dataConfig, sslConfig } from "@/config/sslConfig";
+import { generateTransactionId } from "@/utils/generateTransactionId";
+import { ENUMUSER } from "@/constants/common";
+import { JwtPayload } from "jsonwebtoken";
+import httpStatus from "http-status";
+import ApiError from "@/errors/apiError";
 
 const getUsers = async (): Promise<User[]> => {
   const result = await prisma.user.findMany({
@@ -12,6 +17,9 @@ const getUsers = async (): Promise<User[]> => {
       admin: true,
       superAdmin: true,
     },
+    orderBy: {
+      createdAt: "desc"
+    }
   });
 
   return result;
@@ -43,10 +51,10 @@ const createMember = async (
   // create user and member in a transaction to ensure data integrity
   const newData = await prisma.$transaction(async (transactionClient) => {
 
-
+    // @ts-ignore
     const { subscription, ...restMemberData } = member;
 
-    const { subscriptionFee: subscriptionFeePayload, ...restSubscriptionData } = subscription;
+    // const { startTime, endTime } = subscription;
 
     const userData = await transactionClient.user.create({
       data: user,
@@ -67,25 +75,27 @@ const createMember = async (
 
 
     const memberData = await transactionClient.member.create({
-      data: { ...restMemberData, userId: userData.id, presentAddressId: presentAddressData.id, permanentAddressId: permanentAddressData.id },
+      data: { ...restMemberData, userId: userData.id, presentAddressId: presentAddressData.id, permanentAddressId: permanentAddressData.id, registrationAddress: "permanent" },
       include: {
         presentAddress: true,
         permanentAddress: true,
       }
     });
 
-    // // create subscription
-    const { registrationFee, smartCardFee, subscriptionFee } =
-      subscriptionFeePayload;
-    const totalFee =
-      Number(registrationFee) + Number(smartCardFee) + Number(subscriptionFee);
+    // create subscription
+    // const { registrationFee, smartCardFee, subscriptionFee } =
+    //   subscriptionFeePayload;
+    // const totalFee =
+    //   Number(registrationFee) + Number(smartCardFee) + Number(subscriptionFee);
 
-    subscriptionFeePayload.totalFee = String(totalFee);
+    // subscriptionFeePayload.totalFee = String(totalFee);
 
     // get the membership fee from membership table
+    console.log(restMemberData.membershipId);
+
     const membership = await transactionClient.membership.findUnique({
       where: {
-        id: subscription.membershipId,
+        id: restMemberData.membershipId,
       },
       include: {
         membershipFee: true,
@@ -96,39 +106,82 @@ const createMember = async (
       throw new Error("Membership not found");
     }
 
-    calculateEndTime(membership, restSubscriptionData);
 
-    // calculate the total fee
-    const { totalFee: membershipTotalFee } = membership.membershipFee;
 
-    if (membershipTotalFee !== subscriptionFeePayload.totalFee) {
-      throw new Error("Invalid subscription fee");
-    }
-
-    const subscriptionFeeData = await transactionClient.subscriptionFee.create({
-      data: subscriptionFeePayload,
+    // handle payment
+    let transactionId = generateTransactionId();
+    const paymentPayloadInfo = dataConfig({
+      total_amount: Number(membership.membershipFee.totalFee),
+      memberId: memberData.userId,
+      tran_id: transactionId,
+      membershipId: restMemberData.membershipId,
+      success_url: `http://localhost:3000/api/v1/payments/subscription/success?tran_id=${transactionId}`,
+      fail_url: `http://localhost:3000/api/v1/payments/subscription/fail?tran_id=${transactionId}`,
+      cancel_url: "http://localhost:3000/api/v1/payments/subscription/cancel",
+      product_name: membership.title,
+      product_category: "mobile",
+      cus_name: memberData.firstName + " " + memberData.lastName,
+      cus_email: memberData.email,
+      cus_add1: "Lalmonirhat",
+      cus_phone: memberData.phoneNumber,
     });
+    const result = await sslConfig.init(paymentPayloadInfo);
 
-    if (!subscriptionFeeData) {
-      throw new Error("Unable to create subscription fee");
+    let paymentGatewayPageURL = "";
+    let subscriptionData = null;
+    if (!result.GatewayPageURL || result.status === "FAILED") {
+      // return NextResponse.json({ message: result.failedreason });
+    } else if (result.status === "SUCCESS") {
+
+      calculateEndTime(membership, subscription);
+
+      // calculate the total fee
+      const { registrationFee,
+        smartCardFee, membershipFee, totalFee } = membership.membershipFee;
+
+      // if (membershipTotalFee !== subscriptionFeePayload.totalFee) {
+      //   throw new Error("Invalid subscription fee");
+      // }
+
+
+      const subscriptionFeeData = await transactionClient.subscriptionFee.create({
+        data: {
+          registrationFee,
+          smartCardFee,
+          subscriptionFee: membershipFee,
+          isPaid: false,
+          transactionId,
+          totalFee
+        },
+      });
+
+      // console.log(subscriptionFeeData);
+
+
+      if (!subscriptionFeeData) {
+        throw new Error("Unable to create subscription fee");
+      }
+
+      const subscriptionData = await transactionClient.subscription.create({
+        data: {
+          ...subscription,
+          memberId: memberData.userId,
+          subscriptionFeeId: subscriptionFeeData.id,
+          membershipId: membership.id,
+        },
+        include: {
+          subscriptionFee: true,
+        },
+      });
+
+      if (!subscriptionData) {
+        throw new Error("Unable to create subscription");
+      }
+
+      paymentGatewayPageURL = result.GatewayPageURL
     }
 
-    const subscriptionData = await transactionClient.subscription.create({
-      data: {
-        ...restSubscriptionData,
-        memberId: memberData.userId,
-        subscriptionFeeId: subscriptionFeeData.id,
-      },
-      include: {
-        subscriptionFee: true,
-      },
-    });
-
-    if (!subscriptionData) {
-      throw new Error("Unable to create subscription");
-    }
-
-    return { ...userData, member: memberData, subscription: subscriptionData };
+    return { ...userData, member: memberData, paymentGatewayPageURL, subscription: subscriptionData };
   }, {
     // maxWait: 20000,
     timeout: 50000
@@ -143,6 +196,8 @@ const createMember = async (
 
 const createSuperAdmin = async (
   superAdmin: Member,
+  presentAddress: PresentAddress,
+  permanentAddress: PermanentAddress,
   user: User,
   req: NextRequest
 ): Promise<Omit<User, "password">> => {
@@ -170,8 +225,23 @@ const createSuperAdmin = async (
       data: user,
     });
 
+    const presentAddressData = await transactionClient.presentAddress.create({
+      data: {
+        ...presentAddress, userId: userData.id
+      },
+    });
+
+    const permanentAddressData = await transactionClient.permanentAddress.create({
+      data: {
+        ...permanentAddress, userId: userData.id
+      },
+    });
+
     const superAdminData = await transactionClient.superAdmin.create({
-      data: { ...superAdmin, userId: userData.id },
+      data: {
+        ...superAdmin, userId: userData.id, presentAddressId: presentAddressData.id,
+        permanentAddressId: permanentAddressData.id
+      },
     });
 
     return { ...userData, superAdmin: superAdminData };
@@ -186,19 +256,49 @@ const createSuperAdmin = async (
 
 const createAdmin = async (
   admin: Admin,
+  presentAddress: PresentAddress,
+  permanentAddress: PermanentAddress,
   user: User,
+  jwtPayload: JwtPayload,
   req: NextRequest
 ): Promise<Omit<User, "password">> => {
+  // const userId = jwtPayload?.userId
+  // const userRole = jwtPayload?.role
+
   const existingUser = await prisma.user.findFirst({
     where: {
       phoneNumber: user?.phoneNumber,
     },
   });
-  admin;
+
   // check if user already exists
   if (existingUser) {
     throw new Error("User already exists");
   }
+
+  // Check Authorization Scope
+  // let userData: any = null
+  // if (userRole === ENUMUSER.SUPER_ADMIN) {
+  //   userData = await prisma.superAdmin.findFirst({
+  //     where: {
+  //       userId
+  //     }
+  //   });
+  // }
+
+
+
+  // const authorizationScope = userData?.authorizationScope;
+  // const authorizationArea = userData?.authorizationArea;
+
+  // if (authorizationScope && authorizationArea) {
+  //   if ((admin.authorizationScope !== authorizationScope) || (admin.authorizationArea !== authorizationArea)) {
+  //     throw new ApiError(
+  //       httpStatus.FORBIDDEN,
+  //       'You are not authorized to create admin for this area!'
+  //     );
+  //   }
+  // }
 
   // set role
   user.role = "admin";
@@ -211,8 +311,23 @@ const createAdmin = async (
       data: user,
     });
 
+    const presentAddressData = await transactionClient.presentAddress.create({
+      data: {
+        ...presentAddress, userId: userData.id
+      },
+    });
+
+    const permanentAddressData = await transactionClient.permanentAddress.create({
+      data: {
+        ...permanentAddress, userId: userData.id
+      },
+    });
+
     const adminData = await transactionClient.admin.create({
-      data: { ...admin, userId: userData.id },
+      data: {
+        ...admin, userId: userData.id, presentAddressId: presentAddressData.id,
+        permanentAddressId: permanentAddressData.id
+      },
     });
 
     return { ...userData, admin: adminData };
@@ -224,6 +339,47 @@ const createAdmin = async (
 
   return newData;
 };
+
+const createGrandAdmin = async (
+  grandAdmin: GrandAdmin,
+  user: User,
+  req: NextRequest
+): Promise<Omit<User, "password">> => {
+  const existingUser = await prisma.user.findFirst({
+    where: {
+      phoneNumber: user?.phoneNumber,
+    },
+  });
+  grandAdmin;
+  // check if user already exists
+  if (existingUser) {
+    throw new Error("User already exists");
+  }
+
+  // set role
+  user.role = "grand_admin";
+  grandAdmin.phoneNumber = user.phoneNumber;
+  grandAdmin.email = user.email || null;
+
+  // create user and grandAdmin in a transaction to ensure data integrity
+  const newData = await prisma.$transaction(async (transactionClient) => {
+    const userData = await transactionClient.user.create({
+      data: user,
+    });
+
+    const grandAdminData = await transactionClient.grandAdmin.create({
+      data: { ...grandAdmin, userId: userData.id },
+    });
+
+    return { ...userData, grandAdmin: grandAdminData };
+  });
+
+  if (!newData) {
+    throw new Error("Unable to create Grand Admin");
+  }
+
+  return newData;
+}
 
 const updateUser = async (
   id: string,
@@ -262,7 +418,7 @@ const updateUser = async (
       return { ...userData, admin: adminData };
     }
 
-    
+
 
     if (member) {
       const memberData = await transactionClient.member.update({
@@ -293,6 +449,7 @@ export const deleteUser = async (id: string): Promise<User> => {
 
 export const UserService = {
   createSuperAdmin,
+  createGrandAdmin,
   createAdmin,
   createMember,
   getUsers,

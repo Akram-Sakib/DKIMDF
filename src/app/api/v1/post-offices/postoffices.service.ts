@@ -11,7 +11,7 @@ const create = async (data: PostOffice, user: JwtPayload): Promise<PostOffice> =
   const userId = user.userId;
   const newData = await prisma.postOffice.create({
     data: {
-      ...data, userId
+      ...data, userId,
     },
   });
 

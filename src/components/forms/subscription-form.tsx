@@ -83,12 +83,14 @@ export const SubscriptionForm: React.FC<FormProps> = ({}) => {
       });
 
       if (res.success) {
+        console.log(res.data);
+
         toast({
           variant: "default",
           title: toastMessage,
-          description: "Subscription has been created successfully.",
+          description: "Subscription has been extended successfully.",
         });
-        router.push(`/dashboard/subscription/list`);
+        window.location.replace(res.data.paymentGatewayPageURL);
       } else {
         toast({
           variant: "destructive",

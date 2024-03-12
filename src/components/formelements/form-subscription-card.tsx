@@ -44,7 +44,7 @@ const FormSubscriptionCard = ({
 }: FormInputProps) => {
   const { control, getValues, setValue } = useFormContext();
   const selectedId = getValues(name);
-  console.log(new Date().getTime());
+  // console.log(new Date().getTime());
 
   const handleSubscriptionFee = (subscriptionFee: string) => {
     setValue("subscriptionFee", {

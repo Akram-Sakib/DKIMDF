@@ -5,12 +5,13 @@ import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { PostOfficeService } from "../postOffices.service";
 import { PostOfficeValidation } from "../postOffices.validation";
+import auth from "@/lib/authMiddleware";
+import { ENUMUSER } from "@/constants/common";
 
 export const GET = withErrorHandler(async (request, context) => {
+  await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], request);
   const { id } = context.params;
-
   const result = await PostOfficeService.getById(id);
-
   const data = {
     statusCode: httpStatus.OK,
     success: true,
@@ -30,6 +31,8 @@ export const PATCH = withErrorHandler(
       params: { id: string };
     }
   ) => {
+
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
     const { id } = params;
     const body = await req.json();
     await PostOfficeValidation.PostOfficeUpdateSchema.parseAsync({
@@ -55,6 +58,8 @@ export const DELETE = withErrorHandler(
       params: { id: string };
     }
   ) => {
+
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
     const { id } = params;
     const result = await PostOfficeService.deleteById(id);
 

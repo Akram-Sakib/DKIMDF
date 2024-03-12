@@ -1,24 +1,33 @@
 "use client";
 
-import { useState } from "react";
-import { Separator } from "../separator";
-import { Heading } from "./heading";
-import Stepper from "../stepper/stepper";
-import PersistForm from "../../formelements/user-form";
-import FormInput from "../../formelements/form-input";
-import { z } from "zod";
-import { Button } from "../button";
+import FormCldImage from "@/components/formelements/form-cldImage";
+import ProfileAddressTab from "@/components/tabItem/profile-address-tab";
+import { BLOODGROUP, GENDER, QueryKeys } from "@/constants/common";
+import { axiosInstance } from "@/helpers/axiosInstance";
 import { cn } from "@/lib/utils";
+// import { memberSchema } from "@/schema/form-schema";
+import CertificatePdf from "@/components/pdf/certificate";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ArrowDown } from "lucide-react";
+import { useState } from "react";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import FormDatePicker from "../../formelements/form-date-picker";
+import FormInput from "../../formelements/form-input";
 import FormSelect from "../../formelements/form-select";
-import { BLOODGROUP, GENDER, QueryKeys } from "@/constants/common";
-import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "@/helpers/axiosInstance";
-import { IGenericResponse } from "@/types/common";
-import ProfileAddressTab from "@/components/tabItem/profile-address-tab";
-import { memberSchema } from "@/schema/form-schema";
-import FormCldImage from "@/components/formelements/form-cldImage";
+import PersistForm from "../../formelements/user-form";
+import { Button } from "../button";
+import { Separator } from "../separator";
+import Stepper from "../stepper/stepper";
+import { toast } from "../use-toast";
+import { Heading } from "./heading";
+import { useSession } from "next-auth/react";
+import {
+  adminProfileSchema,
+  grandAdminProfileSchema,
+  memberProfileSchema,
+  superAdminProfileSchema,
+} from "@/schema/profile-schema";
 
 const CreateProfileOne = () => {
   const title = "Profile";
@@ -26,6 +35,16 @@ const CreateProfileOne = () => {
 
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+  const { data: sessionData, status } = useSession() as any;
+  const role = sessionData?.role;
+
+  const schema =
+    (role === "grand_admin" && grandAdminProfileSchema) ||
+    (role === "super_admin" && superAdminProfileSchema) ||
+    (role === "admin" && adminProfileSchema) ||
+    (role === "member" && memberProfileSchema);
+
+  // console.log(status === "authenticated" && schema);
 
   const steps = [
     "Personal Details",
@@ -39,22 +58,63 @@ const CreateProfileOne = () => {
   const goToPreviousStep = () =>
     setCurrentStep((prev) => (prev <= 0 ? prev : prev - 1));
 
-  const onSubmit = (values: { [x: string]: any }): void => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  };
-
   const { data: initialData, isLoading } = useQuery({
     queryKey: [QueryKeys.PROFILE],
     queryFn: async () => {
       const res = await axiosInstance.get(`/profile/me`);
-      return res.data as IGenericResponse<any>;
+      return res.data as any;
     },
   });
 
-  console.log(initialData);
-  
+  const queryClient = useQueryClient();
+  const { mutate: updateMutation, isPending: updateIsPending } = useMutation({
+    mutationFn: async (data: any) => {
+      const res = await axiosInstance.patch(`/profile/me`, data);
+      return res;
+    },
+    onSuccess: (res: any) => {
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.PROFILE],
+      });
+
+      if (res.success) {
+        toast({
+          variant: "default",
+          title: "Profile Updated",
+          description: "Your profile has been updated successfully.",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: res.message,
+          description: "There was a problem with your request.",
+        });
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      });
+    },
+  });
+
+  const onSubmit = (values: { [x: string]: any }): void => {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+
+    setLoading(true);
+    try {
+      // if (initialData) {
+      updateMutation(values);
+      // }
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
+  // console.log(initialData);
 
   const defaultValues = initialData ? initialData : {};
 
@@ -62,6 +122,23 @@ const CreateProfileOne = () => {
     <>
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
+
+        <PDFDownloadLink
+          document={
+            <CertificatePdf
+              name={`${initialData?.firstName} ${initialData?.lastName}`}
+            />
+          }
+          fileName="dkidmf-certificate.pdf"
+        >
+          <Button
+            className="text-xs md:text-sm"
+            // onClick={() => router.push(`/dashboard/membership/list/new`)}
+          >
+            <ArrowDown className="mr-2 h-4 w-4" />
+            Download Certificate
+          </Button>
+        </PDFDownloadLink>
       </div>
       <Separator />
       <div>
@@ -71,7 +148,7 @@ const CreateProfileOne = () => {
         <PersistForm
           onSubmit={onSubmit}
           defaultValues={defaultValues}
-          formSchema={memberSchema}
+          formSchema={status === "authenticated" && schema}
           className="mt-20 md:w-1/2"
           formId="create-profile"
         >

@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";
 import { IGenericResponse } from "@/types/common";
-import { Village } from "@prisma/client";
+import { Admin } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Heading } from "../../ui/dashboard/heading";
@@ -28,19 +28,19 @@ export const AdminsClient: React.FC<ProductsClientProps> = () => {
   const search = searchParams.get("search") || null;
 
   const { data, isLoading } = useQuery({
-    queryKey: [QueryKeys.VILLAGES],
+    queryKey: [QueryKeys.ADMINS],
     queryFn: async () => {
       const res = await axiosInstance.get(
-        `/villages?page=${page}&limit=${limit}` +
+        `/admins?page=${page}&limit=${limit}` +
           (search ? `&search=${search}` : ``)
       );
-      return res.data as IGenericResponse<Village[]>;
+      return res.data as IGenericResponse<Admin[]>;
     },
   });
 
   const pageCount = data?.meta?.total as number;
   const total = data?.meta?.total as number;
-  const allData = data?.data as Village[];
+  const allData = data?.data as Admin[];
 
   let content = null;
   if (isLoading) {
@@ -62,12 +62,12 @@ export const AdminsClient: React.FC<ProductsClientProps> = () => {
     <>
       <div className="flex items-start justify-between">
         <Heading
-          title={`Villages (${ isLoading ? "0" :total})`}
-          description="Manage villages for your business"
+          title={`Admins (${isLoading ? "0" : total})`}
+          description="Manage Admins for your business"
         />
         <Button
           className="text-xs md:text-sm"
-          onClick={() => router.push(`/dashboard/places/villages/new`)}
+          onClick={() => router.push(`/dashboard/manage-admins/admins/new`)}
         >
           <Plus className="mr-2 h-4 w-4" /> Add New
         </Button>

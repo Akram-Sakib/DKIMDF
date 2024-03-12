@@ -19,6 +19,7 @@ import { Heading } from "../ui/dashboard/heading";
 import { AlertModal } from "../ui/modal/alert-modal";
 import { Skeleton } from "../ui/skeleton";
 import { useToast } from "../ui/use-toast";
+import { Icons } from "../icons";
 
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
@@ -26,7 +27,6 @@ const formSchema = z.object({
     .string()
     .min(2, { message: "Police Station name must be at least 2 characters." }),
   districtId: z.string().min(2, { message: "Please select a district" }),
-  userId: z.string().min(1, { message: "Please enter a user id" }),
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -192,7 +192,6 @@ export const PoliceStationForm: React.FC<FormProps> = ({}) => {
     ? initialData
     : {
         name: "",
-        userId: "",
         districtId: "",
       };
 
@@ -308,13 +307,6 @@ export const PoliceStationForm: React.FC<FormProps> = ({}) => {
                 loading={districtLoading}
                 required
               />
-              <FormInput
-                name="userId"
-                label="User Id"
-                placeholder="Enter User Id"
-                disabled={loading}
-                required
-              />
             </div>
           )}
           <Button
@@ -328,6 +320,9 @@ export const PoliceStationForm: React.FC<FormProps> = ({}) => {
             className="ml-auto"
             type="submit"
           >
+            {/* {(createIsPending || updateIsPending) && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )} */}
             {action}
           </Button>
         </form>

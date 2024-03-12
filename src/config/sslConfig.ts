@@ -17,9 +17,11 @@ interface Props {
     product_name: string;
     product_category: string;
     cus_name: string;
-    cus_email: string;
+    cus_email: string | null;
     cus_add1: string;
     cus_phone: string;
+    memberId: string;
+    membershipId: string;
 }
 export const dataConfig = ({
     total_amount,
@@ -33,10 +35,13 @@ export const dataConfig = ({
     cus_email,
     cus_add1,
     cus_phone,
+    memberId,
+    membershipId,
 }: Props) => {
     const data = {
         total_amount,
         tran_id, // use unique tran_id for each api call
+        membershipId,
         currency: "BDT",
         success_url,
         fail_url,
@@ -63,6 +68,7 @@ export const dataConfig = ({
         ship_state: "Dhaka",
         ship_postcode: 1000,
         ship_country: "Bangladesh",
+        memberId,
     };
     return data;
 };

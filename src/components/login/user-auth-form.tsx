@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
@@ -33,34 +33,41 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const searchParams = useSearchParams();
+  const router = useRouter();
 
-  async function onSubmit(data: FormData) {
+  const onSubmit = (data: FormData) => {
     setIsLoading(true);
 
-    const signInResult = await signIn("my-app-credentials", {
+    signIn("my-app-credentials", {
       email: data.email,
       // phoneNumber: data.phoneNumber,
       password: data.password,
-      redirect: true,
-      callbackUrl: searchParams?.get("from") || "/dashboard",
-    });
+      redirect: false,
+      // callbackUrl: searchParams?.get("from") || "/dashboard",
+    })
+      .then((res) => {
+        if (!res?.ok) {
+          return toast({
+            title: "Something went wrong.",
+            description: "Your sign in request failed. Please try again.",
+            variant: "destructive",
+          });
+        }
 
-    setIsLoading(false);
-    console.log(signInResult);
-    
-    if (!signInResult?.ok) {
-      return toast({
-        title: "Something went wrong.",
-        description: "Your sign in request failed. Please try again.",
-        variant: "destructive",
+        toast({
+          title: "Sign In Successful",
+          description: "You have successfully signed in.",
+        });
+
+        // Redirect to dashboard on successful sign-in
+        router.push(searchParams?.get("from") || "/dashboard");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-    }
 
-    return toast({
-      title: "Sign In Successful",
-      description: "You have successfully signed in.",
-    });
-  }
+    // console.log(signInResult);
+  };
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -127,9 +134,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             )}
           </div>
           <button className={cn(buttonVariants())} disabled={isLoading}>
-            {isLoading && (
+            {/* {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
+            )} */}
             Sign In
           </button>
         </div>

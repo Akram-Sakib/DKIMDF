@@ -42,6 +42,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchKey: string;
+  role: string;
   pageNo: number;
   total: number;
   pageSizeOptions?: number[];
@@ -59,6 +60,7 @@ export function SuperAdminsTable<TData, TValue>({
   total,
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50],
+  role,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const pathname = usePathname();
@@ -110,7 +112,6 @@ export function SuperAdminsTable<TData, TValue>({
         scroll: false,
       }
     );
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex, pageSize]);
 
@@ -123,6 +124,11 @@ export function SuperAdminsTable<TData, TValue>({
     state: {
       pagination: { pageIndex, pageSize },
       sorting,
+      columnVisibility: role !== "grand_admin"
+        ? {
+            actions: false,
+          }
+        : {},
     },
     onPaginationChange: setPagination,
     getPaginationRowModel: getPaginationRowModel(),

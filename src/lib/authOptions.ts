@@ -94,6 +94,7 @@ export const authOptions: NextAuthOptions = {
         ...token,
       };
     },
+    
   },
   session: {
     strategy: "jwt",

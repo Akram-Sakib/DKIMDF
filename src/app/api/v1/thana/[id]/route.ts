@@ -5,8 +5,12 @@ import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { ThanaService } from "../thana.service";
 import { ThanaValidation } from "../thana.validation";
+import { ENUMUSER } from "@/constants/common";
+import auth from "@/lib/authMiddleware";
 
 export const GET = withErrorHandler(async (request, context) => {
+
+  await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], request);
   const { id } = context.params;
 
   const result = await ThanaService.getById(id);
@@ -55,6 +59,8 @@ export const DELETE = withErrorHandler(
       params: { id: string };
     }
   ) => {
+
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
     const { id } = params;
     const result = await ThanaService.deleteById(id);
 

@@ -5,22 +5,23 @@ import { NextRequest } from "next/server";
 import { SubscriptionValidation } from "../subscription.validation";
 import { SubscriptionService } from "../subscription.service";
 import auth from "@/lib/authMiddleware";
-import { ENUM } from "@/constants/common";
+import { ENUMUSER } from "@/constants/common";
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
-  await auth([ENUM.MEMBER], request);
+  await auth([ENUMUSER.MEMBER], request);
   const user = (request as any).user
   const body = await request.json();
   await SubscriptionValidation.SubscriptionSchema.parseAsync({
     body,
   });
-  const { subscriptionFee, ...userData } = body;
-  const result = await SubscriptionService.create(subscriptionFee, userData, user);
-
+  const { membershipId } = body;
+  const result = await SubscriptionService.create(membershipId, user);
+  console.log(result);
+  
   const data = {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Subscription Extended Created Successfully!",
+    message: "Your Subscription Has Extended Successfully!",
     data: result,
   };
 

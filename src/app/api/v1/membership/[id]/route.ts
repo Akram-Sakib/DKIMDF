@@ -5,8 +5,12 @@ import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { MembershipService } from "../membership.service";
 import { MembershipValidation } from "../membership.validation";
+import auth from "@/lib/authMiddleware";
+import { ENUMUSER } from "@/constants/common";
 
 export const GET = withErrorHandler(async (request, context) => {
+
+  await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], request);
   const { id } = context.params;
 
   const result = await MembershipService.getById(id);
@@ -30,6 +34,8 @@ export const PATCH = withErrorHandler(
       params: { id: string };
     }
   ) => {
+
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
     const { id } = params;
     const body = await req.json();
     await MembershipValidation.MembershipUpdateSchema.parseAsync({
@@ -60,6 +66,8 @@ export const DELETE = withErrorHandler(
       params: { id: string };
     }
   ) => {
+
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
     const { id } = params;
     const result = await MembershipService.deleteById(id);
 

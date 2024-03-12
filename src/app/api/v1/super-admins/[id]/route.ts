@@ -5,10 +5,13 @@ import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { SuperAdminService } from "../superAdmin.service";
 import { SuperAdminValidation } from "../superAdmin.validation";
+import auth from "@/lib/authMiddleware";
+import { ENUMUSER } from "@/constants/common";
 
 export const GET = withErrorHandler(async (request, context) => {
+  
+  await auth([ENUMUSER.GRAND_ADMIN], request);
   const { id } = context.params;
-
   const result = await SuperAdminService.getById(id);
 
   const data = {
@@ -30,6 +33,8 @@ export const PATCH = withErrorHandler(
       params: { id: string };
     }
   ) => {
+
+    await auth([ENUMUSER.GRAND_ADMIN], req);
     const { id } = params;
     const body = await req.json();
     await SuperAdminValidation.SuperAdminUpdateSchema.parseAsync({
@@ -55,6 +60,7 @@ export const DELETE = withErrorHandler(
       params: { id: string };
     }
   ) => {
+    await auth([ENUMUSER.GRAND_ADMIN], req);
     const { id } = params;
     const result = await SuperAdminService.deleteById(id);
 

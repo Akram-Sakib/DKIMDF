@@ -15,16 +15,21 @@ const PersonIntro = ({
     <div>
       <div className={cn("grid grid-cols-2 gap-x-10 gap-y-4")}>
         <FormInput
-          name="firstName"
+          name="member.firstName"
           label="First Name"
           placeholder="First Name"
           required
         />
         <FormInput
-          name="lastName"
+          name="member.lastName"
           label="Last Name"
           placeholder="Last Name"
           required
+        />
+        <FormInput
+          name="phoneNumber"
+          label="Phone Number"
+          placeholder="Phone Number"
         />
         <FormInput
           name="email"
@@ -32,27 +37,30 @@ const PersonIntro = ({
           placeholder="Email Address"
           required
         />
+        <FormInput
+          name="password"
+          label="Password"
+          type="password"
+          placeholder="Password"
+          required
+        />
         <FormSelect
-          name="gender"
+          name="member.gender"
           label="Gender"
           placeholder="Select Your Gender"
           options={GENDER}
           required
         />
-        <FormDatePicker name="dateOfBirth" label="Date Of Birth" />
+        <FormDatePicker name="member.dateOfBirth" label="Date Of Birth" />
+
         <FormInput
-          name="phoneNumber"
-          label="Phone Number"
-          placeholder="Phone Number"
-        />
-        <FormInput
-          name="nidNumber"
+          name="member.nidNumber"
           label="NID Number"
           placeholder="NID Number"
           required
         />
         <FormInput
-          name="education"
+          name="member.education"
           label="Latest Education"
           placeholder="Latest Education"
         />
@@ -63,18 +71,18 @@ const PersonIntro = ({
             /> */}
         <FormSelect
           options={BLOODGROUP}
-          name="bloodGroup"
+          name="member.bloodGroup"
           label="Blood Group"
           placeholder="Select Blood Group"
           required
         />
         <FormInput
-          name="occupation"
+          name="member.occupation"
           label="Present Occupation"
           placeholder="Present Occupation"
         />
         <FormInput
-          name="referanceId"
+          name="member.referanceId"
           label="Referance ID"
           placeholder="Referance ID"
         />

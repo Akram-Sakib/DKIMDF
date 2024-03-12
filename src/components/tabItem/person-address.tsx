@@ -86,7 +86,7 @@ const PersonAddress = ({
           <h2 className="text-2xl font-bold">Permanent Address</h2>
           <div className="space-y-5">
             <FormSelect
-              name="permanentAddress.country"
+              name="permanentAddress.countryId"
               label="Country"
               options={countries?.data.map((country: any) => ({
                 label: country.name,
@@ -98,7 +98,7 @@ const PersonAddress = ({
               required={true}
             />
             <FormSelect
-              name="permanentAddress.division"
+              name="permanentAddress.divisionId"
               label="Division"
               options={divisions?.data.map((division: any) => ({
                 label: division.name,
@@ -110,7 +110,7 @@ const PersonAddress = ({
               required={true}
             />
             <FormSelect
-              name="permanentAddress.district"
+              name="permanentAddress.districtId"
               label="District"
               options={districts?.data.map((district: any) => ({
                 label: district.name,
@@ -122,7 +122,7 @@ const PersonAddress = ({
               required={true}
             />
             <FormSelect
-              name="permanentAddress.thana"
+              name="permanentAddress.thanaId"
               label="Thana"
               options={thanas?.data.map((thana: any) => ({
                 label: thana.name,
@@ -134,7 +134,7 @@ const PersonAddress = ({
               required={true}
             />
             <FormSelect
-              name="permanentAddress.postOffice"
+              name="permanentAddress.postOfficeId"
               label="Post Office"
               options={postOffices?.data.map((postOffice: any) => ({
                 label: postOffice.name,
@@ -146,7 +146,7 @@ const PersonAddress = ({
               required={true}
             />
             <FormSelect
-              name="permanentAddress.village"
+              name="permanentAddress.villageId"
               label="Village"
               options={villages?.data.map((village: any) => ({
                 label: village.name,
@@ -176,7 +176,7 @@ const PersonAddress = ({
           </div>
           <div className="space-y-5">
             <FormSelect
-              name="presentAddress.country"
+              name="presentAddress.countryId"
               label="Country"
               options={countries?.data.map((country: any) => ({
                 label: country.name,
@@ -188,7 +188,7 @@ const PersonAddress = ({
               required={true}
             />
             <FormSelect
-              name="presentAddress.division"
+              name="presentAddress.divisionId"
               label="Division"
               options={divisions?.data.map((division: any) => ({
                 label: division.name,
@@ -200,7 +200,7 @@ const PersonAddress = ({
               required={true}
             />
             <FormSelect
-              name="presentAddress.district"
+              name="presentAddress.districtId"
               label="District"
               options={districts?.data.map((district: any) => ({
                 label: district.name,
@@ -212,7 +212,7 @@ const PersonAddress = ({
               required={true}
             />
             <FormSelect
-              name="presentAddress.thana"
+              name="presentAddress.thanaId"
               label="Thana"
               options={thanas?.data.map((thana: any) => ({
                 label: thana.name,
@@ -224,7 +224,7 @@ const PersonAddress = ({
               required={true}
             />
             <FormSelect
-              name="presentAddress.postOffice"
+              name="presentAddress.postOfficeId"
               label="Post Office"
               options={postOffices?.data.map((postOffice: any) => ({
                 label: postOffice.name,
@@ -236,7 +236,7 @@ const PersonAddress = ({
               required={true}
             />
             <FormSelect
-              name="presentAddress.village"
+              name="presentAddress.villageId"
               label="Village"
               options={villages?.data.map((village: any) => ({
                 label: village.name,

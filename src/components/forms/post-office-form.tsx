@@ -19,6 +19,7 @@ import { Heading } from "../ui/dashboard/heading";
 import { AlertModal } from "../ui/modal/alert-modal";
 import { Skeleton } from "../ui/skeleton";
 import { useToast } from "../ui/use-toast";
+import { Icons } from "../icons";
 
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
@@ -27,7 +28,6 @@ const formSchema = z.object({
     .min(2, { message: "Post Office name must be at least 2 characters." }),
   thanaId: z.string().min(2, { message: "Please select a Police Station" }),
   postCode: z.string().min(2, { message: "Please enter a post code" }),
-  userId: z.string().min(1, { message: "Please enter a user id" }),
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -67,7 +67,10 @@ export const PostOfficesForm: React.FC<FormProps> = ({}) => {
 
   const { mutate: createMutation, isPending: createIsPending } = useMutation({
     mutationFn: async (data: any) => {
-      const res = await axiosInstance.post(`/post-offices/create-post-office`, data);
+      const res = await axiosInstance.post(
+        `/post-offices/create-post-office`,
+        data
+      );
       return res;
     },
     onSuccess: (res: any) => {
@@ -181,15 +184,18 @@ export const PostOfficesForm: React.FC<FormProps> = ({}) => {
   const [loading, setLoading] = useState(false);
   // const [imgLoading, setImgLoading] = useState(false);
   const title = initialData ? "Edit Post Office" : "Create Post Office";
-  const description = initialData ? "Edit a Post Office." : "Add a new Post Office";
-  const toastMessage = initialData ? "Post Office updated." : "Post Office created.";
+  const description = initialData
+    ? "Edit a Post Office."
+    : "Add a new Post Office";
+  const toastMessage = initialData
+    ? "Post Office updated."
+    : "Post Office created.";
   const action = initialData ? "Save changes" : "Create";
 
   const defaultValues = initialData
     ? initialData
     : {
         name: "",
-        userId: "",
         thanaId: "",
         postCode: "",
       };
@@ -313,13 +319,6 @@ export const PostOfficesForm: React.FC<FormProps> = ({}) => {
                 loading={thanasLoading}
                 required
               />
-              <FormInput
-                name="userId"
-                label="User Id"
-                placeholder="Enter User Id"
-                disabled={loading}
-                required
-              />
             </div>
           )}
           <Button
@@ -333,6 +332,9 @@ export const PostOfficesForm: React.FC<FormProps> = ({}) => {
             className="ml-auto"
             type="submit"
           >
+            {/* {(createIsPending || updateIsPending) && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )} */}
             {action}
           </Button>
         </form>

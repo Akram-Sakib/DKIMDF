@@ -5,12 +5,12 @@ import { NextRequest } from "next/server";
 import { CountryService } from "../countries.service";
 import { CountryValidation } from "../countries.validation";
 import auth from "@/lib/authMiddleware";
-import { ENUM } from "@/constants/common";
+import { ENUMUSER } from "@/constants/common";
 
 export const POST = withErrorHandler(
   async (request: NextRequest) => {
 
-    await auth([ENUM.GRAND_ADMIN, ENUM.SUPER_ADMIN, ENUM.ADMIN], request);
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], request);
     const body = await request.json();
     const user = (request as any).user
 

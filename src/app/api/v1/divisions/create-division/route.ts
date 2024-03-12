@@ -5,11 +5,11 @@ import { NextRequest } from "next/server";
 import { DivisionService } from "../divisions.service";
 import { DivisionValidation } from "../divisions.validation";
 import auth from "@/lib/authMiddleware";
-import { ENUM } from "@/constants/common";
+import { ENUMUSER } from "@/constants/common";
 
 export const POST = withErrorHandler(
   async (request: NextRequest) => {
-    await auth([ENUM.GRAND_ADMIN, ENUM.SUPER_ADMIN, ENUM.ADMIN], request);
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], request);
     const user = (request as any).user
     const body = await request.json();
     await DivisionValidation.DivisionSchema.parseAsync({

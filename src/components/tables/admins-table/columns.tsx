@@ -1,12 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Village } from "@prisma/client";
+import { SuperAdmin } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ArrowUpDown } from "lucide-react";
 import { CellAction } from "./cell-action";
+import Image from "next/image";
+import PlaceholderImage from "@/assets/images/image-placeholder.jpg";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export const columns: ColumnDef<Village>[] = [
+export const columns: ColumnDef<SuperAdmin>[] = [
   // {
   //   id: "SERIAL",
   //   header: ({ table }) => (
@@ -44,8 +47,29 @@ export const columns: ColumnDef<Village>[] = [
       return <span>{index + pageSize * pageIndex}</span>;
     },
   },
+  // imageUrl
   {
-    accessorKey: "name",
+    accessorKey: "imageUrl",
+    header: "IMAGE",
+    cell: ({ row }) => {
+      return (
+        <Avatar>
+          <AvatarImage src={row.original.imageUrl} alt="user" />
+          <AvatarFallback>
+            {row.original.firstName[0].toUpperCase() +
+              row.original.lastName[0].toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+      );
+    },
+  },
+  {
+    cell: ({ row }) => {
+      return (
+        <span>{`${row.original.firstName} ${row.original.lastName}`}</span>
+      );
+    },
+    accessorKey: "firstName",
     header: ({ column }) => {
       return (
         <Button
@@ -54,6 +78,111 @@ export const columns: ColumnDef<Village>[] = [
           className=""
         >
           NAME
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          key={column.id}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          EMAIL
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "phoneNumber",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          key={column.id}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          PHONE
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "occupation",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          key={column.id}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          OCCUPATION
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "authorizationScope",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          key={column.id}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          AUTHORIZATION SCOPE
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "fathersName",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          key={column.id}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          FATHER&apos;S NAME
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "mothersName",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          key={column.id}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          MOTHER&apos;S NAME
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "spouseName",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          key={column.id}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          SPOUSE NAME
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

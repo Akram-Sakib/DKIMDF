@@ -5,8 +5,12 @@ import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { DistrictService } from "../districts.service";
 import { DistrictValidation } from "../districts.validation";
+import auth from "@/lib/authMiddleware";
+import { ENUMUSER } from "@/constants/common";
 
 export const GET = withErrorHandler(async (request, context) => {
+
+  await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], request);
   const { id } = context.params;
 
   const result = await DistrictService.getById(id);
@@ -30,6 +34,8 @@ export const PATCH = withErrorHandler(
       params: { id: string };
     }
   ) => {
+
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
     const { id } = params;
     const body = await req.json();
     await DistrictValidation.DistrictUpdateSchema.parseAsync({
@@ -55,6 +61,8 @@ export const DELETE = withErrorHandler(
       params: { id: string };
     }
   ) => {
+
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
     const { id } = params;
     const result = await DistrictService.deleteById(id);
 

@@ -2,10 +2,11 @@ import { paginationHelpers } from "@/helpers/paginationHelper";
 import prisma from "@/lib/prisma";
 import { IGenericResponse } from "@/types/common";
 import { IPaginationOptions } from "@/types/pagination";
-import { SuperAdmin, Prisma } from "@prisma/client";
+import { SuperAdmin, Prisma, PresentAddress, PermanentAddress } from "@prisma/client";
 import { superAdminSearchableFields } from "./superAdmin.constants";
 import { ISuperAdminFilterRequest } from "./superAdmin.interface";
 import { JwtPayload } from "jsonwebtoken";
+import { ENUMUSER } from "@/constants/common";
 
 const create = async (data: SuperAdmin, user: JwtPayload): Promise<SuperAdmin> => {
   const userId = user.userId;
@@ -32,11 +33,28 @@ const create = async (data: SuperAdmin, user: JwtPayload): Promise<SuperAdmin> =
 
 const getAll = async (
   filters: ISuperAdminFilterRequest,
-  options: IPaginationOptions
+  options: IPaginationOptions,
+  user: JwtPayload
 ): Promise<IGenericResponse<SuperAdmin[]>> => {
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
   const { search, ...filterData } = filters;
   const andConditions = [];
+
+  const userId = user.userId;
+  const userRole = user.role;
+
+  let userData: any = null
+  if (userRole === ENUMUSER.SUPER_ADMIN) {
+    userData = await prisma.superAdmin.findFirst({
+      where: {
+        userId
+      }
+    });
+  }
+
+
+  const authorizationScope = userData?.authorizationScope;
+  const authorizationArea = userData?.authorizationArea;
 
   if (search) {
     andConditions.push({
@@ -60,6 +78,20 @@ const getAll = async (
       }),
     });
   }
+
+
+  if (authorizationScope && authorizationArea) {
+    andConditions.push({
+      AND: [
+        {
+          permanentAddress: {
+            [`${authorizationScope}Id`]: authorizationArea
+          }
+        }
+      ]
+    });
+  }
+
 
   const whereConditions: Prisma.SuperAdminWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
@@ -97,6 +129,10 @@ const getById = async (id: string): Promise<SuperAdmin | null> => {
     where: {
       id,
     },
+    include: {
+      presentAddress: true,
+      permanentAddress: true,
+    }
   });
 
   return result;
@@ -104,13 +140,30 @@ const getById = async (id: string): Promise<SuperAdmin | null> => {
 
 const updateById = async (
   id: string,
-  data: Partial<SuperAdmin>
+  data: Partial<SuperAdmin & {
+    presentAddress: PresentAddress;
+    permanentAddress: PermanentAddress;
+  }>
 ): Promise<SuperAdmin | null> => {
+  const { presentAddress, permanentAddress, ...restData } = data;
+
   const result = await prisma.superAdmin.update({
     where: {
       id,
     },
-    data,
+    data: {
+      ...restData,
+      presentAddress: {
+        update: presentAddress
+      },
+      permanentAddress: {
+        update: permanentAddress
+      }
+    },
+    include: {
+      presentAddress: true,
+      permanentAddress: true
+    }
   });
 
   return result;

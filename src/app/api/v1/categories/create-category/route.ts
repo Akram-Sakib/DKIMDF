@@ -1,4 +1,4 @@
-import { ENUM } from "@/constants/common";
+import { ENUMUSER } from "@/constants/common";
 import auth from "@/lib/authMiddleware";
 import sendResponse from "@/lib/sendResponse";
 import withErrorHandler from "@/lib/withErrorHandler";
@@ -9,7 +9,7 @@ import { CategoryValidation } from "../categories.validation";
 
 export const POST = withErrorHandler(
   async (request: NextRequest) => {
-    await auth([ENUM.GRAND_ADMIN, ENUM.SUPER_ADMIN, ENUM.ADMIN], request);
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], request);
 
     const body = await request.json();
     await CategoryValidation.CategorySchema.parseAsync({

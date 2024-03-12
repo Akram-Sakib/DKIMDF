@@ -1,13 +1,11 @@
 "use client";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { SuperAdmin } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ArrowUpDown } from "lucide-react";
 import { CellAction } from "./cell-action";
-import Image from "next/image";
-import PlaceholderImage from "@/assets/images/image-placeholder.jpg";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const columns: ColumnDef<SuperAdmin>[] = [
   // {
@@ -54,7 +52,7 @@ export const columns: ColumnDef<SuperAdmin>[] = [
     cell: ({ row }) => {
       return (
         <Avatar>
-          <AvatarImage src={row.original.imageUrl} alt="user" />
+          <AvatarImage src={(row as any).original.imageUrl} alt="user" />
           <AvatarFallback>
             {row.original.firstName[0].toUpperCase() +
               row.original.lastName[0].toUpperCase()}
@@ -224,5 +222,7 @@ export const columns: ColumnDef<SuperAdmin>[] = [
     header: "ACTIONS",
     id: "actions",
     cell: ({ row }) => <CellAction data={row.original} />,
+    enableHiding: true,
+    
   },
 ];
