@@ -4,7 +4,7 @@ import { ILoginUserResponse, IRefreshTokenResponse } from './auth.interface';
 import { isPasswordMatched } from './auth.utils';
 import prisma from '@/lib/prisma';
 import config from '@/config';
-import ApiError from '@/errors/apiError';
+import ApiError from '@/errors/ApiError';
 import { jwtHelpers } from '@/helpers/jwtHelper';
 
 const loginUser = async (payload: {
@@ -32,7 +32,7 @@ const loginUser = async (payload: {
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
   }
-  
+
   if (
     isUserExist.password &&
     !(await isPasswordMatched(password, isUserExist?.password))

@@ -3,8 +3,8 @@ import withErrorHandler from "@/lib/withErrorHandler";
 import { PostOffice } from "@prisma/client";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
-import { PostOfficeService } from "../postOffices.service";
-import { PostOfficeValidation } from "../postOffices.validation";
+import { PostOfficeService } from "../postoffices.service";
+import { PostOfficeValidation } from "../postoffices.validation";
 import auth from "@/lib/authMiddleware";
 import { ENUMUSER } from "@/constants/common";
 
