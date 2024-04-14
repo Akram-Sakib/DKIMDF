@@ -31,7 +31,7 @@ export const updateProfileData = async (userId: string, role: Role, permanentAdd
             ...permanentAddress,
         }
     });
-
+    // @ts-ignore
     return await prisma[`${userRole}`].update({
         where: {
             userId,

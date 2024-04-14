@@ -1,12 +1,7 @@
-import Container from "@/components/ui/container";
-import React from "react";
-import "./gallery.css";
-import imgOne from "@/assets/images/destination-1-1.png";
-import imgtwo from "@/assets/images/destination-1-2.png";
-import imgthree from "@/assets/images/destination-1-3.png";
-import imgfour from "@/assets/images/destination-1-4.png";
 import imgfive from "@/assets/images/destination-1-5.png";
 import { Button } from "@/components/ui/button";
+import Container from "@/components/ui/container";
+import "./gallery.css";
 
 const GalleryPage = () => {
   return (

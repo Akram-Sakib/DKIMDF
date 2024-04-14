@@ -650,159 +650,155 @@ export const AdminForm: React.FC<FormProps> = ({}) => {
                   disabled={loading}
                 />
               </div>
-              <div className="grid grid-cols-2 gap-x-10">
-                <div>
+              <div className="grid grid-cols-2 gap-10">
+                <div className="space-y-6">
                   <h2 className="text-2xl font-semibold mb-4">
                     Present Address
                   </h2>
                   <Separator className="mb-4" />
-                  <FormSelect
+                  <FormComboBox
                     name="presentAddress.countryId"
                     label="Country"
                     options={countries?.data.map((country: any) => ({
                       label: country.name,
                       value: country.id,
                     }))}
-                    loading={countriesLoading}
-                    disabled={countriesLoading || !countries?.data.length}
+                    // loading={countriesLoading}
+                    isLoading={countriesLoading || !countries?.data.length}
                     placeholder="Select Country"
                     required={true}
                   />
-                  <FormSelect
+                  <FormComboBox
                     name="presentAddress.divisionId"
                     label="Division"
                     options={divisions?.data.map((division: any) => ({
                       label: division.name,
                       value: division.id,
                     }))}
-                    loading={divisionsLoading}
-                    disabled={divisionsLoading || !divisions?.data.length}
+                    // loading={divisionsLoading}
+                    isLoading={divisionsLoading || !divisions?.data.length}
                     placeholder="Select Division"
                     required={true}
                   />
-                  <FormSelect
+                  <FormComboBox
                     name="presentAddress.districtId"
                     label="District"
                     options={districts?.data.map((district: any) => ({
                       label: district.name,
                       value: district.id,
                     }))}
-                    loading={districtsLoading}
-                    disabled={districtsLoading || !districts?.data.length}
+                    // loading={districtsLoading}
+                    isLoading={districtsLoading || !districts?.data.length}
                     placeholder="Select District"
                     required={true}
                   />
-                  <FormSelect
+                  <FormComboBox
                     name="presentAddress.thanaId"
                     label="Thana"
                     options={thanas?.data.map((thana: any) => ({
                       label: thana.name,
                       value: thana.id,
                     }))}
-                    loading={thanasLoading}
-                    disabled={thanasLoading || !thanas?.data.length}
+                    isLoading={thanasLoading || !thanas?.data.length}
                     placeholder="Select Thana"
                     required={true}
                   />
-                  <FormSelect
+                  <FormComboBox
                     name="presentAddress.postOfficeId"
                     label="Post Office"
                     options={postOffices?.data.map((postOffice: any) => ({
                       label: postOffice.name,
                       value: postOffice.id,
                     }))}
-                    loading={postOfficesLoading}
-                    disabled={postOfficesLoading || !postOffices?.data.length}
+                    // loading={postOfficesLoading}
+                    isLoading={postOfficesLoading || !postOffices?.data.length}
                     placeholder="Select Post Office"
                     required={true}
                   />
-                  <FormSelect
+                  <FormComboBox
                     name="presentAddress.villageId"
                     label="Village"
                     options={villages?.data.map((village: any) => ({
                       label: village.name,
                       value: village.id,
                     }))}
-                    loading={villagesLoading}
-                    disabled={villagesLoading || !villages?.data.length}
+                    isLoading={villagesLoading || !villages?.data.length}
                     placeholder="Select Village"
                     required={true}
                   />
                 </div>
-                <div>
+                <div className="space-y-6">
                   <h2 className="text-2xl font-semibold mb-4">
                     Permanent Address
                   </h2>
                   <Separator className="mb-4" />
-                  <FormSelect
+                  <FormComboBox
                     name="permanentAddress.countryId"
                     label="Country"
                     options={countries?.data.map((country: any) => ({
                       label: country.name,
                       value: country.id,
                     }))}
-                    loading={countriesLoading}
-                    disabled={countriesLoading || !countries?.data.length}
+                    isLoading={countriesLoading || !countries?.data.length}
                     placeholder="Select Country"
                     required={true}
                   />
-                  <FormSelect
+                  <FormComboBox
                     name="permanentAddress.divisionId"
                     label="Division"
                     options={divisions?.data.map((division: any) => ({
                       label: division.name,
                       value: division.id,
                     }))}
-                    loading={divisionsLoading}
-                    disabled={divisionsLoading || !divisions?.data.length}
+                    isLoading={divisionsLoading || !divisions?.data.length}
                     placeholder="Select Division"
                     required={true}
                   />
-                  <FormSelect
+                  <FormComboBox
                     name="permanentAddress.districtId"
                     label="District"
                     options={districts?.data.map((district: any) => ({
                       label: district.name,
                       value: district.id,
                     }))}
-                    loading={districtsLoading}
-                    disabled={districtsLoading || !districts?.data.length}
+                    // loading={districtsLoading}
+                    isLoading={districtsLoading || !districts?.data.length}
                     placeholder="Select District"
                     required={true}
                   />
-                  <FormSelect
+                  <FormComboBox
                     name="permanentAddress.thanaId"
                     label="Thana"
                     options={thanas?.data.map((thana: any) => ({
                       label: thana.name,
                       value: thana.id,
                     }))}
-                    loading={thanasLoading}
-                    disabled={thanasLoading || !thanas?.data.length}
+                    // loading={thanasLoading}
+                    isLoading={thanasLoading || !thanas?.data.length}
                     placeholder="Select Thana"
                     required={true}
                   />
-                  <FormSelect
+                  <FormComboBox
                     name="permanentAddress.postOfficeId"
                     label="Post Office"
                     options={postOffices?.data.map((postOffice: any) => ({
                       label: postOffice.name,
                       value: postOffice.id,
                     }))}
-                    loading={postOfficesLoading}
-                    disabled={postOfficesLoading || !postOffices?.data.length}
+                    // loading={postOfficesLoading}
+                    isLoading={postOfficesLoading || !postOffices?.data.length}
                     placeholder="Select Post Office"
                     required={true}
                   />
-                  <FormSelect
+                  <FormComboBox
                     name="permanentAddress.villageId"
                     label="Village"
                     options={villages?.data.map((village: any) => ({
                       label: village.name,
                       value: village.id,
                     }))}
-                    loading={villagesLoading}
-                    disabled={villagesLoading || !villages?.data.length}
+                    // loading={villagesLoading}
+                    isLoading={villagesLoading || !villages?.data.length}
                     placeholder="Select Village"
                     required={true}
                   />

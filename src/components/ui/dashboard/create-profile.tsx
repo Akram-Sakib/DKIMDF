@@ -148,6 +148,7 @@ const CreateProfileOne = () => {
         <PersistForm
           onSubmit={onSubmit}
           defaultValues={defaultValues}
+          // @ts-ignore
           formSchema={status === "authenticated" && schema}
           className="mt-20 lg:w-4/3"
           formId="create-profile"

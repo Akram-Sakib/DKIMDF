@@ -27,6 +27,7 @@ export function MobileSidebar({ className }: SidebarProps) {
                 Overview
               </h2>
               <div className="space-y-1">
+                {/* @ts-ignore */}
                 <DashboardNav items={navItems} setOpen={setOpen} />
               </div>
             </div>

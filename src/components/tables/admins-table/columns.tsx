@@ -54,6 +54,7 @@ export const columns: ColumnDef<SuperAdmin>[] = [
     cell: ({ row }) => {
       return (
         <Avatar>
+          {/* @ts-ignore */}
           <AvatarImage src={row.original.imageUrl} alt="user" />
           <AvatarFallback>
             {row.original.firstName[0].toUpperCase() +

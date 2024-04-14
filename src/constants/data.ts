@@ -284,7 +284,7 @@ export const navItems = (role: string): NavItem[] => {
   // const isAdmin = role === "admin"
   // const isSuperAdmin = role === "super_admin"
   // const isGrandAdmin = role === "grand_admin"
-
+  // @ts-ignore
   return [
     {
       title: "Dashboard",

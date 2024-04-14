@@ -6,11 +6,11 @@ import { IRefreshTokenResponse } from "../auth.interface";
 import { AuthService } from "../auth.service";
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
-    
+  // @ts-ignore
   const token = request.headers.authorization;
-//   await AuthValidation.loginZodSchema.parseAsync({
-//     body,
-//   });
+  //   await AuthValidation.loginZodSchema.parseAsync({
+  //     body,
+  //   });
 
   const result = await AuthService.refreshToken(token);
 

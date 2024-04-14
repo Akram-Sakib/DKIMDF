@@ -1,16 +1,14 @@
+import { CountriesClient } from "@/components/tables/countries-table/countries-client";
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
-import { AdminClient } from "@/components/tables/admin-tables/cilent";
-import { users } from "@/constants/data";
+import { QueryKeys } from "@/constants/common";
+import { axiosInstance } from "@/helpers/axiosInstance";
+import { IGenericResponse } from "@/types/common";
+import { Country } from "@prisma/client";
 import {
   HydrationBoundary,
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import { axiosInstance } from "@/helpers/axiosInstance";
-import { QueryKeys } from "@/constants/common";
-import { CountriesClient } from "@/components/tables/countries-table/countries-client";
-import { IGenericResponse } from "@/types/common";
-import { Country } from "@prisma/client";
 const breadcrumbItems = [
   { title: "Places", link: "/dashboard/places" },
   { title: "Countries", link: "/dashboard/places/countries" },

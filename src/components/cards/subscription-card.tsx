@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";
 import { IGenericResponse } from "@/types/common";

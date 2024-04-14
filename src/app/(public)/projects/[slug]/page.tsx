@@ -1,8 +1,6 @@
 import BlurImage from "@/components/ui/blur-image";
-import Container from "@/components/ui/container";
 import { format } from "date-fns";
 import Image from "next/image";
-import React from "react";
 import { FaRegCalendar } from "react-icons/fa";
 
 const ProjectDetailsPage = () => {

@@ -20,6 +20,7 @@ import { AlertModal } from "../ui/modal/alert-modal";
 import { Skeleton } from "../ui/skeleton";
 import { useToast } from "../ui/use-toast";
 import { Icons } from "../icons";
+import { FormComboBox } from "../formelements/form-combobox";
 
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
@@ -291,7 +292,7 @@ export const DistrictsForm: React.FC<FormProps> = ({}) => {
                 disabled={loading}
                 required
               />
-              <FormSelect
+              <FormComboBox
                 name="divisionId"
                 placeholder="Select A Division"
                 label="Division"
@@ -299,8 +300,8 @@ export const DistrictsForm: React.FC<FormProps> = ({}) => {
                   value: division.id,
                   label: division.name,
                 }))}
-                disabled={divisionsLoading}
-                loading={divisionsLoading}
+                // disabled={divisionsLoading}
+                isLoading={divisionsLoading}
                 required
               />
             </div>

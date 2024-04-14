@@ -55,7 +55,7 @@ export function FormComboBox({
         return (
           <FormItem>
             <div className="space-y-2">
-              <FormLabel>
+              <FormLabel className="block">
                 {label} {required && <span className="text-red-500">*</span>}
               </FormLabel>
               <FormControl aria-disabled={isLoading}>

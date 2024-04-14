@@ -1,4 +1,3 @@
-import { DistrictsForm } from "@/components/forms/districts-form";
 import { PoliceStationForm } from "@/components/forms/police-station-form";
 import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";

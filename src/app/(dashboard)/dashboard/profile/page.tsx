@@ -1,5 +1,4 @@
 // import { CreateProfileOne } from "@/components/forms/user-profile-stepper/create-profile";
-import { getUsers } from "@/app/api/v1/users/users.actions";
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
 import CreateProfileOne from "@/components/ui/dashboard/create-profile";
 import { QueryKeys } from "@/constants/common";

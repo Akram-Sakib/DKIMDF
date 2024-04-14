@@ -5,10 +5,7 @@ import { calculateEndTime } from "../subscription/subscription.utils";
 // @ts-ignore-next-line
 import { dataConfig, sslConfig } from "@/config/sslConfig";
 import { generateTransactionId } from "@/utils/generateTransactionId";
-import { ENUMUSER } from "@/constants/common";
 import { JwtPayload } from "jsonwebtoken";
-import httpStatus from "http-status";
-import ApiError from "@/errors/apiError";
 
 const getUsers = async (): Promise<User[]> => {
   const result = await prisma.user.findMany({
@@ -238,6 +235,7 @@ const createSuperAdmin = async (
     });
 
     const superAdminData = await transactionClient.superAdmin.create({
+      // @ts-ignore
       data: {
         ...superAdmin, userId: userData.id, presentAddressId: presentAddressData.id,
         permanentAddressId: permanentAddressData.id

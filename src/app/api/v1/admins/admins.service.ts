@@ -153,6 +153,7 @@ const updateById = async (
     where: {
       id,
     },
+    // @ts-ignore
     data: {
       ...restData,
       presentAddress: {

@@ -1,23 +1,22 @@
+import { columns } from "@/components/tables/countries-table/columns";
+import { CountriesTable } from "@/components/tables/countries-table/countries-table";
 import { buttonVariants } from "@/components/ui/button";
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
 import { Heading } from "@/components/ui/dashboard/heading";
 import { Separator } from "@/components/ui/separator";
+import { QueryKeys } from "@/constants/common";
+import { axiosInstance } from "@/helpers/axiosInstance";
 import { cn } from "@/lib/utils";
-import { Plus } from "lucide-react";
-import Link from "next/link";
+import { IGenericResponse } from "@/types/common";
 import { Country } from "@prisma/client";
-import { CountryTable } from "@/components/tables/countries-table/countries-table";
-import { columns } from "@/components/tables/countries-table/columns";
-import config from "@/config";
+
 import {
   HydrationBoundary,
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import { CountryService } from "@/app/api/v1/countries/countries.service";
-import { axiosInstance } from "@/helpers/axiosInstance";
-import { IGenericResponse } from "@/types/common";
-import { QueryKeys } from "@/constants/common";
+import { Plus } from "lucide-react";
+import Link from "next/link";
 
 const breadcrumbItems = [{ title: "Countries", link: "/dashboard/countries" }];
 
@@ -75,7 +74,7 @@ export default async function page({ searchParams }: paramsProps) {
         </div>
         <Separator />
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <CountryTable
+          <CountriesTable
             searchKey="name"
             pageNo={page}
             // @ts-ignore

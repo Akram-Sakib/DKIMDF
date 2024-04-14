@@ -20,6 +20,7 @@ import { AlertModal } from "../ui/modal/alert-modal";
 import { Skeleton } from "../ui/skeleton";
 import { useToast } from "../ui/use-toast";
 import { Icons } from "../icons";
+import { FormComboBox } from "../formelements/form-combobox";
 
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
@@ -307,7 +308,7 @@ export const PostOfficesForm: React.FC<FormProps> = ({}) => {
                 disabled={loading}
                 required
               />
-              <FormSelect
+              <FormComboBox
                 name="thanaId"
                 placeholder="Select A Police Station"
                 label="Police Station"
@@ -315,8 +316,8 @@ export const PostOfficesForm: React.FC<FormProps> = ({}) => {
                   value: thana.id,
                   label: thana.name,
                 }))}
-                disabled={thanasLoading}
-                loading={thanasLoading}
+                // disabled={thanasLoading}
+                isLoading={thanasLoading}
                 required
               />
             </div>

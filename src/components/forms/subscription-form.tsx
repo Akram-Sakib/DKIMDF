@@ -251,9 +251,9 @@ export const SubscriptionForm: React.FC<FormProps> = ({}) => {
   };
 
   const registrationFee =
-    parseInt(form.watch("subscriptionFee.registrationFee")) || 0;
+    parseInt(form.watch("subscriptionFee.registrationFee") as any) || 0;
   const smartCardFee =
-    parseInt(form.watch("subscriptionFee.smartCardFee")) || 0;
+    parseInt(form.watch("subscriptionFee.smartCardFee") as any) || 0;
   const subscriptionFee =
     parseInt(form.watch("subscriptionFee.subscriptionFee")) || 0;
 

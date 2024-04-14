@@ -650,7 +650,7 @@ export const SuperAdminForm: React.FC<FormProps> = ({}) => {
                 />
               </div>
               <div className="grid grid-cols-2 gap-x-10">
-                <div>
+                <div className="space-y-6">
                   <h2 className="text-2xl font-semibold mb-4">
                     Present Address
                   </h2>
@@ -728,7 +728,7 @@ export const SuperAdminForm: React.FC<FormProps> = ({}) => {
                     required={true}
                   />
                 </div>
-                <div>
+                <div className="space-y-6">
                   <h2 className="text-2xl font-semibold mb-4">
                     Permanent Address
                   </h2>

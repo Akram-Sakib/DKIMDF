@@ -1,4 +1,3 @@
-
 import Banner from "@/components/home/banner";
 import BannerMiddle from "@/components/home/banner-middle";
 import Featured from "@/components/home/featured";

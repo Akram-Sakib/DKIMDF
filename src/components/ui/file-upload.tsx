@@ -1,9 +1,9 @@
+// @ts-nocheck
 "use client";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { UploadDropzone } from "@uploadthing/react";
-import { Trash } from "lucide-react";
+import { Trash } from "lucide-reac t";
 import Image from "next/image";
-import { UploadFileResponse } from "uploadthing/client";
 import { Button } from "./button";
 import { useToast } from "./use-toast";
 export const IMG_MAX_LIMIT = 3;

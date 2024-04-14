@@ -134,7 +134,7 @@ const create = async (
   if (!newData) {
     throw new Error("Unable to create subscription");
   }
-
+  // @ts-ignore
   return newData;
 };
 

@@ -1,5 +1,4 @@
 import { MembershipClient } from "@/components/tables/membership-table/membership-client";
-import { VillagesClient } from "@/components/tables/villages-table/villages-client";
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
 import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";
