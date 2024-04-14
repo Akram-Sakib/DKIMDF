@@ -1,14 +1,12 @@
+import { ENUMUSER } from "@/constants/common";
 import { paginationHelpers } from "@/helpers/paginationHelper";
 import prisma from "@/lib/prisma";
 import { IGenericResponse } from "@/types/common";
 import { IPaginationOptions } from "@/types/pagination";
 import { Admin, PermanentAddress, PresentAddress, Prisma } from "@prisma/client";
+import { JwtPayload } from "jsonwebtoken";
 import { adminSearchableFields } from "./admins.constants";
 import { IAdminFilterRequest } from "./admins.interface";
-import { JwtPayload } from "jsonwebtoken";
-import { ENUMUSER } from "@/constants/common";
-import ApiError from "@/errors/apiError";
-import httpStatus from "http-status";
 
 const create = async (data: Admin, user: JwtPayload): Promise<Admin> => {
   const userId = user.userId;
