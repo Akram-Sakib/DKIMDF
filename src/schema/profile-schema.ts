@@ -445,6 +445,7 @@ export const adminProfileSchema = z.object({
     .string({
       required_error: "Passport or Driving license image is required",
     })
+    .nullable()
     .optional(),
   // membershipId: z.string({ required_error: "Membership is required" }),
   // // termsAggrement: z.boolean({

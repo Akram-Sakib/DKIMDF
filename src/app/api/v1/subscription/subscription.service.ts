@@ -140,8 +140,11 @@ const create = async (
 
 const getAll = async (
   filters: ISubscriptionFilterRequest,
-  options: IPaginationOptions
+  options: IPaginationOptions,
+  user: JwtPayload
 ): Promise<IGenericResponse<Subscription[]>> => {
+  const userId = user?.userId;
+  const userRole = user?.role;
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
   const { search, ...filterData } = filters;
   const andConditions = [];
@@ -168,6 +171,19 @@ const getAll = async (
       }),
     });
   }
+
+  if (userRole === "MEMBER") {
+    andConditions.push({
+      AND: [
+        {
+          memberId: {
+            equals: userId,
+          },
+        },
+      ],
+    });
+  }
+
 
   const whereConditions: Prisma.SubscriptionWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};

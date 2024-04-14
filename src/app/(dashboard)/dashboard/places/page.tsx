@@ -8,11 +8,18 @@ import {
 } from "@/components/ui/card";
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
 import { Heading } from "@/components/ui/dashboard/heading";
+import { authOptions } from "@/lib/authOptions";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
 const breadcrumbItems = [{ title: "Places", link: "/dashboard/places" }];
 
-const CountriesPage = () => {
+const CountriesPage = async () => {
+  const session = (await getServerSession(authOptions)) as any;
+
+  const isMember = session.role === "member";
+
+  // if isMember, the only place they can access is Villages
   const places = [
     {
       title: "Countries",
@@ -38,7 +45,7 @@ const CountriesPage = () => {
       title: "Villages",
       link: "/dashboard/places/villages",
     },
-  ];
+  ].filter((place) => !isMember || place.title === "Villages");
 
   return (
     <>

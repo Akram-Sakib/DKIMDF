@@ -2,6 +2,7 @@ import { ENUMUSER } from "@/constants/common";
 import prisma from "@/lib/prisma";
 import { Admin, GrandAdmin, Member, SuperAdmin } from "@prisma/client";
 import { JwtPayload } from "jsonwebtoken";
+import { updateProfileData } from "./profile.utils";
 
 const getProfile = async (user: JwtPayload): Promise<Admin | SuperAdmin | GrandAdmin | Member | null> => {
 
@@ -159,34 +160,13 @@ const updateProfile = async (user: JwtPayload, body: any): Promise<Admin | Super
     }
 
   } else if (role === ENUMUSER.SUPER_ADMIN) {
-    result = await prisma.superAdmin.update({
-      where: {
-        userId,
-      },
-      data: {
-        ...body
-      }
-    });
+    result = updateProfileData(userId, role, permanentAddress, presentAddress, rest);
   }
   else if (role === ENUMUSER.ADMIN) {
-    result = await prisma.admin.update({
-      where: {
-        userId,
-      },
-      data: {
-        ...body
-      }
-    });
+    result = updateProfileData(userId, role, permanentAddress, presentAddress, rest);
   }
   else if (role === ENUMUSER.MEMBER) {
-    result = await prisma.member.update({
-      where: {
-        userId,
-      },
-      data: {
-        ...body
-      }
-    });
+    result = updateProfileData(userId, role, permanentAddress, presentAddress, rest);
   }
 
   return result;

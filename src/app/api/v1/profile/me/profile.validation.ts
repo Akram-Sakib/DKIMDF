@@ -12,7 +12,7 @@ const ProfileUpdateSchema = z.object({
     lastName: z.string().optional(),
     phoneNumber: z.string().optional(),
     email: z.string().optional(),
-    imageUrl: z.string().optional(),
+    imageUrl: z.string().nullable().optional(),
     gender: z.enum([...GENDER.map((gn) => gn.value)] as [string, ...string[]])
       .optional(),
     dateOfBirth: z.string().optional(),
@@ -96,7 +96,7 @@ const ProfileUpdateSchema = z.object({
         .max(100)
         .optional(),
     }),
-    infoVerificationPhoto: z.string().optional(),
+    infoVerificationPhoto: z.string().nullable().optional(),
   }),
 });
 

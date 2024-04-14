@@ -7,7 +7,7 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import Link from "next/link";
-import ThemeToggle from "./ThemeToggle/theme-toggle";
+// import ThemeToggle from "./ThemeToggle/theme-toggle";
 import { MobileSidebar } from "./mobile/mobile-sidebar";
 import { UserNav } from "./user-nav";
 
@@ -50,7 +50,7 @@ export default async function DashboardHeader() {
           <HydrationBoundary state={dehydrate(queryClient)}>
             <UserNav />
           </HydrationBoundary>
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
         </div>
       </nav>
     </div>

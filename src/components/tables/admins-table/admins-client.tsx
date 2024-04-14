@@ -16,10 +16,12 @@ import { columns } from "./columns";
 import { AdminsTable } from "./admins-table";
 
 interface ProductsClientProps {
-  // data: User[];
+  isSuperOrGrandAdmin: boolean;
 }
 
-export const AdminsClient: React.FC<ProductsClientProps> = () => {
+export const AdminsClient: React.FC<ProductsClientProps> = ({
+  isSuperOrGrandAdmin,
+}) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -65,12 +67,14 @@ export const AdminsClient: React.FC<ProductsClientProps> = () => {
           title={`Admins (${isLoading ? "0" : total})`}
           description="Manage Admins for your business"
         />
-        <Button
-          className="text-xs md:text-sm"
-          onClick={() => router.push(`/dashboard/manage-admins/admins/new`)}
-        >
-          <Plus className="mr-2 h-4 w-4" /> Add New
-        </Button>
+        {isSuperOrGrandAdmin && (
+          <Button
+            className="text-xs md:text-sm"
+            onClick={() => router.push(`/dashboard/manage-admins/admins/new`)}
+          >
+            <Plus className="mr-2 h-4 w-4" /> Add New
+          </Button>
+        )}
       </div>
       <Separator />
       {content}

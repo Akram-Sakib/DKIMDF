@@ -37,7 +37,6 @@ export default async function RootLayout({
   session: any;
 }) {
   // const session = await getServerSession();
-
   return (
     <html lang="en">
       <body className={`${inter.className}`}>

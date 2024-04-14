@@ -149,7 +149,7 @@ const CreateProfileOne = () => {
           onSubmit={onSubmit}
           defaultValues={defaultValues}
           formSchema={status === "authenticated" && schema}
-          className="mt-20 md:w-1/2"
+          className="mt-20 lg:w-4/3"
           formId="create-profile"
         >
           {currentStep === 0 && (

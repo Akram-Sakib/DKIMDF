@@ -346,12 +346,12 @@ export const navItems = (role: string): NavItem[] => {
       icon: "cityLocation",
       label: "places",
     },
-    {
-      title: "Payments",
-      href: "/dashboard/payment",
-      icon: "banknote",
-      label: "payments",
-    },
+    // {
+    //   title: "Payments",
+    //   href: "/dashboard/payment",
+    //   icon: "banknote",
+    //   label: "payments",
+    // },
     {
       title: "Subscription",
       href: "/dashboard/subscription",
@@ -365,7 +365,7 @@ export const navItems = (role: string): NavItem[] => {
     },
   ].filter(item => {
     if (role === "member") {
-      const hiddenItems = ["Places", "Membership", "Gallery", "News", "Projects", "Manage Admins", "Members"];
+      const hiddenItems = [ "Membership", "Gallery", "News", "Projects", "Manage Admins", "Members"];
       return !hiddenItems.includes(item.title);
     } else if (role === "admin") {
       return item.title !== "Membership"; // Hide only Membership for admin

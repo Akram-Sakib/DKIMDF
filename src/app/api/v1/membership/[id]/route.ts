@@ -10,7 +10,7 @@ import { ENUMUSER } from "@/constants/common";
 
 export const GET = withErrorHandler(async (request, context) => {
 
-  await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], request);
+  await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.MEMBER], request);
   const { id } = context.params;
 
   const result = await MembershipService.getById(id);

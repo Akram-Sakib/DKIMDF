@@ -22,18 +22,24 @@ const excludeForMemberAndAdmin = (dynamicRoute: string) => {
         routes: ["/dashboard/manage-admins/super-admins"],
         dynamicRoutes: [
             `/dashboard/manage-admins/super-admins/${dynamicRoute}`,
+            `/dashboard/manage-admins/admins/${dynamicRoute}`,
+            `/dashboard/manage-admins/grand-admins/${dynamicRoute}`,
         ]
     }
 };
 
 const excludeForMember = (dynamicRoute: string) => {
     return {
-        routes: ["/dashboard/manage-admins", "/dashboard/membership", "/dashboard/projects", "/dashboard/news", "/dashboard/gallery", "/dashboard/members", "/dashboard/membership", "/dashboard/places"],
-        dynamicRoutes: [
-
-        ]
+        routes: ["/dashboard/manage-admins", "/dashboard/membership", "/dashboard/members", "/dashboard/projects", "/dashboard/places/countries", "/dashboard/places/divisions", "/dashboard/places/districts", "/dashboard/places/police-stations", "/dashboard/places/post-offices"],
+        dynamicRoutes: []
     }
 };
+
+const onlyForMember = () => {
+    return {
+        routes: ["/dashboard/subscription/list/buy-subscription"],
+    }
+}
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
@@ -59,10 +65,18 @@ export async function middleware(request: NextRequest) {
     } else if (token && pathname === "/login") {
         return NextResponse.redirect(new URL("/", request.nextUrl));
     }
-    
+
+    if (!isMember) {
+        const redirectRoute = onlyForMember().routes.find(route => pathname.startsWith(route));
+        if (redirectRoute) {
+            return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+        }
+    }
+
     // Prioritize Grand Admin check for unrestricted access
     if (isGrandAdmin) {
         return NextResponse.next();
+
     }
 
     if (!isGrandAdmin && pathname.startsWith(onlyForAdmin(pathname.split("/")[4]).dynamicRoutes[0])) {
@@ -70,7 +84,8 @@ export async function middleware(request: NextRequest) {
     }
     if (isAdmin || isMember) {
         const redirectRoute = excludeForMemberAndAdmin(pathname.split("/")[4]).routes.find(route => pathname.startsWith(route));
-        if (redirectRoute) {
+        const redirectDynamicRoute = excludeForMemberAndAdmin(pathname.split("/")[4]).dynamicRoutes.find(route => pathname.startsWith(route));
+        if (redirectRoute || redirectDynamicRoute) {
             return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
         }
     }

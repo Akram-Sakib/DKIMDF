@@ -54,7 +54,7 @@ export function FormComboBox({
       render={({ field }) => {
         return (
           <FormItem>
-            <div className="flex flex-col gap-y-3">
+            <div className="space-y-2">
               <FormLabel>
                 {label} {required && <span className="text-red-500">*</span>}
               </FormLabel>
