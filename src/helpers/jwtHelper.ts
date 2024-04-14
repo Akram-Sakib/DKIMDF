@@ -1,4 +1,4 @@
-import ApiError from '@/errors/apiError';
+import ApiError from '@/errors/ApiError';
 import httpStatus from 'http-status';
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 

@@ -1,10 +1,9 @@
-import next from 'next';
-import { type NextRequest } from 'next/server';
+import config from '@/config';
+import ApiError from '@/errors/ApiError';
+import { jwtHelpers } from '@/helpers/jwtHelper';
 import httpStatus from 'http-status';
 import { Secret } from 'jsonwebtoken';
-import ApiError from '@/errors/apiError';
-import config from '@/config';
-import { jwtHelpers } from '@/helpers/jwtHelper';
+import { type NextRequest } from 'next/server';
 
 const auth = async (requiredRoles: string[], req: NextRequest) => {
   try {

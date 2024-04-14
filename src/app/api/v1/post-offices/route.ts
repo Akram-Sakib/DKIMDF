@@ -4,8 +4,8 @@ import { getQueryParams } from "@/utils/getQueryParams";
 import pick from "@/utils/pick";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
-import { postOfficeFilterableFields } from "./postOffices.constants";
-import { PostOfficeService } from "./postOffices.service";
+import { postOfficeFilterableFields } from "./postoffices.constants";
+import { PostOfficeService } from "./postoffices.service";
 
 export const GET = withErrorHandler(
   async (request: NextRequest, context: any) => {

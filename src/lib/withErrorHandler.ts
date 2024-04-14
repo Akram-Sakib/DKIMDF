@@ -1,5 +1,5 @@
 import config from "@/config";
-import ApiError from "@/errors/apiError";
+import ApiError from "@/errors/ApiError";
 import handleClientError from "@/errors/handleClientError";
 import handleInitializationError from "@/errors/handleInitializationError";
 import handleValidationError from "@/errors/handleValidationError";
