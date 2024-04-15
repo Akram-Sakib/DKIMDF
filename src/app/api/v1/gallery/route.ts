@@ -7,7 +7,7 @@ import { NextRequest } from "next/server";
 import { galleryFilterableFields } from "./gallery.constants";
 import { GalleryService } from "./gallery.service";
 
-export const GET = withErrorHandler(
+export const GET = 
   async (request: NextRequest, context: any) => {
     const queryParams = getQueryParams(request);
 
@@ -24,4 +24,3 @@ export const GET = withErrorHandler(
 
     return sendResponse(data);
   }
-);

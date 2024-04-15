@@ -7,7 +7,7 @@ import { NextRequest } from "next/server";
 import { districtFilterableFields } from "./districts.constants";
 import { DistrictService } from "./districts.service";
 
-export const GET = withErrorHandler(
+export const GET = 
   async (request: NextRequest, context: any) => {
     const queryParams = getQueryParams(request);
 
@@ -24,4 +24,3 @@ export const GET = withErrorHandler(
 
     return sendResponse(data);
   }
-);

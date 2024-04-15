@@ -9,7 +9,7 @@ import { SuperAdminService } from "./superAdmin.service";
 import auth from "@/lib/authMiddleware";
 import { ENUMUSER } from "@/constants/common";
 
-export const GET = withErrorHandler(
+export const GET =
   async (request: NextRequest, context: any) => {
     const queryParams = getQueryParams(request);
     await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN], request);
@@ -27,4 +27,3 @@ export const GET = withErrorHandler(
 
     return sendResponse(data);
   }
-);

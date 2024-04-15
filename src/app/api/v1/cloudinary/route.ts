@@ -4,8 +4,8 @@ import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { deleteImage } from "./cloudinary";
 
-export const POST = withErrorHandler(
-  async (request: NextRequest, context) => {
+export const POST =
+  async (request: NextRequest) => {
 
     const body = await request.json();
     const publicId = body.publicId;
@@ -20,5 +20,3 @@ export const POST = withErrorHandler(
 
     return sendResponse(data);
   }
-);
-

@@ -7,8 +7,7 @@ import { NextRequest } from "next/server";
 import { postFilterableFields } from "./post.constants";
 import { PostService } from "./post.service";
 
-export const GET = withErrorHandler(
-  async (request: NextRequest, context: any) => {
+export const GET = async (request: NextRequest, context: any) => {
     const queryParams = getQueryParams(request);
 
     const filters = pick(queryParams, postFilterableFields);
@@ -24,4 +23,3 @@ export const GET = withErrorHandler(
 
     return sendResponse(data);
   }
-);

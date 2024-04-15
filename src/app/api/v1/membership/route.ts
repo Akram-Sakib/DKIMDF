@@ -7,8 +7,7 @@ import { NextRequest } from "next/server";
 import { membershipFilterableFields } from "./membership.constants";
 import { MembershipService } from "./membership.service";
 
-export const GET = withErrorHandler(
-  async (request: NextRequest, context: any) => {
+export const GET = async (request: NextRequest, context: any) => {
     const queryParams = getQueryParams(request);
 
     const filters = pick(queryParams, membershipFilterableFields);
@@ -24,4 +23,3 @@ export const GET = withErrorHandler(
 
     return sendResponse(data);
   }
-);

@@ -7,8 +7,7 @@ import { NextRequest } from "next/server";
 import { postOfficeFilterableFields } from "./postoffices.constants";
 import { PostOfficeService } from "./postoffices.service";
 
-export const GET = withErrorHandler(
-  async (request: NextRequest, context: any) => {
+export const GET = async (request: NextRequest, context: any) => {
     const queryParams = getQueryParams(request);
 
     const filters = pick(queryParams, postOfficeFilterableFields);
@@ -24,4 +23,3 @@ export const GET = withErrorHandler(
 
     return sendResponse(data);
   }
-);
