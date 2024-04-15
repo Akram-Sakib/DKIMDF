@@ -6,12 +6,11 @@ import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { categoryFilterableFields } from "./categories.constants";
 import { CategoriesService } from "./categories.service";
+export const dynamic = 'force-dynamic'; 
 
 export const GET = withErrorHandler(
   async (request: NextRequest, context: any) => {
-
-    const searchParams = request.nextUrl.searchParams;
-    const queryParams = getQueryParams(searchParams);
+    const queryParams = getQueryParams(request);
 
     const filters = pick(queryParams, categoryFilterableFields);
     const options = pick(queryParams, ["limit", "page", "sortBy", "sortOrder"]);

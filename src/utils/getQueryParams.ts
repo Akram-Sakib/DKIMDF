@@ -1,9 +1,12 @@
+// @ts-nocheck
 "use server"
+export const dynamic = 'force-dynamic'; 
 
-// import { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 
-export const getQueryParams = (searchParams: any): Record<string, string> => {
-  const params: Record<string, string> = {};
+export const getQueryParams = (req: NextRequest): Record<string, string> => {
+  const searchParams = req.nextUrl.searchParams;
+  const params = {};
 
   for (const [key, value] of searchParams) {
     params[key as string] = value as string;
