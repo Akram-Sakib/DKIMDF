@@ -8,7 +8,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 export const authOptions: NextAuthOptions = {
   // Secret for Next-auth, without this JWT encryption/decryption won't work
   secret: process.env.NEXTAUTH_SECRET,
-
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
@@ -53,6 +52,7 @@ export const authOptions: NextAuthOptions = {
         if (result) {
           // Any object returned will be saved in `user` property of the JWT
 
+          setToCookie(ACCESS_TOKEN_KEY, verifiedToken?.accessToken);
           return { ...result, ...verifiedToken };
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
@@ -87,14 +87,13 @@ export const authOptions: NextAuthOptions = {
       //   token.accessToken = data?.accessToken;
       // }
 
-      setToCookie(ACCESS_TOKEN_KEY, token?.accessToken);
-
+      // setToCookie(ACCESS_TOKEN_KEY, token?.accessToken);
       return {
         ...session,
         ...token,
       };
     },
-    
+
   },
   session: {
     strategy: "jwt",

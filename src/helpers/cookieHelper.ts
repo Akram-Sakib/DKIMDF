@@ -8,7 +8,6 @@ export async function setToCookie(
   value: string,
   options?: Record<string, any>
 ) {
-  'use server'
   if (!key) {
     return "";
   }
