@@ -1,11 +1,9 @@
-// @ts-nocheck
 "use server"
 
-import { NextRequest } from "next/server";
+// import { NextRequest } from "next/server";
 
-export const getQueryParams = (req: NextRequest): Record<string, string> => {
-  const searchParams = req.nextUrl.searchParams;
-  const params = {};
+export const getQueryParams = (searchParams: any): Record<string, string> => {
+  const params: Record<string, string> = {};
 
   for (const [key, value] of searchParams) {
     params[key as string] = value as string;

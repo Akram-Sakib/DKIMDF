@@ -9,7 +9,9 @@ import { CategoriesService } from "./categories.service";
 
 export const GET = withErrorHandler(
   async (request: NextRequest, context: any) => {
-    const queryParams = getQueryParams(request);
+
+    const searchParams = request.nextUrl.searchParams;
+    const queryParams = getQueryParams(searchParams);
 
     const filters = pick(queryParams, categoryFilterableFields);
     const options = pick(queryParams, ["limit", "page", "sortBy", "sortOrder"]);
