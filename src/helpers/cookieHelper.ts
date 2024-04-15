@@ -1,4 +1,4 @@
-"use server";
+'use server'
 
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { cookies } from "next/headers";
@@ -8,6 +8,7 @@ export async function setToCookie(
   value: string,
   options?: Record<string, any>
 ) {
+  'use server'
   if (!key) {
     return "";
   }
