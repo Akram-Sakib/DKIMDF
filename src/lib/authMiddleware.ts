@@ -6,10 +6,11 @@ import { Secret } from 'jsonwebtoken';
 import { type NextRequest } from 'next/server';
 
 const auth = async (requiredRoles: string[], req: NextRequest) => {
-  try {
-    // Get authorization token
-    const token = req.headers.get('authorization')
 
+  // Get authorization token
+  const token = req.headers.get('authorization')
+
+  try {
     if (!token) {
       throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized');
     }
@@ -28,7 +29,7 @@ const auth = async (requiredRoles: string[], req: NextRequest) => {
     }
 
     // Attach user info to the request
-    (req as any).user = verifiedUser; 
+    (req as any).user = verifiedUser;
 
   } catch (error: any) {
     throw new ApiError(error.statusCode, error.message);
