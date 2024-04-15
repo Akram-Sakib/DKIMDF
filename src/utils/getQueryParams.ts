@@ -1,4 +1,6 @@
 // @ts-nocheck
+"use server"
+
 import { NextRequest } from "next/server";
 
 export const getQueryParams = (req: NextRequest): Record<string, string> => {
