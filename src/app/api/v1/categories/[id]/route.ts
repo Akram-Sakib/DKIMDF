@@ -5,23 +5,28 @@ import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { CategoriesService } from "../categories.service";
 import { CategoryValidation } from "../categories.validation";
+import ErrorResponse from "@/lib/error-response";
 
-export const GET = withErrorHandler(async (request, context) => {
+export const GET = async (request: NextRequest, context: {
+  params: { id: string }
+}) => {
   const { id } = context.params;
 
-  const result = await CategoriesService.getById(id);
+  try {
+    const result = await CategoriesService.getById(id);
+    const data = {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Category Fetched Successfully!",
+      data: result,
+    };
+    return sendResponse(data);
+  } catch (error) {
+    return ErrorResponse(error)
+  }
+}
 
-  const data = {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Category Fetched Successfully!",
-    data: result,
-  };
-
-  return sendResponse(data);
-});
-
-export const PATCH = withErrorHandler(
+export const PATCH =
   async (
     req: NextRequest,
     {
@@ -31,22 +36,25 @@ export const PATCH = withErrorHandler(
     }
   ) => {
     const { id } = params;
-    const body = await req.json();
-    await CategoryValidation.CategorySchema.parseAsync({
-      body,
-    });
-    const result = await CategoriesService.updateById(id, body);
-
-    return sendResponse<Category>({
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Category Updated Successfully!",
-      data: result,
-    });
+    try {
+      const body = await req.json();
+      await CategoryValidation.CategorySchema.parseAsync({
+        body,
+      });
+      const result = await CategoriesService.updateById(id, body);
+      return sendResponse<Category>({
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Category Updated Successfully!",
+        data: result,
+      });
+    } catch (error) {
+      return ErrorResponse(error)
+    }
   }
-);
 
-export const DELETE = withErrorHandler(
+
+export const DELETE =
   async (
     req: NextRequest,
     {
@@ -56,13 +64,17 @@ export const DELETE = withErrorHandler(
     }
   ) => {
     const { id } = params;
-    const result = await CategoriesService.deleteById(id);
 
-    return sendResponse<Category>({
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Category Deleted Successfully!",
-      data: result,
-    });
+    try {
+      const result = await CategoriesService.deleteById(id);
+      return sendResponse<Category>({
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Category Deleted Successfully!",
+        data: result,
+      });
+    } catch (error) {
+      return ErrorResponse(error)
+    }
   }
-);
+

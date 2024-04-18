@@ -16,8 +16,8 @@ export const GET =
     const filters = pick(queryParams, subscriptionFilterableFields);
     const options = pick(queryParams, ["limit", "page", "sortBy", "sortOrder"]);
 
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN, ENUMUSER.MEMBER], request);
     try {
-      await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN, ENUMUSER.MEMBER], request);
       const user = (request as any).user
       const result = await SubscriptionService.getAll(filters, options, user);
       const data = {

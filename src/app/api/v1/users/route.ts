@@ -28,6 +28,6 @@ const GetUsers = async (request: NextRequest, params: any) => {
 
 };
 
-const handlers = withErrorHandler(GetUsers);
+const handlers = GetUsers;
 
 export { handlers as GET };
