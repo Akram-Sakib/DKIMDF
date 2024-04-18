@@ -7,23 +7,61 @@ import { CountryService } from "../countries.service";
 import { CountryValidation } from "../countries.validation";
 import auth from "@/lib/authMiddleware";
 import { ENUMUSER } from "@/constants/common";
+import ErrorResponse from "@/lib/error-response";
 
-export const GET = withErrorHandler(async (request, context) => {
+export const GET = async (request: NextRequest, context: {
+  params: { id: string }
+}) => {
   await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], request);
   const { id } = context.params;
-  const result = await CountryService.getById(id);
 
-  const data = {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Country Fetched Successfully!",
-    data: result,
-  };
+  try {
+    const result = await CountryService.getById(id);
+    const data = {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Country Fetched Successfully!",
+      data: result,
+    };
 
-  return sendResponse(data);
-});
+    return sendResponse(data);
+  } catch (error) {
+    return ErrorResponse(error)
+  }
+}
 
-export const PATCH = withErrorHandler(
+export const PATCH =
+  async (
+    req: NextRequest,
+    {
+      params,
+    }: {
+      params: { id: string };
+    }
+  ) => {
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
+    const { id } = params;
+
+    try {
+      const body = await req.json();
+      await CountryValidation.CountryUpdateSchema.parseAsync({
+        body,
+      });
+      const result = await CountryService.updateById(id, body);
+
+      return sendResponse<Country>({
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Country Updated Successfully!",
+        data: result,
+      });
+    } catch (error) {
+      return ErrorResponse(error)
+    }
+  }
+
+
+export const DELETE =
   async (
     req: NextRequest,
     {
@@ -33,42 +71,19 @@ export const PATCH = withErrorHandler(
     }
   ) => {
 
-    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
     const { id } = params;
-    const body = await req.json();
-    await CountryValidation.CountryUpdateSchema.parseAsync({
-      body,
-    });
-    const result = await CountryService.updateById(id, body);
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
 
-    return sendResponse<Country>({
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Country Updated Successfully!",
-      data: result,
-    });
-  }
-);
+    try {
+      const result = await CountryService.deleteById(id);
 
-export const DELETE = withErrorHandler(
-  async (
-    req: NextRequest,
-    {
-      params,
-    }: {
-      params: { id: string };
+      return sendResponse<Country>({
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Country Deleted Successfully!",
+        data: result,
+      });
+    } catch (error) {
+      return ErrorResponse(error)
     }
-  ) => {
-
-    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], req);
-    const { id } = params;
-    const result = await CountryService.deleteById(id);
-
-    return sendResponse<Country>({
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Country Deleted Successfully!",
-      data: result,
-    });
   }
-);

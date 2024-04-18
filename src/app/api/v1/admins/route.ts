@@ -15,8 +15,8 @@ export const GET =
     const filters = pick(queryParams, adminFilterableFields);
     const options = pick(queryParams, ["limit", "page", "sortBy", "sortOrder"]);
 
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], request);
     try {
-      await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN, ENUMUSER.ADMIN], request);
       const user = (request as any).user
       const result = await AdminService.getAll(filters, options, user);
 

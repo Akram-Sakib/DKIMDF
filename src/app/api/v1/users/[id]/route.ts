@@ -1,10 +1,9 @@
+import ErrorResponse from "@/lib/error-response";
 import sendResponse from "@/lib/sendResponse";
-import withErrorHandler from "@/lib/withErrorHandler";
 import { User } from "@prisma/client";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { UserService } from "../users.service";
-import ErrorResponse from "@/lib/error-response";
 
 // export const GET = async (request, context) => {
 //   const { id } = context.params;
@@ -54,7 +53,6 @@ export const PATCH = async (
   }
 ) => {
   const { id } = params;
-
   try {
     const body = await req.json();
     // await UserValidation.MemberUserSchema.parseAsync({

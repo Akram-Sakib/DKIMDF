@@ -9,8 +9,8 @@ import { UserService } from "./users.service";
 
 const GetUsers = async (request: NextRequest, params: any) => {
 
+  await auth([ENUMUSER.GRAND_ADMIN], request);
   try {
-    await auth([ENUMUSER.GRAND_ADMIN], request);
     const result = await UserService.getUsers();
 
     const data = {
