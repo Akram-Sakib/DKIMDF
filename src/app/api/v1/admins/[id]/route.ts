@@ -7,23 +7,31 @@ import { AdminService } from "../admins.service";
 import { AdminValidation } from "../admins.validation";
 import auth from "@/lib/authMiddleware";
 import { ENUMUSER } from "@/constants/common";
+import ErrorResponse from "@/lib/error-response";
 
-export const GET = withErrorHandler(async (request, context) => {
-  await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN], request);
+export const GET = async (request: NextRequest, context: {
+  params: { id: string }
+}) => {
   const { id } = context.params;
-  const result = await AdminService.getById(id);
 
-  const data = {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Admin Fetched Successfully!",
-    data: result,
-  };
+  try {
+    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN], request);
+    const result = await AdminService.getById(id);
 
-  return sendResponse(data);
-});
+    const data = {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Admin Fetched Successfully!",
+      data: result,
+    };
 
-export const PATCH = withErrorHandler(
+    return sendResponse(data);
+  } catch (error) {
+    return ErrorResponse(error)
+  }
+}
+
+export const PATCH =
   async (
     req: NextRequest,
     {
@@ -32,24 +40,29 @@ export const PATCH = withErrorHandler(
       params: { id: string };
     }
   ) => {
-    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN], req);
     const { id } = params;
-    const body = await req.json();
-    await AdminValidation.AdminUpdateSchema.parseAsync({
-      body,
-    });
-    const result = await AdminService.updateById(id, body);
 
-    return sendResponse<Admin>({
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Admin Updated Successfully!",
-      data: result,
-    });
+    try {
+      await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN], req);
+      const body = await req.json();
+      await AdminValidation.AdminUpdateSchema.parseAsync({
+        body,
+      });
+      const result = await AdminService.updateById(id, body);
+
+      return sendResponse<Admin>({
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Admin Updated Successfully!",
+        data: result,
+      });
+    } catch (error) {
+      return ErrorResponse(error)
+    }
   }
-);
 
-export const DELETE = withErrorHandler(
+
+export const DELETE =
   async (
     req: NextRequest,
     {
@@ -58,15 +71,19 @@ export const DELETE = withErrorHandler(
       params: { id: string };
     }
   ) => {
-    await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN], req);
     const { id } = params;
-    const result = await AdminService.deleteById(id);
+    try {
+      await auth([ENUMUSER.GRAND_ADMIN, ENUMUSER.SUPER_ADMIN], req);
+      const result = await AdminService.deleteById(id);
 
-    return sendResponse<Admin>({
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Admin Deleted Successfully!",
-      data: result,
-    });
+      return sendResponse<Admin>({
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Admin Deleted Successfully!",
+        data: result,
+      });
+    } catch (error) {
+      return ErrorResponse(error)
+    }
   }
-);
+

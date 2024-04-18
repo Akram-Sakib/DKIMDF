@@ -4,8 +4,9 @@ import { User } from "@prisma/client";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { UserService } from "../users.service";
+import ErrorResponse from "@/lib/error-response";
 
-// export const GET = withErrorHandler(async (request, context) => {
+// export const GET = async (request, context) => {
 //   const { id } = context.params;
 
 //   const result = UserService.getUser(id);
@@ -20,7 +21,7 @@ import { UserService } from "../users.service";
 //   return sendResponse(data);
 // });
 
-export const DELETE = withErrorHandler(
+export const DELETE =
   async (
     req: NextRequest,
     {
@@ -30,27 +31,31 @@ export const DELETE = withErrorHandler(
     }
   ) => {
     const { id } = params;
-    const result = await UserService.deleteUser(id);
 
-    return sendResponse<Omit<User, "password">>({
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "User Deleted Successfully!",
-      data: result,
-    });
+    try {
+      const result = await UserService.deleteUser(id);
+      return sendResponse<Omit<User, "password">>({
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "User Deleted Successfully!",
+        data: result,
+      });
+    } catch (error) {
+      return ErrorResponse(error)
+    }
   }
-);
 
-export const PATCH = withErrorHandler(
-  async (
-    req: NextRequest,
-    {
-      params,
-    }: {
-      params: { id: string };
-    }
-  ) => {
-    const { id } = params;
+export const PATCH = async (
+  req: NextRequest,
+  {
+    params,
+  }: {
+    params: { id: string };
+  }
+) => {
+  const { id } = params;
+
+  try {
     const body = await req.json();
     // await UserValidation.MemberUserSchema.parseAsync({
     //   body,
@@ -63,5 +68,8 @@ export const PATCH = withErrorHandler(
       message: "User Updated Successfully!",
       data: result,
     });
+  } catch (error) {
+    return ErrorResponse(error)
   }
-);
+}
+
