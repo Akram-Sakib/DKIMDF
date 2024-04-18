@@ -1,5 +1,5 @@
+import ErrorResponse from "@/lib/error-response";
 import sendResponse from "@/lib/sendResponse";
-import withErrorHandler from "@/lib/withErrorHandler";
 import { getQueryParams } from "@/utils/getQueryParams";
 import pick from "@/utils/pick";
 import httpStatus from "http-status";
@@ -13,14 +13,17 @@ export const GET =
 
     const filters = pick(queryParams, projectFilterableFields);
     const options = pick(queryParams, ["limit", "page", "sortBy", "sortOrder"]);
-    const result = await ProjectService.getAll(filters, options);
 
-    const data = {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "All Projects Fetched Successfully!",
-      data: result,
-    };
-
-    return sendResponse(data);
+    try {
+      const result = await ProjectService.getAll(filters, options);
+      const data = {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "All Projects Fetched Successfully!",
+        data: result,
+      };
+      return sendResponse(data);
+    } catch (error) {
+      return ErrorResponse(error)
+    }
   }

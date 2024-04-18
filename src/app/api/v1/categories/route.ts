@@ -1,5 +1,5 @@
+import ErrorResponse from "@/lib/error-response";
 import sendResponse from "@/lib/sendResponse";
-import withErrorHandler from "@/lib/withErrorHandler";
 import { getQueryParams } from "@/utils/getQueryParams";
 import pick from "@/utils/pick";
 import httpStatus from "http-status";
@@ -14,15 +14,20 @@ export const GET =
 
     const filters = pick(queryParams, categoryFilterableFields);
     const options = pick(queryParams, ["limit", "page", "sortBy", "sortOrder"]);
-    const result = withErrorHandler(async () => await CategoriesService.getAll(filters, options));
 
-    const data = {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "All Categries Fetched Successfully!",
-      data: result,
-    };
+    try {
+      const result = await CategoriesService.getAll(filters, options);
 
-    return sendResponse(data);
+      const data = {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "All Categries Fetched Successfully!",
+        data: result,
+      };
+
+      return sendResponse(data);
+    } catch (error) {
+      return ErrorResponse(error)
+    }
   }
 // );

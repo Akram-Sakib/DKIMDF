@@ -6,8 +6,7 @@ import handleValidationError from "@/errors/handleValidationError";
 import handleZodError from "@/errors/handleZodError";
 import { IGenericErrorMessage } from "@/types/error";
 import { Prisma } from "@prisma/client";
-import { NextResponse } from "next/server";
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { ZodError } from "zod";
 
 function withErrorHandler(
