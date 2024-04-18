@@ -124,11 +124,12 @@ export function SuperAdminsTable<TData, TValue>({
     state: {
       pagination: { pageIndex, pageSize },
       sorting,
-      columnVisibility: role !== "grand_admin"
-        ? {
-            actions: false,
-          }
-        : {},
+      columnVisibility:
+        role !== "grand_admin"
+          ? {
+              actions: false,
+            }
+          : {},
     },
     onPaginationChange: setPagination,
     getPaginationRowModel: getPaginationRowModel(),
@@ -258,7 +259,7 @@ export function SuperAdminsTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {table?.getRowModel()?.rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}

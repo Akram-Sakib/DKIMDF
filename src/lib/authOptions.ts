@@ -49,10 +49,11 @@ export const authOptions: NextAuthOptions = {
           process.env.JWT_SECRET!
         );
         // const { data, message } = await res.json();
+
         if (result) {
           // Any object returned will be saved in `user` property of the JWT
 
-          setToCookie(ACCESS_TOKEN_KEY, verifiedToken?.accessToken);
+          setToCookie(ACCESS_TOKEN_KEY, result?.accessToken);
           return { ...result, ...verifiedToken };
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
