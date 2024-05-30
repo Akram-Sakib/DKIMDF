@@ -21,6 +21,15 @@ type paramsProps = {
   };
 };
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Payment History",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
+};
+
+
 export default async function PaymentHistoryPage({
   searchParams,
 }: paramsProps) {

@@ -1,6 +1,13 @@
 import BlurImage from "@/components/ui/blur-image";
 import Container from "@/components/ui/container";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Projects",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF).",
+};
 
 const ProjectsPage = () => {
   return (

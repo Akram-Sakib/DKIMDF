@@ -1,13 +1,17 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import Container from "@/components/ui/container";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | About",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF).",
+};
 
 const AboutPage = () => {
   const cards = [

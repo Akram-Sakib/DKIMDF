@@ -1,4 +1,11 @@
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Contact",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF).",
+};
 
 const ContactPage = () => {
   return (

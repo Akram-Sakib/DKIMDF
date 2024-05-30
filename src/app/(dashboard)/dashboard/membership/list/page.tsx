@@ -19,6 +19,15 @@ type paramsProps = {
   };
 };
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Membership List",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
+};
+
+
 const MembershipListPage = async ({ searchParams }: paramsProps) => {
   const page = Number(searchParams.page) || 1;
   const pageLimit = Number(searchParams.limit) || 10;

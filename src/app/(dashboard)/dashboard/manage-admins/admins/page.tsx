@@ -21,6 +21,14 @@ type paramsProps = {
   };
 };
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Admins",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
+};
+
 const AdminsPage = async ({ searchParams }: paramsProps) => {
   const session = (await getServerSession(authOptions)) as any;
   const isSuperOrGrandAdmin =

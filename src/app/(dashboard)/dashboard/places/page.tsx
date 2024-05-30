@@ -13,6 +13,13 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
 const breadcrumbItems = [{ title: "Places", link: "/dashboard/places" }];
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Places",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
+};
 
 const CountriesPage = async () => {
   const session = (await getServerSession(authOptions)) as any;

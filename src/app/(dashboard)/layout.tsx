@@ -1,10 +1,10 @@
 import DashboardHeader from "@/components/ui/dashboard/dashboard-header";
 import Sidebar from "@/components/ui/dashboard/sidebar";
-import { Metadata } from "next";
 import React from "react";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
+  title: "Somadhan Foundation | Dashboard",
   description:
     "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
 };

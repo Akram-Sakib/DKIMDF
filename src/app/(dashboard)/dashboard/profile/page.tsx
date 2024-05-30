@@ -9,6 +9,13 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Profile",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
+};
 
 const breadcrumbItems = [{ title: "Profile", link: "/dashboard/profile" }];
 export default async function page() {

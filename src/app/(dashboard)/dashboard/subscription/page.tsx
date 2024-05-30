@@ -15,6 +15,13 @@ import { authOptions } from "@/lib/authOptions";
 const breadcrumbItems = [
   { title: "Subscription", link: "/dashboard/subscription" },
 ];
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Subscription",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
+};
 
 const SubscriptionPage = async () => {
   const session = (await getServerSession(authOptions)) as any;

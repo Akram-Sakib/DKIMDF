@@ -2,6 +2,14 @@ import Categories from "@/components/post/categories";
 import PostCard from "@/components/post/post-card";
 import Container from "@/components/ui/container";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | News",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF).",
+};
+
 const NewsPage = () => {
   const posts = [
     {

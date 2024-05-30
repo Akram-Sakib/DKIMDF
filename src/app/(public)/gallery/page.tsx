@@ -2,6 +2,13 @@ import imgfive from "@/assets/images/destination-1-5.png";
 import { Button } from "@/components/ui/button";
 import Container from "@/components/ui/container";
 import "./gallery.css";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Gallery",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF).",
+};
 
 const GalleryPage = () => {
   return (

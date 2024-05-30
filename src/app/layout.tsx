@@ -1,10 +1,8 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import localFont from "next/font/local";
-import "./globals.css";
-import { getServerSession } from "next-auth";
 import Providers from "@/components/providers";
 import { Toaster } from "@/components/ui/toaster";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +22,7 @@ const inter = Inter({ subsets: ["latin"] });
 // });
 
 export const metadata: Metadata = {
-  title: "Dynamic Krishok & Imam Muazzin Development Foundation",
+  title: "Somadhan Foundation",
   description:
     "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF).",
 };

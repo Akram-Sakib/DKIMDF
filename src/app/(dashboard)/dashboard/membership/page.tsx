@@ -14,6 +14,15 @@ const breadcrumbItems = [
   { title: "Membership", link: "/dashboard/membership" },
 ];
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Membership",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
+};
+
+
 const MembershipPage = () => {
   return (
     <div className="flex-1 space-y-12 p-4 md:p-8 pt-6">

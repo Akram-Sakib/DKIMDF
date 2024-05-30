@@ -16,6 +16,13 @@ type paramsProps = {
     [key: string]: string | string[] | undefined;
   };
 };
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Users",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
+};
 
 export default async function page({ searchParams }: paramsProps) {
   const page = Number(searchParams.page) || 1;

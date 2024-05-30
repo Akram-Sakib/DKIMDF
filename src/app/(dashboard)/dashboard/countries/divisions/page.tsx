@@ -1,18 +1,17 @@
-
 const breadcrumbItems = [
   { title: "Countries", link: "/dashboard/countries" },
   { title: "Divisions", link: "/dashboard/countries/divisions" },
 ];
 
+import { columns } from "@/components/tables/user-tables/columns";
+import { UserTable } from "@/components/tables/user-tables/user-table";
 import { buttonVariants } from "@/components/ui/button";
 import BreadCrumb from "@/components/ui/dashboard/breadcrumb";
 import { Heading } from "@/components/ui/dashboard/heading";
-import { columns } from "@/components/tables/user-tables/columns";
-import { UserTable } from "@/components/tables/user-tables/user-table";
 import { Separator } from "@/components/ui/separator";
 import { Employee } from "@/constants/data";
 import { cn } from "@/lib/utils";
-import { CheckSquare2, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 
 type paramsProps = {
@@ -21,7 +20,15 @@ type paramsProps = {
   };
 };
 
-export default async function PaymentHistoryPage({
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Divisions",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
+};
+
+export default async function DivisionsPage({
   searchParams,
 }: paramsProps) {
   const page = Number(searchParams.page) || 1;
@@ -52,7 +59,8 @@ export default async function PaymentHistoryPage({
             href={"/dashboard/divisions/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
-            <Plus className="mr-2 h-4 w-4" />Add New Division
+            <Plus className="mr-2 h-4 w-4" />
+            Add New Division
           </Link>
         </div>
         <Separator />

@@ -19,6 +19,13 @@ type paramsProps = {
     [key: string]: string | string[] | undefined;
   };
 };
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Post Office",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
+};
 
 const PostOfficePage = async ({ searchParams }: paramsProps) => {
   const page = Number(searchParams.page) || 1;

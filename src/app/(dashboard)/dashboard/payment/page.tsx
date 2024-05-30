@@ -11,6 +11,15 @@ import {
 import Link from "next/link";
 
 const breadcrumbItems = [{ title: "Payment", link: "/dashboard/payment" }];
+
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Somadhan Foundation | Payment",
+  description:
+    "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
+};
+
 const Payment = () => {
   return (
     <div className="flex-1 space-y-12 p-4 md:p-8 pt-6">
