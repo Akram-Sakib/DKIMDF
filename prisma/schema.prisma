@@ -6,10 +6,11 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider     = "postgresql"
   url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  // url = env("DATABASE_URL")
+  // url          = env("DATABASE_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  // relationMode = "prisma"
 }
 
 model User {
@@ -92,7 +93,7 @@ model GrandAdmin {
   fathersName        String?
   mothersName        String?
   presentAddressId   String?
-  permanentAddressId String? 
+  permanentAddressId String?
   presentAddress     PresentAddress?   @relation(fields: [presentAddressId], references: [id])
   permanentAddress   PermanentAddress? @relation(fields: [permanentAddressId], references: [id])
 
@@ -141,24 +142,24 @@ model SuperAdmin {
 }
 
 model Admin {
-  id                  String    @id @default(uuid())
-  firstName           String
-  lastName            String
-  phoneNumber         String    @unique
-  email               String?   @unique
-  imageUrl            String?
-  gender              Gender    @default(male)
-  dateOfBirth         DateTime?
-  education           String?
-  bloodGroup          String?
-  nidNumber           String?
-  occupation          String?
-  referenceId         String?
-  spouseName          String?
-  fathersName         String?
-  mothersName         String?
-  authorizationScope  String
-  authorizationArea   String
+  id                 String    @id @default(uuid())
+  firstName          String
+  lastName           String
+  phoneNumber        String    @unique
+  email              String?   @unique
+  imageUrl           String?
+  gender             Gender    @default(male)
+  dateOfBirth        DateTime?
+  education          String?
+  bloodGroup         String?
+  nidNumber          String?
+  occupation         String?
+  referenceId        String?
+  spouseName         String?
+  fathersName        String?
+  mothersName        String?
+  authorizationScope String
+  authorizationArea  String
   // authorizationAreaId String
 
   presentAddressId   String           @unique

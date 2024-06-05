@@ -11,7 +11,7 @@ import { Heading } from "@/components/ui/dashboard/heading";
 import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
-const breadcrumbItems = [{ title: "Admins", link: "/dashboard/manage-admins" }];
+const breadcrumbItems = [{ title: "Manage Admins", link: "/dashboard/manage-admins" }];
 
 const AdminManagementPage = async () => {
   // get server session

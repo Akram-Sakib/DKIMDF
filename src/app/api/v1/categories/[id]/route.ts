@@ -1,11 +1,10 @@
+import ErrorResponse from "@/lib/error-response";
 import sendResponse from "@/lib/sendResponse";
-import withErrorHandler from "@/lib/withErrorHandler";
 import { Category } from "@prisma/client";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { CategoriesService } from "../categories.service";
 import { CategoryValidation } from "../categories.validation";
-import ErrorResponse from "@/lib/error-response";
 
 export const GET = async (request: NextRequest, context: {
   params: { id: string }

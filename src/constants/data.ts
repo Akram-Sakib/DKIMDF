@@ -316,24 +316,24 @@ export const navItems = (role: string): NavItem[] => {
       icon: "user",
       label: "members",
     },
-    {
-      title: "Gallery",
-      href: "/dashboard/gallery",
-      icon: "gallery",
-      label: "gallery",
-    },
-    {
-      title: "News",
-      href: "/dashboard/news",
-      icon: "news",
-      label: "news",
-    },
-    {
-      title: "Projects",
-      href: "/dashboard/projects",
-      icon: "kanbanSquare",
-      label: "projects",
-    },
+    // {
+    //   title: "Gallery",
+    //   href: "/dashboard/gallery",
+    //   icon: "gallery",
+    //   label: "gallery",
+    // },
+    // {
+    //   title: "News",
+    //   href: "/dashboard/news",
+    //   icon: "news",
+    //   label: "news",
+    // },
+    // {
+    //   title: "Projects",
+    //   href: "/dashboard/projects",
+    //   icon: "kanbanSquare",
+    //   label: "projects",
+    // },
     {
       title: "Membership",
       href: "/dashboard/membership",

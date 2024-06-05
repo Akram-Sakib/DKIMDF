@@ -38,7 +38,7 @@ export const DivisionsClient: React.FC<ProductsClientProps> = () => {
     },
   });
 
-  const pageCount = data?.meta?.total as number;
+  const pageCount = Math.ceil((data?.meta?.total as number) / limit);
   const total = data?.meta?.total as number;
   const allData = data?.data as Division[];
 
@@ -62,7 +62,7 @@ export const DivisionsClient: React.FC<ProductsClientProps> = () => {
     <>
       <div className="flex items-start justify-between">
         <Heading
-          title={`Divisions (${ isLoading ? "0" :total})`}
+          title={`Divisions (${isLoading ? "0" : total})`}
           description="Manage divisions for your business"
         />
         <Button

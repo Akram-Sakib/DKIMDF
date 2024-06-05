@@ -1,13 +1,12 @@
+import { ENUMUSER } from "@/constants/common";
+import auth from "@/lib/authMiddleware";
+import ErrorResponse from "@/lib/error-response";
 import sendResponse from "@/lib/sendResponse";
-import withErrorHandler from "@/lib/withErrorHandler";
 import { Admin } from "@prisma/client";
 import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import { AdminService } from "../admins.service";
 import { AdminValidation } from "../admins.validation";
-import auth from "@/lib/authMiddleware";
-import { ENUMUSER } from "@/constants/common";
-import ErrorResponse from "@/lib/error-response";
 
 export const GET = async (request: NextRequest, context: {
   params: { id: string }

@@ -30,6 +30,6 @@
     ".next/types/**/*.ts",
     "src/utils/objectsToArray.js",
     "src/utils/objectsToString.js"
-  ],
+, "server.js"  ],
   "exclude": ["node_modules"]
 }

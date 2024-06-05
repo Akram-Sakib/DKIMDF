@@ -10,7 +10,7 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 const breadcrumbItems = [
-  { title: "Admins", link: "/dashboard/manage-admins" },
+  { title: "Manage Admins", link: "/dashboard/manage-admins" },
   { title: "Super Admins", link: "/dashboard/admins/super-admins" },
 ];
 type paramsProps = {

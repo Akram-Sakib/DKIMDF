@@ -39,7 +39,7 @@ export const CountriesClient: React.FC<ProductsClientProps> = () => {
     },
   });
 
-  const pageCount = data?.meta?.total as number;
+  const pageCount = Math.ceil((data?.meta?.total as number) / limit);
   const total = data?.meta?.total as number;
   const allData = data?.data as Country[];
 
