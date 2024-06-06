@@ -1,8 +1,8 @@
 import prisma from "@/lib/prisma";
-import withErrorHandler from "@/lib/withErrorHandler";
 import { NextRequest, NextResponse } from "next/server";
+import { redirect } from 'next/navigation';
 
-export const POST = withErrorHandler(async (req: NextRequest) => {
+export const POST = async (req: NextRequest) => {
   const trans_id = req.nextUrl.searchParams.get("tran_id")
 
   if (!trans_id) {
@@ -38,9 +38,9 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
 
   // Construct redirect URL based on payment success or failure
   const redirectUrl = result
-    ? new URL('/payments/success', req.url)
-    : new URL('/payments/failed', req.url);
+    ? '/payments/success'
+    : '/payments/failed'
 
   // Redirect to the constructed URL
-  return NextResponse.redirect(redirectUrl);
-})
+  return redirect(redirectUrl);
+}

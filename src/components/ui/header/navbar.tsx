@@ -10,6 +10,8 @@ import {
 } from "@tanstack/react-query";
 import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";
+import Image from "next/image";
+import Logo from "@/assets/images/somadhan-foundation-logo.png"
 
 const Navbar = async () => {
   const queryClient = new QueryClient();
@@ -24,7 +26,7 @@ const Navbar = async () => {
 
   const profileData = await queryClient.getQueryData<any>([QueryKeys.PROFILE]);
   // console.log(profileData.id);
-  
+
   const routes = [
     { label: "Home", href: "/" },
     { label: "Projects", href: "/projects" },
@@ -38,7 +40,9 @@ const Navbar = async () => {
 
   const filteredRoutes = routes.filter((route) => {
     // Hide Login if profileData exists, hide Dashboard otherwise
-    return (profileData?.id ? route.label !== "Login" : route.label !== "Dashboard");
+    return profileData?.id
+      ? route.label !== "Login"
+      : route.label !== "Dashboard";
   });
 
   return (
@@ -48,13 +52,19 @@ const Navbar = async () => {
       }
     >
       <Container>
-        <div className="lg:px-8 flex h-12 sm:h-14 md:h-16 items-center justify-between w-full">
+        <div className="flex h-12 sm:h-14 md:h-16 items-center justify-between w-full">
           <div className="flex space-x-2">
             <MenuButton routes={routes} />
             <Link href="/">
-              <h1 className="text-xl font-bold hidden lg:block">
+              <Image
+                src={Logo}
+                alt="Somadhan Foundation"
+                width={40}
+                height={40}
+              />
+              {/* <h1 className="text-xl font-bold hidden lg:block">
                 Somadhan Foundation
-              </h1>
+              </h1> */}
             </Link>
           </div>
           <nav className="flex items-center space-x-4 md:space-x-6 lg:space-x-8 text-lg">

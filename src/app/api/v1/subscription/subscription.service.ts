@@ -120,9 +120,6 @@ const create = async (
         },
       });
 
-      console.log(result);
-
-
       paymentGatewayPageURL = result.GatewayPageURL;
     }
 

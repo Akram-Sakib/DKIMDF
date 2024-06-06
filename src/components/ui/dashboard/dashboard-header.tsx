@@ -10,6 +10,9 @@ import Link from "next/link";
 // import ThemeToggle from "./ThemeToggle/theme-toggle";
 import { MobileSidebar } from "./mobile/mobile-sidebar";
 import { UserNav } from "./user-nav";
+import Image from "next/image";
+import Logo from "@/assets/images/somadhan-foundation-logo.png";
+import SubscriptionPopup from "../header/subscription-popup";
 
 export default async function DashboardHeader() {
   const queryClient = new QueryClient();
@@ -22,12 +25,19 @@ export default async function DashboardHeader() {
     },
   });
 
+
   return (
     <div className="fixed top-0 left-0 right-0 supports-backdrop-blur:bg-background/60 border-b bg-background/95 backdrop-blur z-20">
       <nav className="h-14 flex items-center justify-between px-4">
         <div className={cn("hidden md:block")}>
           <Link href="/">
-            <strong className="text-lg font-bold">Somadhan Foundation</strong>
+            <Image
+              src={Logo}
+              alt="Somadhan Foundation"
+              width={40}
+              height={40}
+            />
+            {/* <strong className="text-lg font-bold">Somadhan Foundation</strong> */}
             {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -53,6 +63,7 @@ export default async function DashboardHeader() {
           {/* <ThemeToggle /> */}
         </div>
       </nav>
+      <SubscriptionPopup />
     </div>
   );
 }

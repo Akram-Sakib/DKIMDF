@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Subscription } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
+import { format, isAfter } from "date-fns";
 import { ArrowUpDown } from "lucide-react";
 import { CellAction } from "./cell-action";
 
@@ -77,18 +77,20 @@ export const columns: ColumnDef<Subscription>[] = [
     },
   },
   {
+    accessorKey: "isExpired",
     cell: ({ row }) => {
+      const isExpiredTime = isAfter(new Date(), new Date(row.original.endTime));
+
       return (
         <div className="">
-          {(row as any).isExpired ? (
+          {(row as any).isExpired || isExpiredTime ? (
             <Button variant="destructive">Expired</Button>
           ) : (
-            <Button variant="destructive">Running</Button>
+            <Button variant="default">Running</Button>
           )}
         </div>
       );
     },
-    accessorKey: "isExpired",
     header: ({ column }) => {
       return (
         <Button

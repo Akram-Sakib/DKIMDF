@@ -128,7 +128,6 @@ interface FormProps {}
 export const SuperAdminForm: React.FC<FormProps> = ({}) => {
   const params = useParams();
   const searchParams = useSearchParams();
-  const authorizationScope = searchParams.get("authorizationScope");
   const [authorizationArea, setAuthorizationArea] = useState([]);
   const queryClient = useQueryClient();
 
@@ -140,6 +139,9 @@ export const SuperAdminForm: React.FC<FormProps> = ({}) => {
     },
     queryKey: [QueryKeys.ADMIN, params.id],
   });
+
+  const authorizationScope =
+    searchParams.get("authorizationScope") || initialData?.authorizationScope;
 
   const { data: countries, isLoading: countriesLoading } = useQuery({
     queryFn: async () => {

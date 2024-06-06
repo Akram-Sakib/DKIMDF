@@ -11,7 +11,7 @@ import {
 } from "@tanstack/react-query";
 const breadcrumbItems = [
   { title: "Places", link: "/dashboard/places" },
-  { title: "PoliceStations", link: "/dashboard/places/police-stations" },
+  { title: "Police Stations", link: "/dashboard/places/police-stations" },
 ];
 type paramsProps = {
   searchParams: {

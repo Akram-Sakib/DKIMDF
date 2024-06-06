@@ -15,6 +15,7 @@ import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";
 import { logout } from "@/lib/logout";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 // import {  useSession } from "next-auth/react";
 export function UserNav() {
   // const { data: session } = useSession();
@@ -53,13 +54,12 @@ export function UserNav() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={"/dashboard/profile"}>Profile</Link>
+            </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => logout()}>
-            Log out
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => logout()}>Log out</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );

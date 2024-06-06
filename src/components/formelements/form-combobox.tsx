@@ -68,7 +68,7 @@ export function FormComboBox({
                       className="w-[300px] justify-between"
                     >
                       {value
-                        ? options.find((option) => option.value === value)
+                        ? options?.find((option) => option.value === value)
                             ?.label
                         : placeholder}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -86,7 +86,8 @@ export function FormComboBox({
                       )}
                       <CommandGroup>
                         {!isLoading &&
-                          options.map((option) => (
+                          options?.length > 0 &&
+                          options?.map((option) => (
                             <CommandItem
                               key={option.value}
                               value={option.label}

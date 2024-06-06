@@ -100,7 +100,11 @@ const FormSubscriptionCard = ({
                         ? format(new Date(endTime), "dd/MM/yyyy")
                         : "N/A"}
                     </li>
-                    <li>Subscription Ends In {remainingDays} Days</li>
+                    <li>
+                      {remainingDays && remainingDays > 0
+                        ? `Subscription Ends In ${remainingDays} Days`
+                        : "Subscription Ended"}
+                    </li>
                   </ul>
                   <h6 className="text-lg font-semibold">
                     Extend Subscription for next Month

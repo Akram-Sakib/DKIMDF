@@ -131,7 +131,6 @@ interface FormProps {}
 export const AdminForm: React.FC<FormProps> = ({}) => {
   const params = useParams();
   const searchParams = useSearchParams();
-  const authorizationScope = searchParams.get("authorizationScope");
   const [authorizationArea, setAuthorizationArea] = useState([]);
   const queryClient = useQueryClient();
 
@@ -143,6 +142,9 @@ export const AdminForm: React.FC<FormProps> = ({}) => {
     },
     queryKey: [QueryKeys.ADMIN, params.id],
   });
+
+  const authorizationScope =
+    searchParams.get("authorizationScope") || initialData?.authorizationScope;
 
   const { data: countries, isLoading: countriesLoading } = useQuery({
     queryFn: async () => {
@@ -663,7 +665,6 @@ export const AdminForm: React.FC<FormProps> = ({}) => {
                       label: country.name,
                       value: country.id,
                     }))}
-                    // loading={countriesLoading}
                     isLoading={countriesLoading || !countries?.data.length}
                     placeholder="Select Country"
                     required={true}
@@ -675,7 +676,6 @@ export const AdminForm: React.FC<FormProps> = ({}) => {
                       label: division.name,
                       value: division.id,
                     }))}
-                    // loading={divisionsLoading}
                     isLoading={divisionsLoading || !divisions?.data.length}
                     placeholder="Select Division"
                     required={true}
@@ -687,7 +687,6 @@ export const AdminForm: React.FC<FormProps> = ({}) => {
                       label: district.name,
                       value: district.id,
                     }))}
-                    // loading={districtsLoading}
                     isLoading={districtsLoading || !districts?.data.length}
                     placeholder="Select District"
                     required={true}
@@ -710,7 +709,6 @@ export const AdminForm: React.FC<FormProps> = ({}) => {
                       label: postOffice.name,
                       value: postOffice.id,
                     }))}
-                    // loading={postOfficesLoading}
                     isLoading={postOfficesLoading || !postOffices?.data.length}
                     placeholder="Select Post Office"
                     required={true}
@@ -761,7 +759,6 @@ export const AdminForm: React.FC<FormProps> = ({}) => {
                       label: district.name,
                       value: district.id,
                     }))}
-                    // loading={districtsLoading}
                     isLoading={districtsLoading || !districts?.data.length}
                     placeholder="Select District"
                     required={true}
@@ -773,7 +770,6 @@ export const AdminForm: React.FC<FormProps> = ({}) => {
                       label: thana.name,
                       value: thana.id,
                     }))}
-                    // loading={thanasLoading}
                     isLoading={thanasLoading || !thanas?.data.length}
                     placeholder="Select Thana"
                     required={true}
@@ -785,7 +781,6 @@ export const AdminForm: React.FC<FormProps> = ({}) => {
                       label: postOffice.name,
                       value: postOffice.id,
                     }))}
-                    // loading={postOfficesLoading}
                     isLoading={postOfficesLoading || !postOffices?.data.length}
                     placeholder="Select Post Office"
                     required={true}
@@ -797,7 +792,6 @@ export const AdminForm: React.FC<FormProps> = ({}) => {
                       label: village.name,
                       value: village.id,
                     }))}
-                    // loading={villagesLoading}
                     isLoading={villagesLoading || !villages?.data.length}
                     placeholder="Select Village"
                     required={true}

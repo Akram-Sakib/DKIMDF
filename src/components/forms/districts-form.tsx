@@ -12,15 +12,13 @@ import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { FormComboBox } from "../formelements/form-combobox";
 import FormInput from "../formelements/form-input";
-import FormSelect from "../formelements/form-select";
 import BreadCrumb from "../ui/dashboard/breadcrumb";
 import { Heading } from "../ui/dashboard/heading";
 import { AlertModal } from "../ui/modal/alert-modal";
 import { Skeleton } from "../ui/skeleton";
 import { useToast } from "../ui/use-toast";
-import { Icons } from "../icons";
-import { FormComboBox } from "../formelements/form-combobox";
 
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
