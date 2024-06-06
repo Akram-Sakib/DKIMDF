@@ -213,10 +213,8 @@ export const SubscriptionForm: React.FC<FormProps> = ({}) => {
   });
 
   const onSubmit = async (data: ProductFormValues) => {
-    console.log("Submitted data: ", data);
 
     try {
-      console.log(data);
       setLoading(true);
       if (initialData) {
         updateMutation(data);

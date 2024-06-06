@@ -20,20 +20,26 @@ import { isAfter } from "date-fns";
 import { useSession } from "next-auth/react";
 
 const SubscriptionPopup = () => {
+  // const page = Number(searchParams.page) || 1;
+  // const pageLimit = Number(searchParams.limit) || 10;
+  // const search = searchParams.search || null;
+
+  const { data: session } = useSession();
   const { data, isLoading } = useQuery({
     queryKey: [QueryKeys.SUBSCRIPTIONS],
     queryFn: async () => {
-      const res = await axiosInstance.get(`/subscription?page=${1}&limit=${2}`);
+      const res = await axiosInstance.get(
+        `/subscription?page=${1}&limit=${10}?`
+      );
       return res.data as IGenericResponse<Subscription[]>;
     },
+    enabled: (session as any)?.role === "member",
   });
 
   const isExpiredTime = isAfter(
     new Date(),
     new Date(data?.data[0]?.endTime as Date)
   );
-
-  const { data: session } = useSession();
 
   if (
     !isLoading &&
@@ -55,7 +61,7 @@ const SubscriptionPopup = () => {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>{" "}
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction>Extend</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

@@ -105,6 +105,34 @@ export const columns: ColumnDef<Subscription>[] = [
     },
   },
   {
+    accessorKey: "subscriptionFee.isPaid",
+    cell: ({ row }) => {
+      const isPaid = (row.original as any).subscriptionFee.isPaid
+
+      return (
+        <div className="">
+          {isPaid ? (
+            <Button variant="default">Paid</Button>
+          ) : (
+            <Button variant="destructive">Not Paid</Button>
+          )}
+        </div>
+      );
+    },
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className=""
+        >
+          IS PAID
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
     accessorFn: (row) => format(new Date(row.createdAt), "dd/MM/yyyy HH:mm:ss"),
     accessorKey: "createdAt",
     header: ({ column }) => {

@@ -35,9 +35,8 @@ const Failed = async () =>
               Payment Failed!
             </h3>
             <p className="text-gray-600 my-2">
-              Thank you for completing your secure online payment.
+              Your payment was not successful. Please try again.
             </p>
-            <p> Have a great day! </p>
             <div className="py-10 text-center ">
               <Link
                 href="/"
