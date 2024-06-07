@@ -31,7 +31,9 @@ const excludeForMemberAndAdmin = (dynamicRoute: string) => {
 const excludeForMember = (dynamicRoute: string) => {
     return {
         routes: ["/dashboard/manage-admins", "/dashboard/membership", "/dashboard/members", "/dashboard/projects", "/dashboard/places/countries", "/dashboard/places/divisions", "/dashboard/places/districts", "/dashboard/places/police-stations", "/dashboard/places/post-offices"],
-        dynamicRoutes: []
+        dynamicRoutes: [
+            `/dashboard/subscription/list/${dynamicRoute}`,
+        ]
     }
 };
 
@@ -92,7 +94,8 @@ export async function middleware(request: NextRequest) {
 
     if (isMember) {
         const redirectRoute = excludeForMember(pathname.split("/")[4]).routes.find(route => pathname.startsWith(route));
-        if (redirectRoute) {
+        const redirectDynamicRoute = excludeForMember(pathname.split("/")[4]).dynamicRoutes.find(route => pathname.startsWith(route));
+        if (redirectRoute || (!(redirectDynamicRoute as any)?.includes("/buy-subscription") && redirectDynamicRoute)) {
             return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
         }
     }

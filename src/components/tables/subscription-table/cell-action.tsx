@@ -16,6 +16,7 @@ import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AlertModal } from "../../ui/modal/alert-modal";
+import { useSession } from "next-auth/react";
 
 interface CellActionProps {
   data: Subscription;
@@ -23,6 +24,8 @@ interface CellActionProps {
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
+  const isMember = (session as any)?.role === "member";
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -79,13 +82,15 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
-          <DropdownMenuItem
-            onClick={() =>
-              router.push(`/dashboard/subscription/list/${data.id}`)
-            }
-          >
-            <Edit className="mr-2 h-4 w-4" /> Update
-          </DropdownMenuItem>
+          {!isMember && (
+            <DropdownMenuItem
+              onClick={() =>
+                router.push(`/dashboard/subscription/list/${data.id}`)
+              }
+            >
+              <Edit className="mr-2 h-4 w-4" /> Update
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>

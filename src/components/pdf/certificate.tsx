@@ -4,7 +4,7 @@
 import {
   Document,
   Font,
-  //   Image,
+  Image,
   Page,
   Path,
   StyleSheet,
@@ -14,6 +14,7 @@ import {
 } from "@react-pdf/renderer";
 import { format } from "date-fns";
 import React from "react";
+import SomadhanFoundationLogo from "@/assets/images/somadhan-foundation-logo.png";
 
 // tailwind breakpoints
 // const breakpoints = {
@@ -615,6 +616,15 @@ const CertificatePdf = ({ name }: { name: string }): JSX.Element => {
               },
             ]}
           >
+            <Image
+              style={{
+                width: 70,
+                height: 70,
+                marginHorizontal: "auto",
+                marginBottom: 20,
+              }}
+              src={"/somadhan-foundation-logo.png"}
+            />
             <Text
               style={[
                 {

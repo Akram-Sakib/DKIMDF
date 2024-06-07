@@ -42,8 +42,6 @@ export const MembersClient: React.FC<ProductsClientProps> = () => {
   const total = data?.meta?.total as number;
   const allData = data?.data as Member[];
 
-  
-
   let content = null;
   if (isLoading) {
     content = <p>Loading...</p>;
@@ -67,12 +65,12 @@ export const MembersClient: React.FC<ProductsClientProps> = () => {
           title={`Members (${isLoading ? "0" : total})`}
           description="Manage Members for your business"
         />
-        <Button
+        {/* <Button
           className="text-xs md:text-sm"
           onClick={() => router.push(`/dashboard/members/new`)}
         >
           <Plus className="mr-2 h-4 w-4" /> Add New
-        </Button>
+        </Button> */}
       </div>
       <Separator />
       {content}

@@ -11,8 +11,8 @@ import { cn } from "@/lib/utils";
 import { IGenericResponse } from "@/types/common";
 import { Subscription } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Heading } from "../../ui/dashboard/heading";
 import { columns } from "./columns";
 import { SubscriptionTable } from "./subscription-table";
@@ -23,7 +23,8 @@ interface ProductsClientProps {
 
 export const SubscriptionClient: React.FC<ProductsClientProps> = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const { data: session } = useSession();
+  const isMember = (session as any)?.role === "member";
 
   const page = Number(searchParams.get("page")) || 1;
   const limit = Number(searchParams.get("limit")) || 10;
@@ -65,7 +66,11 @@ export const SubscriptionClient: React.FC<ProductsClientProps> = () => {
       <div className="flex items-start justify-between">
         <Heading
           title={`Subscriptoins (${isLoading ? 0 : total})`}
-          description="Manage subscriptions for your business"
+          description={
+            isMember
+              ? "Check your subscriptions"
+              : "Manage subscriptions for your business"
+          }
         />
         <Link
           href={"/dashboard/subscription/list/buy-subscription"}

@@ -11,6 +11,7 @@ import { generateTransactionId } from '@/utils/generateTransactionId';
 import { dataConfig, sslConfig } from '@/config/sslConfig';
 import { NextResponse } from 'next/server';
 import config from '@/config';
+import { ENUMUSER } from '@/constants/common';
 
 const create = async (
   membershipId: string,
@@ -142,6 +143,7 @@ const getAll = async (
   options: IPaginationOptions,
   user: JwtPayload
 ): Promise<IGenericResponse<Subscription[]>> => {
+
   const userId = user?.userId;
   const userRole = user?.role;
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
@@ -171,7 +173,7 @@ const getAll = async (
     });
   }
 
-  if (userRole === "MEMBER") {
+  if (userRole === "member") {
     andConditions.push({
       AND: [
         {
@@ -204,7 +206,8 @@ const getAll = async (
           firstName: true,
           lastName: true,
           email: true,
-          phoneNumber: true
+          phoneNumber: true,
+          presentAddress: true,
         }
       }
     },
