@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Somadhan Foundation | Projects",
+  title: "Samadhan Foundation | Projects",
   description:
     "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF).",
 };

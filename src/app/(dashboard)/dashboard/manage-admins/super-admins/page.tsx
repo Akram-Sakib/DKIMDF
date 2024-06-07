@@ -22,7 +22,7 @@ type paramsProps = {
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Somadhan Foundation | Super Admins",
+  title: "Samadhan Foundation | Super Admins",
   description:
     "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
 };

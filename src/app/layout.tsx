@@ -22,7 +22,7 @@ const inter = Inter({ subsets: ["latin"] });
 // });
 
 export const metadata: Metadata = {
-  title: "Somadhan Foundation",
+  title: "Samadhan Foundation",
   description:
     "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF).",
 };

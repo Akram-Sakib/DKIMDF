@@ -12,7 +12,7 @@ import {
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Somadhan Foundation | Profile",
+  title: "Samadhan Foundation | Profile",
   description:
     "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
 };

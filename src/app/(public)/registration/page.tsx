@@ -5,7 +5,7 @@ import React from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Somadhan Foundation | Registration",
+  title: "Samadhan Foundation | Registration",
   description:
     "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF).",
 };

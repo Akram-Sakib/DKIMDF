@@ -8,7 +8,7 @@ import Container from "@/components/ui/container";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Somadhan Foundation | About",
+  title: "Samadhan Foundation | About",
   description:
     "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF).",
 };

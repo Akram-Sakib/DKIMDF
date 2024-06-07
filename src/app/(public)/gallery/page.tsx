@@ -5,7 +5,7 @@ import "./gallery.css";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Somadhan Foundation | Gallery",
+  title: "Samadhan Foundation | Gallery",
   description:
     "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF).",
 };

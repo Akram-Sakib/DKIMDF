@@ -7,7 +7,7 @@ import { Icons } from "@/components/icons"
 import { UserAuthForm } from "@/components/login/user-auth-form"
 
 export const metadata: Metadata = {
-  title: "Somadhan Foundation | Login",
+  title: "Samadhan Foundation | Login",
   description: "Login to your account",
 }
 

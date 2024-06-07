@@ -14,7 +14,7 @@ import {
 } from "@react-pdf/renderer";
 import { format } from "date-fns";
 import React from "react";
-import SomadhanFoundationLogo from "@/assets/images/somadhan-foundation-logo.png";
+import SamadhanFoundationLogo from "@/assets/images/somadhan-foundation-logo.png";
 
 // tailwind breakpoints
 // const breakpoints = {

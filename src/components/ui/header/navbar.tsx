@@ -58,12 +58,12 @@ const Navbar = async () => {
             <Link href="/">
               <Image
                 src={Logo}
-                alt="Somadhan Foundation"
+                alt="Samadhan Foundation"
                 width={40}
                 height={40}
               />
               {/* <h1 className="text-xl font-bold hidden lg:block">
-                Somadhan Foundation
+                Samadhan Foundation
               </h1> */}
             </Link>
           </div>

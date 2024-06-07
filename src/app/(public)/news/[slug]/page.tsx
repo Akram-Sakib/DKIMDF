@@ -69,7 +69,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
 
   return {
-    title: post.title + " | Somadhan Foundation",
+    title: post.title + " | Samadhan Foundation",
     // openGraph: {
     //   images: ["/some-specific-page-image.jpg", ...previousImages],
     // },

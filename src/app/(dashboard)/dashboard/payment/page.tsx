@@ -15,7 +15,7 @@ const breadcrumbItems = [{ title: "Payment", link: "/dashboard/payment" }];
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Somadhan Foundation | Payment",
+  title: "Samadhan Foundation | Payment",
   description:
     "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF) Dashboard Page.",
 };
