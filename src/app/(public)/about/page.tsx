@@ -18,25 +18,25 @@ const AboutPage = () => {
     {
       id: 1,
       title: "500",
-      description: " APIs and growing",
+      description: " Tools and Counting",
       icon: "plus",
     },
     {
       id: 2,
       title: "32,000",
-      description: "Audience",
+      description: "Engaged Participants",
       icon: "plus",
     },
     {
       id: 3,
       title: "52",
-      description: "Weekly Newsletters",
+      description: "Weekly Updates",
       icon: "plus",
     },
     {
       id: 4,
       title: "10,000",
-      description: "Api resources",
+      description: "Educational Resources",
       icon: "plus",
     },
   ];
@@ -48,19 +48,19 @@ const AboutPage = () => {
           <div className="max-w-sm [&>p]:leading-7">
             <h1 className="text-4xl font-bold mb-4">About</h1>
             <p className="mb-8">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus
-              nostrum similique earum impedit corporis ipsum? Assumenda, aut
-              quos optio voluptates ea quis, recusandae, velit distinctio quo
-              autem eaque possimus ipsa quam blanditiis perferendis dolor
-              molestiae voluptatibus provident consectetur libero fuga?
+              Welcome to our Foundation – a non-governmental, philanthropic, and
+              inclusive organization committed to serving communities regardless
+              of background, belief, or affiliation. Our goal is to promote
+              transparency, end exploitation, and strengthen rights through
+              capacity-building programs, educational workshops, and job
+              creation initiatives.
             </p>
             <p className="mb-8">
-              <b>Lorem ipsum:</b> dolor sit, amet consectetur adipisicing elit.
-              Delectus nostrum similique earum impedit corporis ipsum?
-              Assumenda, aut quos optio voluptates ea quis, recusandae, velit
-              distinctio quo autem eaque possimus ipsa quam blanditiis
-              perferendis dolor molestiae voluptatibus provident consectetur
-              libero fuga?
+              Our projects aim to sustainably fulfill essential needs, striving
+              to transform our nation into one free from joblessness, poverty,
+              ignorance, and violence. We dream of a future where every person
+              is skilled, employed, and empowered to contribute positively to
+              society.
             </p>
           </div>
           <div>

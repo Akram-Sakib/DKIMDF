@@ -45,6 +45,58 @@ export const columns: ColumnDef<Subscription>[] = [
     },
   },
   {
+    cell: ({ row }) => {
+      return (
+        <span>{`${(row.original as any).member.firstName} ${
+          (row.original as any).member.lastName
+        }`}</span>
+      );
+    },
+    accessorKey: "member",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className=""
+        >
+          NAME
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "member.email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          key={column.id}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          EMAIL
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "member.phoneNumber",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          key={column.id}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          PHONE NUMBER
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
     accessorFn: (row) => format(new Date(row.startTime), "dd/MM/yyyy HH:mm:ss"),
     accessorKey: "startTime",
     header: ({ column }) => {
@@ -107,7 +159,7 @@ export const columns: ColumnDef<Subscription>[] = [
   {
     accessorKey: "subscriptionFee.isPaid",
     cell: ({ row }) => {
-      const isPaid = (row.original as any).subscriptionFee.isPaid
+      const isPaid = (row.original as any).subscriptionFee.isPaid;
 
       return (
         <div className="">

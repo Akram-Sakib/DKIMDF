@@ -199,6 +199,14 @@ const getAll = async (
         },
     include: {
       subscriptionFee: true,
+      member: {
+        select: {
+          firstName: true,
+          lastName: true,
+          email: true,
+          phoneNumber: true
+        }
+      }
     },
   });
 

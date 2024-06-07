@@ -6,6 +6,7 @@ import { calculateEndTime } from "../subscription/subscription.utils";
 import { dataConfig, sslConfig } from "@/config/sslConfig";
 import { generateTransactionId } from "@/utils/generateTransactionId";
 import { JwtPayload } from "jsonwebtoken";
+import config from "@/config";
 
 const getUsers = async (): Promise<User[]> => {
   const result = await prisma.user.findMany({
@@ -112,9 +113,9 @@ const createMember = async (
       memberId: memberData.userId,
       tran_id: transactionId,
       membershipId: restMemberData.membershipId,
-      success_url: `http://localhost:3000/api/v1/payments/subscription/success?tran_id=${transactionId}`,
-      fail_url: `http://localhost:3000/api/v1/payments/subscription/fail?tran_id=${transactionId}`,
-      cancel_url: "http://localhost:3000/api/v1/payments/subscription/cancel",
+      success_url: `${config.baseUrl}/api/v1/payments/subscription/success?tran_id=${transactionId}`,
+      fail_url: `${config.baseUrl}/api/v1/payments/subscription/fail?tran_id=${transactionId}`,
+      cancel_url: `${config.baseUrl}/api/v1/payments/subscription/cancel`,
       product_name: membership.title,
       product_category: "mobile",
       cus_name: memberData.firstName + " " + memberData.lastName,

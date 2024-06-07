@@ -1,3 +1,4 @@
+import ContactForm from "@/components/forms/contact-form";
 import { Metadata } from "next";
 import React from "react";
 
@@ -18,58 +19,7 @@ const ContactPage = () => {
         </div>
 
         <div className="flex flex-wrap">
-          <form className="mb-12 w-full shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-5/12 lg:px-6">
-            <div className="mb-3 w-full space-y-2">
-              <label
-                className="block font-medium mb-[2px] text-gray-900"
-                htmlFor="exampleInput90"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                className="px-2 py-2 border w-full outline-none rounded-md"
-                id="exampleInput90"
-                placeholder="Name"
-              />
-            </div>
-
-            <div className="mb-3 w-full space-y-2">
-              <label
-                className="block font-medium mb-[2px] text-gray-900"
-                htmlFor="exampleInput90"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                className="px-2 py-2 border w-full outline-none rounded-md"
-                id="exampleInput90"
-                placeholder="Enter your email address"
-              />
-            </div>
-
-            <div className="mb-3 w-full space-y-2">
-              <label
-                className="block font-medium mb-[2px] text-gray-900"
-                htmlFor="exampleInput90"
-              >
-                Message
-              </label>
-              <textarea
-                className="px-2 py-2 border rounded-[5px] w-full outline-none"
-                name=""
-                id=""
-              ></textarea>
-            </div>
-
-            <button
-              type="button"
-              className="mb-6 inline-block w-full rounded bg-gray-900 px-6 py-2.5 font-medium uppercase leading-normal text-white hover:shadow-md hover:bg-gray-900"
-            >
-              Send
-            </button>
-          </form>
+          <ContactForm />
 
           <div className="w-full shrink-0 grow-0 basis-auto lg:w-7/12">
             <div className="flex flex-wrap">
