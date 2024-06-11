@@ -6,15 +6,10 @@ import {
   Font,
   Image,
   Page,
-  Path,
   StyleSheet,
-  Svg,
   Text,
-  View,
+  View
 } from "@react-pdf/renderer";
-import { format } from "date-fns";
-import React from "react";
-import SamadhanFoundationLogo from "@/assets/images/somadhan-foundation-logo.png";
 
 // tailwind breakpoints
 // const breakpoints = {

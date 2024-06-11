@@ -1,4 +1,3 @@
-import imgfive from "@/assets/images/destination-1-5.png";
 import { Button } from "@/components/ui/button";
 import Container from "@/components/ui/container";
 import "./gallery.css";
@@ -83,9 +82,9 @@ const GalleryPage = () => {
             </div>
             <div className="col-span-12 md:col-span-6 rounded-lg">
               <div
-                style={{
-                  backgroundImage: `url(${imgfive})`,
-                }}
+                // style={{
+                //   backgroundImage: `url(${imgfive})`,
+                // }}
                 className="place-img before:rounded-lg place-image-5 group rounded-lg"
               >
                 <h2 className="text-4xl">

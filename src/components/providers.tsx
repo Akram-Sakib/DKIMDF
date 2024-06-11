@@ -1,9 +1,9 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SessionProvider, SessionProviderProps } from "next-auth/react";
 import React from "react";
 import ThemeProvider from "./ui/dashboard/ThemeToggle/theme-provider";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export default function Providers({
   session,

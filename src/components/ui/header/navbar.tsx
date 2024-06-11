@@ -11,7 +11,6 @@ import {
 import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";
 import Image from "next/image";
-import Logo from "@/assets/images/somadhan-foundation-logo.png"
 
 const Navbar = async () => {
   const queryClient = new QueryClient();
@@ -57,7 +56,7 @@ const Navbar = async () => {
             <MenuButton routes={routes} />
             <Link href="/">
               <Image
-                src={Logo}
+                src={"/somadhan-foundation-logo.png"}
                 alt="Samadhan Foundation"
                 width={40}
                 height={40}

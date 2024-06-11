@@ -14,21 +14,21 @@ const Featured = () => {
       id: 1,
       title: "How We Work",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
+        "Simple insurance, easy signup, quick claims, ongoing support.",
       icon: <FaNetworkWired size={24} />,
     },
     {
       id: 2,
       title: "Our Mission",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
+        "The prosperity of the nation and the well-being of all humankind.",
       icon: <LuGoal size={24} />,
     },
     {
       id: 3,
       title: "Our Vision",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
+        "Helping people from all walks of life do something exceptional",
       icon: <FaEye size={24} />,
     },
   ];
@@ -43,7 +43,7 @@ const Featured = () => {
       <Container>
         <HeadingText
           title="How We Think"
-          paragraph="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos."
+          paragraph="Innovative, customer-focused, and committed to excellence. Your needs guide our solutions."
         />
         <div className="grid lg:grid-cols-3 grid-cols-1 md:grid-cols-2 gap-20 text-center [&>*]:text-2xl py-20">
           {featuredList.map((item) => (

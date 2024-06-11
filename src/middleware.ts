@@ -1,12 +1,18 @@
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { createI18nMiddleware } from 'next-international/middleware';
 
+const I18nMiddleware = createI18nMiddleware({
+    locales: ['en', 'fr'],
+    defaultLocale: 'en',
+});
 // const rolesRedirect: Record<string, unknown> = {
 //   buyer: `${envConfig.siteUrl}/`,
 //   seller: `${envConfig.siteUrl}/dashboard`,
 //   admin: `${envConfig.siteUrl}/dashboard`,
 // };
+
 
 const onlyForAdmin = (dynamicRoute: string) => {
     return {
@@ -51,7 +57,7 @@ export async function middleware(request: NextRequest) {
         req: request,
     });
 
-
+    I18nMiddleware(request);
     // console.log(!token && pathname !== "/login");
 
     const role = token?.role as string;
@@ -78,7 +84,6 @@ export async function middleware(request: NextRequest) {
     // Prioritize Grand Admin check for unrestricted access
     if (isGrandAdmin) {
         return NextResponse.next();
-
     }
 
     if (!isGrandAdmin && pathname.startsWith(onlyForAdmin(pathname.split("/")[4]).dynamicRoutes[0])) {
@@ -104,5 +109,13 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/projects", "/login", "/dashboard/:page*"],
+    matcher: [
+
+        // Set a cookie to remember the previous locale for
+        // all requests that have a locale prefix
+        '/(de|en)/:path*',
+
+        // Enable redirects that add missing locales
+        // (e.g. `/pathnames` -> `/en/pathnames`)
+        "/projects", "/login", "/dashboard/:page*"],
 };

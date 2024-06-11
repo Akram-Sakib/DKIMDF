@@ -11,7 +11,6 @@ import Link from "next/link";
 import { MobileSidebar } from "./mobile/mobile-sidebar";
 import { UserNav } from "./user-nav";
 import Image from "next/image";
-import Logo from "@/assets/images/somadhan-foundation-logo.png";
 import SubscriptionPopup from "../header/subscription-popup";
 
 export default async function DashboardHeader() {
@@ -32,7 +31,7 @@ export default async function DashboardHeader() {
         <div className={cn("hidden md:block")}>
           <Link href="/">
             <Image
-              src={Logo}
+              src={"/somadhan-foundation-logo.png"}
               alt="Samadhan Foundation"
               width={40}
               height={40}
