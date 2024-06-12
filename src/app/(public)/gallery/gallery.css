@@ -94,35 +94,35 @@
   transform: scaleX(1);
 } */
 .place-image-1 {
-  background: url(./../../../assets/images/pexels-1.jpg);
+  background: url(./../../../assets/images/gallery/two-girls-smiling.jpg);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
   transition: 0.5s;
 }
 .place-image-2 {
-  background: url(./../../../assets/images/pexels-2.jpg);
+  background: url(./../../../assets/images/gallery/banani-dhaka-city.jpg);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
   transition: 0.5s;
 }
 .place-image-3 {
-  background: url(./../../../assets/images/pexels-3.jpg);
+  background: url(./../../../assets/images/gallery/enjoying-video-call.jpg);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
   transition: 0.5s;
 }
 .place-image-4 {
-  background: url(./../../../assets/images/pexels-4.jpg);
+  background: url(./../../../assets/images/gallery/bangladeshi-peoples.jpg);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
   transition: 0.5s;
 }
 .place-image-5 {
-  background: url(./../../../assets/images/pexels-5.jpg);
+  background: url(./../../../assets/images/gallery/train-crowd.jpg);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
