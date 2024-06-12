@@ -22,6 +22,14 @@ const ContactPage = () => {
           <ContactForm />
 
           <div className="w-full shrink-0 grow-0 basis-auto lg:w-7/12">
+            {/* Head Office : 104, Globe Chamber 4th (floor), C/A,
+              Motijheel, Dhaka :1000. */}
+            <div className="mb-12 pl-24">
+              <h3 className="mb-3 text-2xl font-bold">Head Office</h3>
+              <p className="text-neutral-500">
+                104, Globe Chamber 4th (floor), C/A, Motijheel, Dhaka :1000
+              </p>
+            </div>
             <div className="flex flex-wrap">
               <div className="mb-12 w-full shrink-0 grow-0 basis-auto md:w-6/12 md:px-3 lg:px-6">
                 <div className="flex items-start">
