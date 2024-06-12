@@ -46,7 +46,7 @@ const GalleryPage = () => {
                 </h2>
                 <p className="place_img_subtitle !text-white">Dev Conference</p> */}
                 <Button className="absolute text-sm rounded-lg top-4 right-4 scale-x-0 group-hover:scale-x-100 transition-all duration-500">
-                  6/7/2024
+                  2/3/2023
                 </Button>
               </div>
             </div>
@@ -61,7 +61,7 @@ const GalleryPage = () => {
                   <a href="/Africa">Africa</a>
                 </h2> */}
                 <Button className="absolute text-sm rounded-lg top-4 right-4 scale-x-0 group-hover:scale-x-100 transition-all duration-500">
-                  6/7/2024
+                  30/7/2022
                 </Button>
               </div>
             </div>
@@ -76,7 +76,7 @@ const GalleryPage = () => {
                   <a href="/Australia">Australia</a>
                 </h2> */}
                 <Button className="absolute text-sm rounded-lg top-4 right-4 scale-x-0 group-hover:scale-x-100 transition-all duration-500">
-                  6/7/2024
+                  24/3/2023
                 </Button>
               </div>
             </div>
@@ -92,7 +92,7 @@ const GalleryPage = () => {
                 </h2>
                 <p className="place_img_subtitle !text-white">Adventure</p> */}
                 <Button className="absolute text-sm rounded-lg top-4 right-4 scale-x-0 group-hover:scale-x-100 transition-all duration-500">
-                  6/7/2024
+                  9/6/2023
                 </Button>
               </div>
             </div>
