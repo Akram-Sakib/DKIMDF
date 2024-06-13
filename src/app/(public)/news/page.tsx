@@ -1,6 +1,6 @@
-import Categories from "@/components/post/categories";
 import PostCard from "@/components/post/post-card";
 import Container from "@/components/ui/container";
+import { newsEvents } from "@/constants/news-events";
 
 import { Metadata } from "next";
 
@@ -57,12 +57,12 @@ const NewsPage = () => {
   ];
 
   return (
-    <main className="min-h-screen pt-20 relative">
+    <main className="min-h-screen py-20 relative">
       <Container>
         <div className="flex md:flex-row flex-col gap-5 relative">
           {/* blog posts (Left Side) */}
-          <div className="flex-1 grid lg:grid-cols-2 gap-10 lg:gap-y-12 lg:gap-6">
-            {posts.map((post) => (
+          <div className="flex-1 grid lg:grid-cols-2 xl:grid-cols-3 gap-10 lg:gap-y-12 lg:gap-6">
+            {newsEvents.map((post) => (
               <PostCard post={post} key={post.title} />
             ))}
           </div>
@@ -71,10 +71,10 @@ const NewsPage = () => {
           <div className="w-1 hidden md:block border-r border-neutral-200"></div>
 
           {/* postWidgets and Categories (Right Side) */}
-          <div className="relative md:sticky top-2 left-0 right-0 flex-2 md:w-72 lg:w-80 h-fit flex flex-col gap-10">
+          {/* <div className="relative md:sticky top-2 left-0 right-0 flex-2 md:w-72 lg:w-80 h-fit flex flex-col gap-10"> */}
             {/* <PostWidget /> */}
-            <Categories />
-          </div>
+            {/* <Categories />
+          </div> */}
         </div>
       </Container>
     </main>

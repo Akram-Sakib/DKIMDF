@@ -1,9 +1,19 @@
 import BlurImage from "@/components/ui/blur-image";
+import { projects } from "@/constants/projects";
 import { format } from "date-fns";
-import Image from "next/image";
-import { FaRegCalendar } from "react-icons/fa";
+import { notFound } from "next/navigation";
 
-const ProjectDetailsPage = () => {
+const ProjectDetailsPage = ({
+  params,
+}: {
+  params: {
+    slug: string;
+  };
+}) => {
+  const slug = params.slug;
+  const getProject = projects.find((project) => project.href === slug);
+  if (!getProject) return notFound();
+  const { title, descriptions, image, dateTime } = getProject;
   return (
     <main className="min-h-screen pt-20 relative">
       <div className="max-w-3xl mx-auto px-5 md:px-0">
@@ -14,7 +24,7 @@ const ProjectDetailsPage = () => {
               <section>
                 <div className="mb-5 md:mb-10">
                   <BlurImage
-                    image={"https://cmsblogapp.vercel.app/_next/image?url=https%3A%2F%2Fmedia.graphassets.com%2FChu3sMuZQvwQ51HQbo2R&w=640&q=75"}
+                    image={image}
                     // width={500}
                     // height={500}
                     alt={"featured"}
@@ -23,10 +33,12 @@ const ProjectDetailsPage = () => {
                 </div>
 
                 <div className="flex flex-col gap-3 md:gap-5">
-                  <div className="flex items-center gap-2">
+                  {/* <div className="flex items-center gap-2">
                     <div>
                       <Image
-                        src={"https://cmsblogapp.vercel.app/_next/image?url=https%3A%2F%2Fmedia.graphassets.com%2FC6KaM8BRTm24VQji2LdE&w=128&q=75"}
+                        src={
+                          "https://cmsblogapp.vercel.app/_next/image?url=https%3A%2F%2Fmedia.graphassets.com%2FC6KaM8BRTm24VQji2LdE&w=128&q=75"
+                        }
                         width={50}
                         height={50}
                         alt={"author"}
@@ -40,35 +52,21 @@ const ProjectDetailsPage = () => {
                       <div className="flex items-center gap-1">
                         <FaRegCalendar className="text-indigo-500 text-sm" />
                         <p className="text-[#7c7c7c]">
-                          {/* {moment(post.createdAt).format("MMM DD YYYY")} */}
                           {format(
-                            new Date("2021-07-01T10:00:00.000Z"),
+                            new Date(dateTime),
                             "MMM dd, yyyy"
                           )}
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
-                  <h1 className="text-xl md:text-2xl font-bold">
-                    Project Title
-                  </h1>
+                  <h1 className="text-xl md:text-2xl font-bold">{title}</h1>
 
                   <div className="flex flex-col gap-5">
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Neque cum, quaerat culpa sapiente necessitatibus
-                      temporibus provident dolor beatae ipsa, ad dicta alias
-                      fugiat sit similique cupiditate veniam atque praesentium
-                      in.
-                    </p>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Neque cum, quaerat culpa sapiente necessitatibus
-                      temporibus provident dolor beatae ipsa, ad dicta alias
-                      fugiat sit similique cupiditate veniam atque praesentium
-                      in.
-                    </p>
+                    {descriptions.map((description, index) => (
+                      <p key={index}>{description}</p>
+                    ))}
                   </div>
                 </div>
               </section>
@@ -77,7 +75,7 @@ const ProjectDetailsPage = () => {
                   className={`  : "bg-[#1d1e20] text-[#f7f7f7]"
         } relative rounded-lg p-5 py-6 pt-[4.5rem] md:pt-16 lg:pt-[4.5rem] text-center flex items-center gap-2`}
                 >
-                  <div className="absolute -top-12 left-1/2 -translate-x-1/2">
+                  {/* <div className="absolute -top-12 left-1/2 -translate-x-1/2">
                     <Image
                       src={"/images/author.jpg"}
                       width={100}
@@ -85,15 +83,15 @@ const ProjectDetailsPage = () => {
                       alt={"Author Name"}
                       className="cursor-pointer object-cover object-top rounded-full"
                     />
-                  </div>
+                  </div> */}
 
                   <div className="flex flex-col gap-1 md:gap-0 lg:gap-3 mx-auto">
                     <h2 className="text-xl sm:text-3xl md:text-xl lg:text-3xl font-bold font-serif">
-                      John Doe
+                      {format(new Date(dateTime), "MMMM dd, yyyy")}
                     </h2>
-                    <p className="text-sm md:text-base capitalize">
+                    {/* <p className="text-sm md:text-base capitalize">
                       Lorem ipsum dolor sit amet consectetur adipisicing elit
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               </section>

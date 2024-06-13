@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { FaRegCalendar } from "react-icons/fa";
 import { BsArrowRightShort } from "react-icons/bs";
@@ -8,44 +8,35 @@ import BlurImage from "../ui/blur-image";
 type PostCardProps = {
   post: {
     title: string;
-    excerpt: string;
-    slug: string;
-    createdAt: string;
-    featuredImage: {
-      url: string;
-    };
-    categories: { name: string }[];
-    author: {
-      name: string;
-      photo: {
-        url: string;
-      };
-    };
+    descriptions: string[];
+    href: string;
+    image: StaticImageData | string;
+    dateTime: string;
   };
 };
 
 const PostCard = ({ post }: PostCardProps) => {
   return (
-    <Link href={`/news/${post.slug}`}>
-      <article className={`flex flex-col gap-3 sm:gap-5 rounded cursor-pointer`}>
+    <Link href={`/news/${post.href}`}>
+      <article
+        className={`flex flex-col gap-3 sm:gap-5 rounded cursor-pointer`}
+      >
         <div className="">
           <BlurImage
-            image={post.featuredImage.url}
+            image={post.image}
             alt={post.title}
             className="object-contain sm:object-cover object-top w-full sm:h-72 md:h-60 rounded  aspect-w-16 aspect-h-9"
           />
         </div>
 
         <div>
-          <p className="text-sm font-[500] text-[#7c7c7c]">
-            {post.categories[0].name}
-          </p>
+          <p className="text-sm font-[500] text-[#7c7c7c]">{"News"}</p>
           <h2 className="sm:text-xl font-semibold">
-            <span /* href={`/post/${post.slug}`} */ >{post.title}</span>
+            <span /* href={`/post/${post.slug}`} */>{post.title}</span>
           </h2>
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <div>
             <Image
               src={post.author.photo.url}
@@ -66,10 +57,10 @@ const PostCard = ({ post }: PostCardProps) => {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div>
-          <p className="text-sm sm:text-base">{post.excerpt}</p>
+          <p className="text-sm sm:text-base">{post.descriptions[0]}</p>
         </div>
         <span
           // href={`/post/${post.slug}`}

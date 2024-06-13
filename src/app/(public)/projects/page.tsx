@@ -19,8 +19,8 @@ const ProjectsPage = () => {
           <h1 className="text-4xl font-bold mb-8">Projects</h1>
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             {projects.map(
-              ({ id, title, description, image, dateTime, href }) => (
-                <Link href={href} key={id}>
+              ({ id, title, descriptions, image, dateTime, href }) => (
+                <Link href={`/projects/${href}`} key={id}>
                   <div className="flex max-w-lg flex-col-reverse rounded-xl border-[1px] border-tertiary py-4 px-6 transition duration-200 hover:border-accent md:hover:scale-[1.01]">
                     <span className="mr-1 inline-flex items-center space-x-1 text-gray-300 transition duration-200">
                       <div className="mt-8 flex-col space-y-4">
