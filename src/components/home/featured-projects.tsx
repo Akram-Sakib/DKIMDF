@@ -31,7 +31,7 @@ const FeaturedProjects = () => {
           />
         ))} */}
           {projects.map(
-            ({ title, description, image, dateTime, href }, index) => (
+            ({ title, image, dateTime, href }, index) => (
               <Link href={`/projects/${href}`} key={index}>
                 <div className="flex max-w-lg flex-col-reverse rounded-xl border-[1px] border-tertiary py-4 px-6 transition duration-200 hover:border-accent md:hover:scale-[1.01]">
                   <span className="mr-1 inline-flex items-center space-x-1 text-gray-300 transition duration-200">
