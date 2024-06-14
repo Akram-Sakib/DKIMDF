@@ -6,7 +6,7 @@ type FeaturedProjectProps = {
   id: number;
   title: string;
   description: string;
-  image: StaticImageData;
+  image: StaticImageData | string;
 };
 
 const FeaturedProject = ({
