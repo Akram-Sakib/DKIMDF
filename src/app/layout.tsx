@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { notFound } from 'next/navigation';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,6 +36,7 @@ export default async function RootLayout({
   session: any;
 }) {
   // const session = await getServerSession();
+  notFound();
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
