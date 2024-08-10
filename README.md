@@ -1,10 +1,24 @@
 <!-- Admin Role -->
 
-Grand Admin
+Grand Admin:
+  email: akrama@gmail.com
+  password: 12345678
+
+SuperAdmin: 
+  email: akramsakib@gmail.com
+  password: 12345678
+
+Admin: 
+  email: aitqur@gmail.com
+  password: 12345678
+
+member: 
+  email: rakibhasan@gmail.com
+  password: 12345678
+
 Super Admin
 Admin
 
-Bangladesh -> Dhaka Division -> Dhaka -> Demra -> Rosulnagar
 
 ## API Endpoints
 
@@ -49,15 +63,9 @@ Bangladesh -> Dhaka Division -> Dhaka -> Demra -> Rosulnagar
 - `PATCH /projects/:id`
 - `DELETE /projects/:id`
 
-### Project
+### Cloudinary
 
-- `POST /projects/create-post`
-- `GET /projects/`
-- `GET /projects/?searchTerm=john`
-- `GET /projects/?page=1&limit=10&sortBy=gender&sortOrder=asc`
-- `GET /projects/:id`
-- `PATCH /projects/:id`
-- `DELETE /projects/:id`
+- `POST /cloudinary/create-post`
 
 ### Gallery
 
@@ -98,3 +106,13 @@ Bangladesh -> Dhaka Division -> Dhaka -> Demra -> Rosulnagar
 - `GET /members/:id`
 - `PATCH /members/:id`
 - `DELETE /members/:id`
+
+### Membership
+
+- `POST /membership/create-membership`
+- `GET /membership/`
+- `GET /membership/?searchTerm=john`
+- `GET /membership/?page=1&limit=10&sortBy=gender&sortOrder=asc`
+- `GET /membership/:id`
+- `PATCH /membership/:id`
+- `DELETE /membership/:id`
