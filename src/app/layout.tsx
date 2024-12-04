@@ -37,6 +37,7 @@ export default async function RootLayout({
   // params: { locale: string };
 }) {
   // const session = await getServerSession();
+  // notFound();
   return (
     <html lang={"en"}>
       <body className={`${inter.className}`}>
