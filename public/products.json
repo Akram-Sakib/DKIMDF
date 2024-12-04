@@ -1,0 +1,193 @@
+[
+    {
+        "id": 1,
+        "product": "Hand Wash",
+        "brand": "Safety Plus",
+        "description": "Almond Milk Fresh",
+        "weight": "250+50 ml",
+        "features": ["Kills 99.99% of germs"],
+        "pricing": "Wholesale",
+        "image": "hand-wash.jpg"
+    },
+    {
+        "id": 2,
+        "product": "Toilet Cleaner",
+        "brand": "Unik",
+        "weight": "500ml",
+        "description": "Chlorine and pine oil-based bathroom cleaning with disinfectant. Suitable for cleaning commode, basin and tiles.",
+        "features": [
+            "Thick liquid sticks to the surface for a long time and makes it bright and shiny.",
+            "Kills germs and keeps your toilet hygienic and odor-free."
+        ],
+        "ingredients": ["DM", "Water", "LABSA", "Hydrochloric Acid", "Sodium Silicate", "Color", "Perfume"],
+        "image": "toilet-cleaner.jpg"
+    },
+    {
+        "id": 3,
+        "product": "Glass Cleaner",
+        "brand": "Yes",
+        "description": "Best to clean Glass, Spectacles, Computer, Fridge, TV, and other Electronics appliances.",
+        "weight": "350 ml",
+        "features": [
+            "Safe on colors and whites.",
+            "Can be used on glass, metal, plastic, laminates, and other appliances.",
+            "Available in Spray Gun & Refill Pack, 5Litre."
+        ],
+        "origin": "Bangladesh",
+        "image": "glass-cleaner.jpg"
+    },
+    {
+        "id": 4,
+        "product": "Floor Cleaner",
+        "description": "Removes tough stains and leaves a long-lasting lemon fragrance.",
+        "features": [
+            "Suitable for cleaning all kinds of surfaces including floors and tiles.",
+            "Protects against 99.9% illness-causing germs.",
+            "More effective and safer than regular cleaners."
+        ],
+        "image": "floor-cleaner.jpg"
+    },
+    {
+        "id": 5,
+        "product": "Washing Liquid",
+        "brand": "Chaad",
+        "scent": "Lemon",
+        "description": "Dish Washing Liquid with a lemon fragrance for a delightful dishwashing experience.",
+        "weight": "500 ml",
+        "packaging": "Bottle Pack",
+        "pricing": "Wholesale",
+        "image": "washing-liquid.jpg"
+    },
+    {
+        "id": 6,
+        "product": "Facial Tissue",
+        "brand": "Nice",
+        "description": "Nice Perfumed Facial Tissue.",
+        "raw-material": "100% Virgin Pulp",
+        "fragrance-status": "Perfumed",
+        "unit-measure": "Box",
+        "quantity": "120 Pcs x 2 Ply/Box, 8 Boxes",
+        "features": ["Strong water absorbent", "GSM: 13.5 (+/-)"],
+        "image": "facial-tissue.jpg"
+    },
+    {
+        "id": 7,
+        "product": "Chinigura Rice",
+        "brand": "Buniyadi",
+        "category": "Rice",
+        "weight": "1 Kg",
+        "description": "Premium quality flavorful rice from Bangladesh.",
+        "image": "chinigura-rice.jpg"
+    },
+    {
+        "id": 8,
+        "product": "Mosquito Coil",
+        "description": "A packet contains 10 mosquito coils with fine fragrance and effective within 15 seconds.",
+        "capacity": "4 packs",
+        "net-weight": "140 gm",
+        "features": [
+            "Unbreakable.",
+            "Standard plant fiber coil.",
+            "Effective within 15 seconds.",
+            "Keeps mosquitoes away."
+        ],
+        "image": "mosquito-coil.jpg"
+    },
+    {
+        "id": 9,
+        "product": "Black Tea",
+        "description": "Organic black tea enriched with antioxidants, offering a slight hint of honey.",
+        "capacity": "80gm/40 Tea Bags",
+        "features": [
+            "Supports youth with antioxidants.",
+            "Perfectly balanced flavor.",
+            "Steep for 2-3 minutes for a perfect brew."
+        ],
+        "image": "black-tea.jpg"
+    },
+    {
+        "id": 10,
+        "product": "Drinking Water",
+        "brand": "Noor Plastic",
+        "description": "Plastic Water Bottle Multicolor with 100% leak-proof and food-grade material.",
+        "capacity": "1 Litre",
+        "features": ["Easy to open & lock.", "Portable and lightweight."],
+        "image": "drinking-water.jpg"
+    },
+    {
+        "id": 11,
+        "product": "Mustard Oil",
+        "brand": "Radhuni",
+        "description": "Pure mustard oil made from hand-picked mustard seeds.",
+        "size": "250ml",
+        "features": [
+            "Retains natural flavor and aroma.",
+            "Rich in mono-unsaturated fatty acids.",
+            "Supports heart health."
+        ],
+        "image": "mustard-oil.jpg"
+    },
+    {
+        "id": 12,
+        "product": "Chili Powder",
+        "brand": "Tick",
+        "size": "500gm",
+        "description": "Made from freshly dried chili peppers, perfect for spicing up any dish.",
+        "features": [
+            "Antiseptic and antibacterial properties.",
+            "Enhances flavor in meat, poultry, and vegetables."
+        ],
+        "image": "chili-powder.jpg"
+    },
+    {
+        "id": 13,
+        "product": "Turmeric Powder",
+        "brand": "Nature Leaf",
+        "product-type": "Kostori Holud Gura",
+        "weight": "100gm",
+        "origin": "India",
+        "features": [
+            "Removes acne.",
+            "Brightens natural glow.",
+            "Reduces stretch marks."
+        ],
+        "image": "turmeric-powder.jpg"
+    },
+    {
+        "id": 14,
+        "product": "Coriander Powder",
+        "brand": "Tick",
+        "size": "200gm",
+        "description": "Coriander/Dhania powder that improves taste and aroma.",
+        "features": [
+            "Mild, sweet flavor.",
+            "Anti-inflammatory properties.",
+            "Good source of iron and fiber."
+        ],
+        "image": "coriander-powder.jpg"
+    },
+    {
+        "id": 15,
+        "product": "Cumin Powder",
+        "brand": "Tick",
+        "size": "100gm",
+        "description": "High-grade cumin powder for an authentic aroma and enhanced flavor.",
+        "features": [
+            "Made from premium cumin seeds.",
+            "Convenient packaging for everyday use."
+        ],
+        "image": "cumin-powder.jpg"
+    },
+    {
+        "id": 16,
+        "product": "Soybean Oil",
+        "brand": "Pusti",
+        "capacity": "40L",
+        "description": "Cooking oil that promotes health and well-being.",
+        "features": [
+            "Good for heart health.",
+            "Certified by MATRIX QAS International."
+        ],
+        "image": "soybean-oil.jpg"
+    }
+]

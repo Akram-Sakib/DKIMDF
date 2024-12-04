@@ -31,7 +31,7 @@ export default async function DashboardHeader() {
         <div className={cn("hidden md:block")}>
           <Link href="/">
             <Image
-              src={"/somadhan-foundation-logo.png"}
+              src={"/samadhan-foundation.png"}
               alt="Samadhan Foundation"
               width={40}
               height={40}

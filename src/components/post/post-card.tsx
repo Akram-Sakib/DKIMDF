@@ -17,7 +17,7 @@ type PostCardProps = {
 
 const PostCard = ({ post }: PostCardProps) => {
   return (
-    <Link href={`/news/${post.href}`}>
+    <Link href={`${post.href}`}>
       <article
         className={`flex flex-col gap-3 sm:gap-5 rounded cursor-pointer`}
       >

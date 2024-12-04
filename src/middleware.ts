@@ -1,18 +1,26 @@
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { createI18nMiddleware } from 'next-international/middleware';
+import Negotiator from "negotiator";
+import { match } from '@formatjs/intl-localematcher'
 
-const I18nMiddleware = createI18nMiddleware({
-    locales: ['en', 'fr'],
-    defaultLocale: 'en',
-});
 // const rolesRedirect: Record<string, unknown> = {
 //   buyer: `${envConfig.siteUrl}/`,
 //   seller: `${envConfig.siteUrl}/dashboard`,
 //   admin: `${envConfig.siteUrl}/dashboard`,
 // };
 
+
+// let locales = ['en', 'bn']
+// let defaultLocale = 'en'
+
+// function getLocale(request: NextRequest) {
+//     let acceptedLanguage = request.headers.get('accept-language') ?? undefined;
+//     let headers = { 'accept-language': acceptedLanguage }
+//     let languages = new Negotiator({ headers }).languages()
+
+//     return match(languages, locales, defaultLocale)
+// }
 
 const onlyForAdmin = (dynamicRoute: string) => {
     return {
@@ -53,11 +61,19 @@ const onlyForMember = () => {
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
+    // const pathNameIsMissingLocale = locales.every(
+    //     (locale) => !pathname.startsWith(`/${locale}`) && !pathname.startsWith(`/${locale}/`)
+    // )
+
+    // if (pathNameIsMissingLocale) {
+    //     const locale = getLocale(request)
+    //     return NextResponse.redirect(new URL(`/${locale}/${pathname}`, request.nextUrl));
+    // }
+
     const token = await getToken({
         req: request,
     });
 
-    I18nMiddleware(request);
     // console.log(!token && pathname !== "/login");
 
     const role = token?.role as string;
@@ -68,11 +84,11 @@ export async function middleware(request: NextRequest) {
     const isMember = role === "member";
 
 
-    if (!token && pathname !== "/login") {
-        return NextResponse.redirect(new URL(`/login?from=${pathname}`, request.nextUrl));
-    } else if (token && pathname === "/login") {
-        return NextResponse.redirect(new URL("/", request.nextUrl));
-    }
+    // if (!token && pathname !== "/login") {
+    //     return NextResponse.redirect(new URL(`/login?from=${pathname}`, request.nextUrl));
+    // } else if (token && pathname === "/login") {
+    //     return NextResponse.redirect(new URL("/", request.nextUrl));
+    // }
 
     if (!isMember) {
         const redirectRoute = onlyForMember().routes.find(route => pathname.startsWith(route));
@@ -110,12 +126,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
     matcher: [
-
-        // Set a cookie to remember the previous locale for
-        // all requests that have a locale prefix
-        '/(de|en)/:path*',
-
-        // Enable redirects that add missing locales
-        // (e.g. `/pathnames` -> `/en/pathnames`)
-        "/projects", "/login", "/dashboard/:page*"],
+        "/projects", "/login", "/dashboard/:page*", '/((?!_next).*)',
+    ],
 };

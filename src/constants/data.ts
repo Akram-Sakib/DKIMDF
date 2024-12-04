@@ -8,6 +8,7 @@ export type User = {
   verified: boolean;
   status: string;
 };
+
 export const users: User[] = [
   {
     id: 1,
@@ -357,6 +358,18 @@ export const navItems = (role: string): NavItem[] => {
       href: "/dashboard/subscription",
       icon: "banknote",
       label: "subscription",
+    },
+    {
+      title: "News",
+      href: "/dashboard/posts",
+      icon: "banknote",
+      label: "news",
+    },
+    {
+      title: "Projects",
+      href: "/dashboard/projects",
+      icon: "banknote",
+      label: "projects",
     },
     {
       title: "Logout",

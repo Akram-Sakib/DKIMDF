@@ -28,12 +28,13 @@ import {
   memberProfileSchema,
   superAdminProfileSchema,
 } from "@/schema/profile-schema";
+import DateTimePickerV2 from "@/components/formelements/form-date-picker-2";
 
 const CreateProfileOne = () => {
   const title = "Profile";
   const description = "Create your profile";
 
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const { data: sessionData, status } = useSession() as any;
   const role = sessionData?.role;
@@ -65,6 +66,7 @@ const CreateProfileOne = () => {
       return res.data as any;
     },
   });
+  
 
   const queryClient = useQueryClient();
   const { mutate: updateMutation, isPending: updateIsPending } = useMutation({
@@ -104,14 +106,14 @@ const CreateProfileOne = () => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
-    setLoading(true);
+    // setLoading(true);
     try {
       // if (initialData) {
       updateMutation(values);
       // }
     } catch (error) {
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
   // console.log(initialData);
@@ -181,11 +183,13 @@ const CreateProfileOne = () => {
                   options={GENDER}
                   required
                 />
-                <FormDatePicker name="dateOfBirth" label="Date Of Birth" />
+                {/* <FormDatePicker name="dateOfBirth" label="Date Of Birth" /> */}
+                <DateTimePickerV2 name="dateOfBirth" label="Date Of Birth"/>
                 <FormInput
                   name="phoneNumber"
                   label="Phone Number"
                   placeholder="Phone Number"
+                  required
                 />
                 <FormInput
                   name="nidNumber"
@@ -203,7 +207,6 @@ const CreateProfileOne = () => {
                   name="bloodGroup"
                   label="Blood Group"
                   placeholder="Select Blood Group"
-                  required
                 />
                 <FormInput
                   name="occupation"

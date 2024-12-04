@@ -84,8 +84,11 @@
       rgb(255 255 255) 100%
     ); */
   }
-}
 
+  .rdp-vhidden {
+    @apply hidden;
+  }
+}
 
 @layer utilities {
   .min-h-screen {

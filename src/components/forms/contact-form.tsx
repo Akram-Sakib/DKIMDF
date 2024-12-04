@@ -19,7 +19,6 @@ const ContactForm = () => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
-    console.log(values);
 
     setValues((values) => ({
       ...values,

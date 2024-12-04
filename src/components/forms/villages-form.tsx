@@ -198,7 +198,6 @@ export const VillagesForm: React.FC<FormProps> = ({}) => {
   });
 
   const onSubmit = async (data: ProductFormValues) => {
-    console.log("Submitted data: ");
 
     try {
       console.log(data);

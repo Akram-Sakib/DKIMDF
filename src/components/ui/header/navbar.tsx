@@ -24,16 +24,18 @@ const Navbar = async () => {
   });
 
   const profileData = await queryClient.getQueryData<any>([QueryKeys.PROFILE]);
-  // console.log(profileData.id);
 
   const routes = [
     { label: "Home", href: "/" },
     { label: "Projects", href: "/projects" },
-    { label: "Gallery", href: "/gallery" },
+    { label: "Samadhan Group", href: "/gallery" },
+    { label: "Products", href: "/products" },
     { label: "News", href: "/news" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
     { label: "Login", href: "/login" },
+    { label: "Registration", href: "/registration" },
+    { label: "CV Drop", href: "/cv-drop" },
     { label: "Dashboard", href: "/dashboard" },
   ];
 
@@ -56,10 +58,10 @@ const Navbar = async () => {
             <MenuButton routes={routes} />
             <Link href="/">
               <Image
-                src={"/somadhan-foundation-logo.png"}
+                src={"/samadhan-foundation.png"}
                 alt="Samadhan Foundation"
-                width={40}
-                height={40}
+                width={50}
+                height={50}
               />
               {/* <h1 className="text-xl font-bold hidden lg:block">
                 Samadhan Foundation

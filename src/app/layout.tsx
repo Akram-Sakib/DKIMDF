@@ -30,15 +30,19 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
   session,
+  // params: { locale },
 }: {
   children: React.ReactNode;
   session: any;
+  // params: { locale: string };
 }) {
   // const session = await getServerSession();
   return (
-    <html lang="en">
+    <html lang={"en"}>
       <body className={`${inter.className}`}>
-        <Providers session={session}>{children}</Providers>
+        <Providers session={session}>
+          {children}
+        </Providers>
         <Toaster />
       </body>
     </html>

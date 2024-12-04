@@ -3,14 +3,16 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SessionProvider, SessionProviderProps } from "next-auth/react";
 import React from "react";
-import ThemeProvider from "./ui/dashboard/ThemeToggle/theme-provider";
+// import ThemeProvider from "./ui/dashboard/ThemeToggle/theme-provider";
 
 export default function Providers({
   session,
   children,
+  // locale,
 }: {
   session: SessionProviderProps["session"];
   children: React.ReactNode;
+  // locale: string;
 }) {
   const [queryClient] = React.useState(
     () =>
@@ -28,14 +30,14 @@ export default function Providers({
 
   return (
     <>
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-        <SessionProvider session={session}>
-          <QueryClientProvider client={queryClient}>
-            {children}
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
-        </SessionProvider>
-      </ThemeProvider>
+        {/* <ThemeProvider attribute="class" defaultTheme="light"> */}
+          <SessionProvider session={session}>
+            <QueryClientProvider client={queryClient}>
+              {children}
+              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            </QueryClientProvider>
+          </SessionProvider>
+        {/* </ThemeProvider> */}
     </>
   );
 }

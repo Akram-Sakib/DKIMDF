@@ -618,7 +618,7 @@ const CertificatePdf = ({ name }: { name: string }): JSX.Element => {
                 marginHorizontal: "auto",
                 marginBottom: 20,
               }}
-              src={"/somadhan-foundation-logo.png"}
+              src={"/samadhan-foundation.png"}
             />
             <Text
               style={[

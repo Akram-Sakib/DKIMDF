@@ -23,11 +23,31 @@ const Banner = () => {
     // },
     {
       id: 1,
-      image: smrityShoudhImage,
+      image: "/sliders/slider-1.jpg",
     },
     {
       id: 2,
-      image: sangshadImage,
+      image: "/sliders/slider-2.jpg",
+    },
+    {
+      id: 3,
+      image: "/sliders/slider-3.jpg",
+    },
+    {
+      id: 4,
+      image: "/sliders/slider-4.jpg",
+    },
+    {
+      id: 5,
+      image: "/sliders/slider-5.jpg",
+    },
+    {
+      id: 6,
+      image: "/sliders/slider-6.jpg",
+    },
+    {
+      id: 7,
+      image: "/sliders/slider-7.jpg",
     },
   ];
 
@@ -81,12 +101,13 @@ const Banner = () => {
         {bannerImages.map((item) => {
           return (
             <SwiperSlide key={item.id}>
-              <div className="relative h-52 md:h-72 lg:h-96 w-full">
+              <div className="relative h-52 md:h-72 lg:h-[500px] w-full">
                 <Image
                   src={item.image}
                   fill
                   object-fit="cover"
                   alt="banner image"
+                  className="aspect-16"
                 />
               </div>
             </SwiperSlide>

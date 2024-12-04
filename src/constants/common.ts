@@ -97,6 +97,10 @@ export const QueryKeys = {
   ADMIN: "admin",
   MEMBERS: "members",
   MEMBER: "member",
+  PRODUCTS: "products",
+  POSTS: "posts",
+  POST: "post",
+  PROJECTS: "PROJECTS",
 };
 
 export const ACCESS_TOKEN_KEY = "accessToken";

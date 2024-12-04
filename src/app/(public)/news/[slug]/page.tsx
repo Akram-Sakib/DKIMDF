@@ -11,7 +11,7 @@ const ProjectDetailsPage = ({
   };
 }) => {
   const slug = params.slug;
-  const getNews = newsEvents.find((news) => news.href === slug);
+  const getNews = newsEvents.find((news) => news.href === `/news/${slug}`);
   if (!getNews) return notFound();
   const { title, descriptions, image, dateTime } = getNews;
   return (

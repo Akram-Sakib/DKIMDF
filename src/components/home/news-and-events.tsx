@@ -18,7 +18,7 @@ const NewsAndEvents = () => {
         {<HeadingText title="News & Events" className={"mb-10"} />}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-rows-2 gap-16 mt-5 [&>*]:text-2xl">
           {newsEvents.map((item, i) => (
-            <Link href={item.href} key={item.id}>
+            <Link href={`/news/${item.href}`} key={item.id}>
               <div
                 className={`relative w-full shadow-lg hover:shadow-2xl  transition duration-500 ease-in-out rounded-lg hover:-translate-y-1.5 cursor-pointer group ${
                   i == 3 && "col-start-2"
