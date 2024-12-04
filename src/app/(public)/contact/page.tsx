@@ -69,8 +69,8 @@ const ContactPage = () => {
                   </div>
                   <div className="ml-6 grow">
                     <p className="mb-2 font-bold">Technical Support</p>
-                    <p className="text-neutral-500">support@example.com</p>
-                    <p className="text-neutral-500">+1 234-567-89</p>
+                    <p className="text-neutral-500">Infosamadhangroupbdd@gmail.com</p>
+                    <p className="text-neutral-500">+8801816959999</p>
                   </div>
                 </div>
               </div>
@@ -98,8 +98,8 @@ const ContactPage = () => {
                   </div>
                   <div className="ml-6 grow">
                     <p className="mb-2 font-bold">Sales Questions</p>
-                    <p className="text-neutral-500">sales@example.com</p>
-                    <p className="text-neutral-500">+1 234-567-89</p>
+                    <p className="text-neutral-500">Infosamadhangroupbdd@gmail.com</p>
+                    <p className="text-neutral-500">+8801816959999</p>
                   </div>
                 </div>
               </div>

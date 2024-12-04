@@ -28,7 +28,7 @@ const Navbar = async () => {
   const routes = [
     { label: "Home", href: "/" },
     { label: "Projects", href: "/projects" },
-    { label: "Samadhan Group", href: "/gallery" },
+    { label: "Samadhan Foundation", href: "/gallery" },
     { label: "Products", href: "/products" },
     { label: "News", href: "/news" },
     { label: "About", href: "/about" },

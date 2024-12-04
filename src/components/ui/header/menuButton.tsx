@@ -29,7 +29,7 @@ const MenuButton = ({ routes }: Props) => {
         <Menu className=" w-6 h-6 sm:hidden" />
       </SheetTrigger>
       <SheetContent side="left" className="w-3/4">
-        <h3 className="text-lg font-bold">Shamadhan Foundation</h3>
+        <h3 className="text-lg font-bold">Samadhan Group</h3>
         <Separator className="mb-4 mt-2"/>
         <nav className="flex flex-col gap-4">
           {routes.map((route) => (
