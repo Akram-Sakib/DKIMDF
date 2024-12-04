@@ -12,6 +12,8 @@ import { MobileSidebar } from "./mobile/mobile-sidebar";
 import { UserNav } from "./user-nav";
 import Image from "next/image";
 import SubscriptionPopup from "../header/subscription-popup";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
 
 export default async function DashboardHeader() {
   const queryClient = new QueryClient();
@@ -23,7 +25,8 @@ export default async function DashboardHeader() {
       return res.data as any;
     },
   });
-
+  const session = (await getServerSession(authOptions)) as any;
+  const role = session?.role;
 
   return (
     <div className="fixed top-0 left-0 right-0 supports-backdrop-blur:bg-background/60 border-b bg-background/95 backdrop-blur z-20">
@@ -52,7 +55,7 @@ export default async function DashboardHeader() {
           </Link>
         </div>
         <div className={cn("block sm:!hidden")}>
-          <MobileSidebar />
+          <MobileSidebar role={role}/>
         </div>
 
         <div className="flex items-center gap-2">

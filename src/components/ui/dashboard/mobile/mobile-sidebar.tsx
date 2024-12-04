@@ -10,10 +10,12 @@ import { DashboardNav } from "../dashboard-nav";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   // playlists: Playlist[];
+  role: string;
 }
 
-export function MobileSidebar({ className }: SidebarProps) {
+export function MobileSidebar({ className, role }: SidebarProps) {
   const [open, setOpen] = useState(false);
+
   return (
     <>
       <Sheet open={open} onOpenChange={setOpen}>
@@ -24,11 +26,11 @@ export function MobileSidebar({ className }: SidebarProps) {
           <div className="space-y-4 py-4">
             <div className="px-3 py-2">
               <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-                Overview
+                Samadhan Group
               </h2>
               <div className="space-y-1">
                 {/* @ts-ignore */}
-                <DashboardNav items={navItems} setOpen={setOpen} />
+                <DashboardNav items={navItems(role)} setOpen={setOpen} />
               </div>
             </div>
           </div>

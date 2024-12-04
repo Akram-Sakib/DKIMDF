@@ -60,11 +60,12 @@ const CVDropForm = () => {
     // Ensure we have the form reference before submitting
     if (formRef.current) {
       emailjs
+
         .sendForm(
-          "service_0qurx2z", // Update with your service ID
-          "template_68afoel", // Update with your template ID
-          formRef.current,    // Pass the form reference here
-          "user_o7O07d34s7XBqpunKdUtT" // Update with your user ID
+          "service_ei1ezsf",
+          "template_o10gajs", // Update with your template ID
+          formRef.current, // Pass the form reference here
+          "t2v5ahrNAB3pInhcg" // Update with your user ID
         )
         .then(
           (res) => {
