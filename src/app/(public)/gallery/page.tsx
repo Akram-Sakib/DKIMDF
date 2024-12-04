@@ -13,8 +13,8 @@ const GalleryPage = () => {
   return (
     <section className="places_section">
       <Container>
-        <div className="places_top_text text-center">
-          <h2 className="text-4xl">সমাধান ফাউন্ডেশন গ্যালারি</h2>
+        <div className="text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl mb-10 font-semibold">সমাধান ফাউন্ডেশন গ্যালারি</h2>
         </div>
         <div className="image_gallery">
           <div className="grid grid-cols-12 gap-2">
