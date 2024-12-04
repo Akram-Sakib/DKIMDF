@@ -95,7 +95,7 @@ const ProjectDetailsPage = async ({
               </section>
               <section className="mt-5">
                 <div
-                  className={`bg-[#1d1e20] text-[#f7f7f7] relative rounded-lg p-5 py-6 pt-[4.5rem] md:pt-16 lg:pt-[4.5rem] text-center flex items-center gap-2`}
+                  className={`bg-[#1d1e20] text-[#f7f7f7] relative rounded-lg p-5 py-6 text-center flex items-center gap-2`}
                 >
                   {/* <div className="absolute -top-12 left-1/2 -translate-x-1/2">
                     <Image
