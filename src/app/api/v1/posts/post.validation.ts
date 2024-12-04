@@ -5,10 +5,8 @@ const PostSchema = z.object({ // Optional, as it might be generated on creation
   description: z.string().min(3).max(3000).optional(), // Optional description
   imageUrl: z.string().url("Invalid URL format"), // Image URL must be a valid URL
   views: z.number().min(0).default(0).optional(), // Views default to 0 and must be non-negative
-  createdAt: z.date().optional(), // Automatically set, not required on input
-  updatedAt: z.date().optional(), // Automatically updated
   userId: z.string().uuid("Invalid User ID format"), // User ID must be a valid UUID
-  categoryId: z.string().uuid("Invalid Category ID format").optional(), // Category ID must be a valid UUID
+  // categoryId: z.string().uuid("Invalid Category ID format").optional(), // Category ID must be a valid UUID
 });
 
 const PostSchemaUpdate = PostSchema.optional();

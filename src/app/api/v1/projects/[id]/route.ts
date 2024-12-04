@@ -32,9 +32,9 @@ export const PATCH = withErrorHandler(
   ) => {
     const { id } = params;
     const body = await req.json();
-    await ProjectValidation.ProjectSchemaUpdate.parseAsync({
+    await ProjectValidation.ProjectSchemaUpdate.parseAsync(
       body,
-    });
+    );
     const result = await ProjectService.updateById(id, body);
 
     return sendResponse<Project>({

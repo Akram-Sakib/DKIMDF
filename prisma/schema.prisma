@@ -264,8 +264,8 @@ model Post {
   // author    User?   @relation(fields: [authorId], references: [id])
   userId      String
   author      User     @relation(fields: [userId], references: [id])
-  categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
 
   @@map(name: "posts")
 }
@@ -281,8 +281,8 @@ model Project {
   // author    User?   @relation(fields: [authorId], references: [id])
   userId      String
   author      User     @relation(fields: [userId], references: [id])
-  categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
 
   @@map(name: "projects")
 }

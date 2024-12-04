@@ -8,9 +8,10 @@ import { PostService } from "../post.service";
 export const POST = withErrorHandler(
   async (request: NextRequest) => {
     const body = await request.json();
-    await PostValidation.PostSchema.parseAsync({
+
+    await PostValidation.PostSchema.parseAsync(
       body,
-    });
+    );
     const result = await PostService.create(body);
 
     const data = {

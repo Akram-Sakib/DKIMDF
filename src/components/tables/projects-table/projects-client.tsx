@@ -6,18 +6,18 @@ import { Separator } from "@/components/ui/separator";
 import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";
 import { IGenericResponse } from "@/types/common";
-import { Post } from "@prisma/client";
+import { Project } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Heading } from "../../ui/dashboard/heading";
 import { columns } from "./columns";
-import { PostsTable } from "./posts-table";
+import { ProjectsTable } from "./projects-table";
 
 interface ProductsClientProps {
   isSuperOrGrandAdmin: boolean;
 }
 
-export const PostsClient: React.FC<ProductsClientProps> = ({
+export const ProjectsClient: React.FC<ProductsClientProps> = ({
   isSuperOrGrandAdmin,
 }) => {
   const searchParams = useSearchParams();
@@ -28,26 +28,26 @@ export const PostsClient: React.FC<ProductsClientProps> = ({
   const search = searchParams.get("search") || null;
 
   const { data, isLoading } = useQuery({
-    queryKey: [QueryKeys.POSTS],
+    queryKey: [QueryKeys.PROJECTS],
     queryFn: async () => {
       const res = await axiosInstance.get(
-        `/posts?page=${page}&limit=${limit}` +
+        `/projects?page=${page}&limit=${limit}` +
           (search ? `&search=${search}` : ``)
       );
-      return res.data as IGenericResponse<Post[]>;
+      return res.data as IGenericResponse<Project[]>;
     },
   });
 
   const pageCount = Math.ceil((data?.meta?.total as number) / limit);
   const total = data?.meta?.total as number;
-  const allData = data?.data as Post[];
+  const allData = data?.data as Project[];
 
   let content = null;
   if (isLoading) {
     content = <p>Loading...</p>;
   } else {
     content = (
-      <PostsTable
+      <ProjectsTable
         pageCount={pageCount}
         searchKey="title"
         columns={columns}
@@ -62,13 +62,13 @@ export const PostsClient: React.FC<ProductsClientProps> = ({
     <>
       <div className="flex items-start justify-between">
         <Heading
-          title={`Posts (${isLoading ? "0" : total})`}
-          description="Manage Posts for your business"
+          title={`Projects (${isLoading ? "0" : total})`}
+          description="Manage Projects for your business"
         />
         {isSuperOrGrandAdmin && (
           <Button
             className="text-xs md:text-sm"
-            onClick={() => router.push(`/dashboard/posts/new`)}
+            onClick={() => router.push(`/dashboard/projects/new`)}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
           </Button>

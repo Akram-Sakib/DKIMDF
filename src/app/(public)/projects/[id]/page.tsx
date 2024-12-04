@@ -1,19 +1,42 @@
 import BlurImage from "@/components/ui/blur-image";
-import { projects } from "@/constants/projects";
+import { QueryKeys } from "@/constants/common";
+import { axiosInstance } from "@/helpers/axiosInstance";
+import { IGenericResponse } from "@/types/common";
+import { Project } from "@prisma/client";
+import { QueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { notFound } from "next/navigation";
 
-const ProjectDetailsPage = ({
+const ProjectDetailsPage = async ({
   params,
 }: {
   params: {
-    slug: string;
+    id: string;
   };
 }) => {
-  const slug = params.slug;
-  const getProject = projects.find((project) => project.href === slug);
-  if (!getProject) return notFound();
-  const { title, descriptions, image, dateTime } = getProject;
+  const id = params.id;
+
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.PROJECT],
+    queryFn: async () => {
+      const res = await axiosInstance.get(`/projects/${id}`);
+      return res.data as IGenericResponse<Project>;
+    },
+  });
+
+  const project = queryClient.getQueryData([QueryKeys.PROJECT]);
+  // let content = null;
+  // if ((post as any)?.data.length > 0) {
+  //   content = (post as any)?.data.map((post: Post) => (
+  //     <PostCard post={post} key={post.title} />
+  //   ));
+  // } else {
+  //   content = <h3>No Data Founded</h3>;
+  // }
+
+  if (!project) return notFound();
+  const { title, description, imageUrl, createdAt } = project as Project;
   return (
     <main className="min-h-screen pt-20 relative">
       <div className="max-w-3xl mx-auto px-5 md:px-0">
@@ -24,7 +47,7 @@ const ProjectDetailsPage = ({
               <section>
                 <div className="mb-5 md:mb-10">
                   <BlurImage
-                    image={image}
+                    image={imageUrl}
                     // width={500}
                     // height={500}
                     alt={"featured"}
@@ -64,16 +87,13 @@ const ProjectDetailsPage = ({
                   <h1 className="text-xl md:text-2xl font-bold">{title}</h1>
 
                   <div className="flex flex-col gap-5">
-                    {descriptions.map((description, index) => (
-                      <p key={index}>{description}</p>
-                    ))}
+                      <p >{description}</p>
                   </div>
                 </div>
               </section>
               <section className="mt-5">
                 <div
-                  className={`  : "bg-[#1d1e20] text-[#f7f7f7]"
-        } relative rounded-lg p-5 py-6 pt-[4.5rem] md:pt-16 lg:pt-[4.5rem] text-center flex items-center gap-2`}
+                  className={`bg-[#1d1e20] text-[#f7f7f7] relative rounded-lg p-5 py-6 text-center flex items-center gap-2`}
                 >
                   {/* <div className="absolute -top-12 left-1/2 -translate-x-1/2">
                     <Image
@@ -87,7 +107,7 @@ const ProjectDetailsPage = ({
 
                   <div className="flex flex-col gap-1 md:gap-0 lg:gap-3 mx-auto">
                     <h2 className="text-xl sm:text-3xl md:text-xl lg:text-3xl font-bold font-serif">
-                      {format(new Date(dateTime), "MMMM dd, yyyy")}
+                      {format(new Date(createdAt), "MMMM dd, yyyy")}
                     </h2>
                     {/* <p className="text-sm md:text-base capitalize">
                       Lorem ipsum dolor sit amet consectetur adipisicing elit

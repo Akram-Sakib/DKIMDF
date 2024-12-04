@@ -1,13 +1,13 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Post } from "@prisma/client";
+import { Project } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ArrowUpDown } from "lucide-react";
 import { CellAction } from "./cell-action";
 
-export const columns: ColumnDef<Post>[] = [
+export const columns: ColumnDef<Project>[] = [
   // {
   //   id: "SERIAL",
   //   header: ({ table }) => (

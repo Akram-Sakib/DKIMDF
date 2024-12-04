@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-query";
 import { getServerSession } from "next-auth";
 const breadcrumbItems = [
-  { title: "News", link: "/dashboard/manage-posts/posts" },
+  { title: "News", link: "/dashboard/posts" },
 ];
 
 type paramsProps = {

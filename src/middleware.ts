@@ -44,7 +44,7 @@ const excludeForMemberAndAdmin = (dynamicRoute: string) => {
 
 const excludeForMember = (dynamicRoute: string) => {
     return {
-        routes: ["/dashboard/manage-admins", "/dashboard/membership", "/dashboard/members", "/dashboard/projects", "/dashboard/places/countries", "/dashboard/places/divisions", "/dashboard/places/districts", "/dashboard/places/police-stations", "/dashboard/places/post-offices"],
+        routes: ["/dashboard/manage-admins", "/dashboard/membership", "/dashboard/members", "/dashboard/projects", "/dashboard/places/countries", "/dashboard/places/divisions", "/dashboard/places/districts", "/dashboard/places/police-stations", "/dashboard/places/post-offices","/dashboard/projects"],
         dynamicRoutes: [
             `/dashboard/subscription/list/${dynamicRoute}`,
         ]

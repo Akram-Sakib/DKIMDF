@@ -8,9 +8,7 @@ import { ProjectService } from "../project.service";
 export const POST = withErrorHandler(
   async (request: NextRequest) => {
     const body = await request.json();
-    await ProjectValidation.ProjectSchema.parseAsync({
-      body,
-    });
+    await ProjectValidation.ProjectSchema.parseAsync(body);
     const result = await ProjectService.create(body);
 
     const data = {

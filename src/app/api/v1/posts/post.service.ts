@@ -10,6 +10,9 @@ const create = async (data: Post): Promise<Post> => {
   const newData = await prisma.post.create({
     data: {
       ...data,
+      // author: {
+      //   connect: { id: data.userId },
+      // }
     },
   });
 

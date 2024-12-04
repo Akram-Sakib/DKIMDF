@@ -1,36 +1,30 @@
-import Image, { StaticImageData } from "next/image";
+import { Post } from "@prisma/client";
 import Link from "next/link";
-import { FaRegCalendar } from "react-icons/fa";
 import { BsArrowRightShort } from "react-icons/bs";
-import { format } from "date-fns";
+import slugify from "slugify";
 import BlurImage from "../ui/blur-image";
-
 type PostCardProps = {
-  post: {
-    title: string;
-    descriptions: string[];
-    href: string;
-    image: StaticImageData | string;
-    dateTime: string;
-  };
+  post: Post;
 };
 
 const PostCard = ({ post }: PostCardProps) => {
+
+
   return (
-    <Link href={`${post.href}`}>
+    <Link href={`${`/news/${post.id}`}`}>
       <article
         className={`flex flex-col gap-3 sm:gap-5 rounded cursor-pointer`}
       >
         <div className="">
           <BlurImage
-            image={post.image}
+            image={post.imageUrl}
             alt={post.title}
             className="object-contain sm:object-cover object-top w-full sm:h-72 md:h-60 rounded  aspect-w-16 aspect-h-9"
           />
         </div>
 
         <div>
-          <p className="text-sm font-[500] text-[#7c7c7c]">{"News"}</p>
+          {/* <p className="text-sm font-[500] text-[#7c7c7c]">{"News"}</p> */}
           <h2 className="sm:text-xl font-semibold">
             <span /* href={`/post/${post.slug}`} */>{post.title}</span>
           </h2>
@@ -60,7 +54,7 @@ const PostCard = ({ post }: PostCardProps) => {
         </div> */}
 
         <div>
-          <p className="text-sm sm:text-base">{post.descriptions[0]}</p>
+          <p className="text-sm sm:text-base">{post.description}</p>
         </div>
         <span
           // href={`/post/${post.slug}`}

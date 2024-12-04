@@ -1,5 +1,6 @@
 "use client";
 
+import { ProjectValidation } from "@/app/api/v1/projects/project.validation";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -7,9 +8,9 @@ import { QueryKeys } from "@/constants/common";
 import { axiosInstance } from "@/helpers/axiosInstance";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Trash } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import * as z from "zod";
 import FormCldImage from "../formelements/form-cldImage";
 import FormInput from "../formelements/form-input";
 import FormTextArea from "../formelements/form-textarea";
@@ -19,17 +20,12 @@ import { Heading } from "../ui/dashboard/heading";
 import { AlertModal } from "../ui/modal/alert-modal";
 import { Skeleton } from "../ui/skeleton";
 import { useToast } from "../ui/use-toast";
-import { useSession } from "next-auth/react";
-import { PostValidation } from "@/app/api/v1/posts/post.validation";
-
 
 export const IMG_MAX_LIMIT = 3;
 
-type ProductFormValues = z.infer<typeof PostValidation.PostSchema>;
-
 interface FormProps {}
 
-export const PostForm: React.FC<FormProps> = ({}) => {
+export const ProjectForm: React.FC<FormProps> = ({}) => {
   const { data } = useSession();
   const userId = (data as any)?.userId;
 
@@ -40,61 +36,41 @@ export const PostForm: React.FC<FormProps> = ({}) => {
   const { data: initialData, isLoading: initialDataLoading } = useQuery({
     queryFn: async () => {
       if (!params.id) return;
-      const data = await axiosInstance.get(`/posts/${params.id}`);
+      const data = await axiosInstance.get(`/projects/${params.id}`);
       return data.data;
     },
-    queryKey: [QueryKeys.POST, params.id],
+    queryKey: [QueryKeys.PROJECT, params.id],
   });
 
-  // const { data: countries, isLoading: countriesLoading } = useQuery({
-  //   queryFn: async () => {
-  //     if (!params.id) return;
-  //     const data = await axiosInstance.get(`/countries?limit=500`);
-  //     return data.data;
-  //   },
-  //   queryKey: [QueryKeys.COUNTRIES, params.id],
-  //   // enabled: authorizationScope === "country",
-  // });
-
-  // useEffect(() => {
-  //   if (
-  //     !countriesLoading &&
-  //     countries?.data &&
-  //     authorizationScope === "country"
-  //   ) {
-  //     setAuthorizationArea(countries?.data);
-  //   }
-  // }, []);
-
   const breadcrumbItems = [
-    { title: "Posts", link: "/dashboard/posts" },
+    { title: "Projects", link: "/dashboard/projects" },
     {
       title: initialData ? initialData.title : "New",
-      link: `/dashboard/posts/${params.id}`,
+      link: `/dashboard/projects/${params.id}`,
     },
   ];
 
   const { mutate: createMutation, isPending: createIsPending } = useMutation({
     mutationFn: async (data: any) => {
-      const res = await axiosInstance.post(`/posts/create-post`, data);
+      const res = await axiosInstance.post(`/projects/create-project`, data);
       return res;
     },
     onSuccess: (res: any) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.POSTS],
+        queryKey: [QueryKeys.PROJECTS],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.POST, params.id],
+        queryKey: [QueryKeys.PROJECT, params.id],
       });
 
       if (res.success) {
         toast({
           variant: "default",
           title: toastMessage,
-          description: "Post has been created successfully.",
+          description: "Project has been created successfully.",
         });
-        router.push(`/dashboard/posts/`);
+        router.push(`/dashboard/projects/`);
       } else {
         toast({
           variant: "destructive",
@@ -114,22 +90,25 @@ export const PostForm: React.FC<FormProps> = ({}) => {
 
   const { mutate: updateMutation, isPending: updateIsPending } = useMutation({
     mutationFn: async (data: any) => {
-      const res = await axiosInstance.patch(`/posts/${initialData.id}`, data);
+      const res = await axiosInstance.patch(
+        `/projects/${initialData.id}`,
+        data
+      );
       return res;
     },
     onSuccess: (res: any) => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.POSTS],
+        queryKey: [QueryKeys.PROJECTS],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.POST, params.id],
+        queryKey: [QueryKeys.PROJECT, params.id],
       });
 
       if (res.success) {
         toast({
           variant: "default",
           title: toastMessage,
-          description: "Post has been updated successfully.",
+          description: "Project has been updated successfully.",
         });
       } else {
         toast({
@@ -150,23 +129,23 @@ export const PostForm: React.FC<FormProps> = ({}) => {
 
   const { mutate: deleteMutation, isPending: deleteIsPending } = useMutation({
     mutationFn: async () => {
-      const res = await axiosInstance.delete(`/posts/${params.id}`);
+      const res = await axiosInstance.delete(`/projects/${params.id}`);
       return res;
     },
     onSuccess: (res: any) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.POSTS],
+        queryKey: [QueryKeys.PROJECTS],
       });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.POST, params.id],
+        queryKey: [QueryKeys.PROJECT, params.id],
       });
       if (res.success) {
         toast({
           variant: "default",
-          description: "Post has been deleted successfully.",
+          description: "Project has been deleted successfully.",
         });
-        router.push(`/dashboard/posts/`);
+        router.push(`/dashboard/projects/`);
       } else {
         toast({
           variant: "destructive",
@@ -188,10 +167,10 @@ export const PostForm: React.FC<FormProps> = ({}) => {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const title = initialData ? "Edit Post" : "Create Post";
-  const description = initialData ? "Edit a Post." : "Add a new Post";
-  const toastMessage = initialData ? "Post updated." : "Post Uploaded.";
-  const action = initialData ? "Save changes" : "Post";
+  const title = initialData ? "Edit Project" : "Create Project";
+  const description = initialData ? "Edit a Project." : "Add a new Project";
+  const toastMessage = initialData ? "Project updated." : "Project Uploaded.";
+  const action = initialData ? "Save changes" : "Create";
 
   const defaultValues = initialData
     ? initialData
@@ -204,12 +183,8 @@ export const PostForm: React.FC<FormProps> = ({}) => {
         categoryId: "",
       };
 
-  // const form = useForm<ProductFormValues>({
-  //   resolver: zodResolver(initialData ? formUpdateSchema : formSchema),
-  //   defaultValues,
-  // });
-
   const onSubmit = (data: { [x: string]: any }): void => {
+    console.log("Hitted", data);
 
     try {
       setLoading(true);
@@ -278,15 +253,14 @@ export const PostForm: React.FC<FormProps> = ({}) => {
 
       <ScrollArea>
         <PersistForm
-          // {...form}
           formSchema={
             initialData
-              ? (PostValidation.PostSchemaUpdate as any)
-              : (PostValidation.PostSchema as any)
+              ? (ProjectValidation.ProjectSchemaUpdate as any)
+              : (ProjectValidation.ProjectSchema as any)
           }
           onSubmit={onSubmit}
           defaultValues={defaultValues}
-          formId="postForm"
+          formId="projectForm"
           className="space-y-8 w-full"
         >
           {initialDataLoading ? (
@@ -306,28 +280,28 @@ export const PostForm: React.FC<FormProps> = ({}) => {
               <div className="md:grid md:grid-cols-1 gap-8">
                 <FormCldImage
                   name={`imageUrl`}
-                  label="Post Image"
-                  placeholder="Upload Post Image"
+                  label="Project Image"
+                  placeholder="Upload Project Image"
                   disabled={loading}
                 />
                 <FormInput
                   name={`title`}
                   label="Title"
-                  placeholder="Enter your post title"
+                  placeholder="Enter your project title"
                   disabled={loading}
                   required
                 />
                 <FormTextArea
                   name={`description`}
                   label="Description"
-                  placeholder="Enter your post description"
+                  placeholder="Enter your project description"
                   disabled={loading}
                 />
 
                 {/* <FormComboBox
                   name={`${isUpdate}authorizationArea`}
                   placeholder="Select Area of Authorization"
-                  label="Post Authorization Area"
+                  label="Project Authorization Area"
                   options={
                     categoris?.map((area: any) => ({
                       value: area.id,

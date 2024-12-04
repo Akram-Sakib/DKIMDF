@@ -1,7 +1,12 @@
 import PostCard from "@/components/post/post-card";
 import Container from "@/components/ui/container";
+import { QueryKeys } from "@/constants/common";
+import { Post, Project } from "@prisma/client";
+import { axiosInstance } from "@/helpers/axiosInstance";
 import { newsEvents } from "@/constants/news-events";
+import { QueryClient } from "@tanstack/react-query";
 
+import { IGenericResponse } from "@/types/common";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,51 +15,39 @@ export const metadata: Metadata = {
     "Dynamic Krishok & Imam Muazzin Development Foundation (DKIMDF).",
 };
 
-const NewsPage = () => {
-  const posts = [
-    {
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      excerpt:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, voluptates.",
-      slug: "lorem-ipsum-dolor-sit-amet-consectetur-adipisicing-elit",
-      createdAt: "2021-07-01T10:00:00.000Z",
-      featuredImage: {
-        url: "https://cmsblogapp.vercel.app/_next/image?url=https%3A%2F%2Fmedia.graphassets.com%2FChu3sMuZQvwQ51HQbo2R&w=640&q=75",
-      },
-      categories: [
-        {
-          name: "News",
-        },
-      ],
-      author: {
-        name: "John Doe",
-        photo: {
-          url: "https://cmsblogapp.vercel.app/_next/image?url=https%3A%2F%2Fmedia.graphassets.com%2FC6KaM8BRTm24VQji2LdE&w=128&q=75",
-        },
-      },
+type paramsProps = {
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
+};
+
+const NewsPage = async ({ searchParams }: paramsProps) => {
+  const page = Number(searchParams.page) || 1;
+  const pageLimit = Number(searchParams.limit) || 10;
+  const search = searchParams.search || null;
+
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.POSTS],
+    queryFn: async () => {
+      const res = await axiosInstance.get(
+        `/posts?page=${page}&limit=${pageLimit}` +
+          (search ? `&search=${search}` : ``)
+      );
+      return res.data as IGenericResponse<Post[]>;
     },
-    {
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      excerpt:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, voluptates.",
-      slug: "lorem-ipsum-dolor-sit-amet-consectetur-adipisicing-elit-2",
-      createdAt: "2021-07-01T10:00:00.000Z",
-      featuredImage: {
-        url: "https://cmsblogapp.vercel.app/_next/image?url=https%3A%2F%2Fmedia.graphassets.com%2FChu3sMuZQvwQ51HQbo2R&w=640&q=75",
-      },
-      categories: [
-        {
-          name: "News",
-        },
-      ],
-      author: {
-        name: "John Doe",
-        photo: {
-          url: "https://cmsblogapp.vercel.app/_next/image?url=https%3A%2F%2Fmedia.graphassets.com%2FC6KaM8BRTm24VQji2LdE&w=128&q=75",
-        },
-      },
-    },
-  ];
+  });
+
+  const posts = queryClient.getQueryData([QueryKeys.POSTS]);
+ 
+  let content = null;
+  if ((posts as any)?.data.length > 0) {
+    content = (posts as any)?.data.map((post: Post) => (
+      <PostCard post={post} key={post.title} />
+    ));
+  } else {
+    content = <h3>No Data Founded</h3>;
+  }
 
   return (
     <main className="min-h-screen py-20 relative">
@@ -62,9 +55,7 @@ const NewsPage = () => {
         <div className="flex md:flex-row flex-col gap-5 relative">
           {/* blog posts (Left Side) */}
           <div className="flex-1 grid lg:grid-cols-2 xl:grid-cols-3 gap-10 lg:gap-y-12 lg:gap-6">
-            {newsEvents.map((post) => (
-              <PostCard post={post} key={post.title} />
-            ))}
+            {content}
           </div>
 
           {/* line between (posts) & (postWidget,Categories) */}
@@ -72,8 +63,8 @@ const NewsPage = () => {
 
           {/* postWidgets and Categories (Right Side) */}
           {/* <div className="relative md:sticky top-2 left-0 right-0 flex-2 md:w-72 lg:w-80 h-fit flex flex-col gap-10"> */}
-            {/* <PostWidget /> */}
-            {/* <Categories />
+          {/* <PostWidget /> */}
+          {/* <Categories />
           </div> */}
         </div>
       </Container>

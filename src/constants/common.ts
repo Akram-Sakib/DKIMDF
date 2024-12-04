@@ -101,6 +101,9 @@ export const QueryKeys = {
   POSTS: "posts",
   POST: "post",
   PROJECTS: "PROJECTS",
+  PROJECT: "PROJECT",
+  GALLERIES: "GALLERIES",
+  GALLERY: "GALLERY",
 };
 
 export const ACCESS_TOKEN_KEY = "accessToken";
