@@ -28,9 +28,9 @@ import {
   memberProfileSchema,
   superAdminProfileSchema,
 } from "@/schema/profile-schema";
-import DateTimePickerV2 from "@/components/formelements/form-date-picker-2";
+import FormDateTimePickerV2 from "@/components/formelements/form-date-picker-2";
 
-const CreateProfileOne = () => {
+const  CreateProfileOne = () => {
   const title = "Profile";
   const description = "Create your profile";
 
@@ -184,7 +184,7 @@ const CreateProfileOne = () => {
                   required
                 />
                 {/* <FormDatePicker name="dateOfBirth" label="Date Of Birth" /> */}
-                <DateTimePickerV2 name="dateOfBirth" label="Date Of Birth"/>
+                <FormDateTimePickerV2 name="dateOfBirth" label="Date Of Birth"/>
                 <FormInput
                   name="phoneNumber"
                   label="Phone Number"

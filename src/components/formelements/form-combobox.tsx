@@ -65,7 +65,7 @@ export function FormComboBox({
                       variant="outline"
                       role="combobox"
                       aria-expanded={open}
-                      className="w-[300px] justify-between"
+                      className="w-full justify-between"
                     >
                       {value
                         ? options?.find((option) => option.value === value)

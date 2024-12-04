@@ -20,6 +20,7 @@ import { Heading } from "../ui/dashboard/heading";
 import { AlertModal } from "../ui/modal/alert-modal";
 import { Skeleton } from "../ui/skeleton";
 import { useToast } from "../ui/use-toast";
+import FormDateTimePickerV2 from "../formelements/form-date-picker-2";
 
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
@@ -476,7 +477,7 @@ export const MemberForm: React.FC<FormProps> = ({}) => {
             {/* <Skeleton className="w-full h-10" /> */}
           </div>
         ) : (
-          <div className="md:grid md:grid-cols-3 gap-8">
+          <div className="md:grid md:grid-cols-3 gap-8 space-y-4 md:space-y-2">
             <FormCldImage
               name={`${isUpdate}imageUrl`}
               label="Member Image"
@@ -549,7 +550,7 @@ export const MemberForm: React.FC<FormProps> = ({}) => {
               isLoading={loading || countriesLoading || divisionsLoading}
               required
             />
-            <FormDatePicker
+            <FormDateTimePickerV2
               name={`${isUpdate}dateOfBirth`}
               label="Date of Birth"
               placeholder="Select Date of Birth"

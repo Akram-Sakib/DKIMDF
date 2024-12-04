@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 type Option = {
   label: string;
@@ -32,6 +33,7 @@ interface FormSelectProps {
   required?: boolean;
   disabled?: boolean;
   loading?: boolean;
+  className?:string
 }
 
 const FormSelect = ({
@@ -42,9 +44,10 @@ const FormSelect = ({
   disabled = false,
   required = false,
   loading = false,
+  className="",
   ...props
 }: FormSelectProps) => {
-  const { control, getValues } = useFormContext();
+  const { control } = useFormContext();
 
   // const value = getValues(name);
   const pathname = usePathname();
@@ -66,7 +69,7 @@ const FormSelect = ({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={cn(className)}>
           <FormLabel>
             {label}
             {required && <span className="text-red-500">*</span>}
@@ -110,10 +113,6 @@ const FormSelect = ({
               )}
             </SelectContent>
           </Select>
-          {/* <FormDescription>
-            You can manage email addresses in your{" "}
-            <Link href="/examples/forms">email settings</Link>.
-          </FormDescription> */}
           <FormMessage />
         </FormItem>
       )}

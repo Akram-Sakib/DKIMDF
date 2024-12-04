@@ -28,7 +28,7 @@ interface FormDatePickerProps {
   type?: string;
 }
 
-const DateTimePickerV2 = ({
+const FormDateTimePickerV2 = ({
   name,
   label,
   placeholder,
@@ -91,9 +91,8 @@ const DateTimePickerV2 = ({
           }}
         />
       </div>
-      <Button type="submit">Submit</Button>
     </div>
   );
 };
 
-export default DateTimePickerV2;
+export default FormDateTimePickerV2;

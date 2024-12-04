@@ -5,6 +5,7 @@ import FormDatePicker from "../formelements/form-date-picker";
 import FormInput from "../formelements/form-input";
 import FormSelect from "../formelements/form-select";
 import { Button } from "../ui/button";
+import FormDateTimePickerV2 from "../formelements/form-date-picker-2";
 
 const PersonIntro = ({
   handlePrevNextTabs,
@@ -51,7 +52,7 @@ const PersonIntro = ({
           options={GENDER}
           required
         />
-        <FormDatePicker name="member.dateOfBirth" label="Date Of Birth" />
+        <FormDateTimePickerV2 name="member.dateOfBirth" label="Date Of Birth" />
 
         <FormInput
           name="member.nidNumber"
