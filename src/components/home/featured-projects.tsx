@@ -13,6 +13,12 @@ const FeaturedProjects = ({ projects }: { projects: Project[] }) => {
   if (!projects || projects.length === 0) {
     content = (
       <Container>
+        <HeadingText title="No projects available" />
+      </Container>
+    );
+  } else {
+    content = (
+      <Container>
         {/* Our Project text heading with a border bottom */}
         <HeadingText title="Our Projects" />
         <div className="grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-20 mt-10">
@@ -40,12 +46,6 @@ const FeaturedProjects = ({ projects }: { projects: Project[] }) => {
             </Link>
           ))}
         </div>
-      </Container>
-    );
-  } else {
-    content = (
-      <Container>
-        <HeadingText title="No projects available" />
       </Container>
     );
   }

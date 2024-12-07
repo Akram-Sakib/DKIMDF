@@ -11,6 +11,12 @@ const NewsAndEvents = async ({ posts }: { posts: Post[] }) => {
   if (!posts || posts.length === 0) {
     content = (
       <Container>
+        <HeadingText title="No news available" />
+      </Container>
+    );
+  } else {
+    content = (
+      <Container>
         {<HeadingText title="News & Events" className={"mb-10"} />}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-rows-2 gap-16 mt-5 [&>*]:text-2xl">
           {posts.map((item, i) => (
@@ -37,12 +43,6 @@ const NewsAndEvents = async ({ posts }: { posts: Post[] }) => {
             </Link>
           ))}
         </div>
-      </Container>
-    );
-  } else {
-    content = (
-      <Container>
-        <HeadingText title="No news available" />
       </Container>
     );
   }
