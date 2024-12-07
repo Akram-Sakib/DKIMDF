@@ -9,29 +9,13 @@ import { Project } from "@prisma/client";
 
 // dateTime should be unique for each project
 const FeaturedProjects = ({ projects }: { projects: Project[] }) => {
-  
-  return (
-    <section
-      className="py-12 md:py-20"
-      style={{
-        background: "#f7fafd",
-      }}
-    >
+  let content = null;
+  if (!projects || projects.length === 0) {
+    content = (
       <Container>
         {/* Our Project text heading with a border bottom */}
         <HeadingText title="Our Projects" />
-        {/* project card should be 6 card */}
         <div className="grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-20 mt-10">
-          {/* Project card */}
-          {/* {featuredList.map((item) => (
-          <FeaturedProject
-            key={item.id}
-            id={item.id}
-            title={item.title}
-            description={item.description}
-            image={item.image}
-          />
-        ))} */}
           {projects.map(({ id, title, imageUrl, createdAt }) => (
             <Link href={`/projects/${id}`} key={id}>
               <div className="flex max-w-lg flex-col-reverse rounded-xl border-[1px] border-tertiary py-4 px-6 transition duration-200 hover:border-accent md:hover:scale-[1.01]">
@@ -45,10 +29,6 @@ const FeaturedProjects = ({ projects }: { projects: Project[] }) => {
                     </p>
                   </div>
                 </span>
-                {/* <Link
-           href={"/projects/#"}
-           className="mr-1 inline-flex items-center space-x-1 text-gray-300 transition duration-200 aspect-[16/9] overflow-hidden rounded-2xl drop-shadow-md"
-         > */}
                 <BlurImage
                   alt="Image"
                   aspectRatio={16 / 9}
@@ -56,12 +36,28 @@ const FeaturedProjects = ({ projects }: { projects: Project[] }) => {
                   imgClassName="rounded-lg"
                   image={imageUrl}
                 />
-                {/* </Link> */}
               </div>
             </Link>
           ))}
         </div>
       </Container>
+    );
+  } else {
+    content = (
+      <Container>
+        <HeadingText title="No projects available" />
+      </Container>
+    );
+  }
+
+  return (
+    <section
+      className="py-12 md:py-20"
+      style={{
+        background: "#f7fafd",
+      }}
+    >
+      {content}
     </section>
   );
 };

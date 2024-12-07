@@ -7,14 +7,9 @@ import HeadingText from "../ui/heading/heading-text";
 import { Post } from "@prisma/client";
 
 const NewsAndEvents = async ({ posts }: { posts: Post[] }) => {
-
-  return (
-    <section
-      className="py-12 md:py-20"
-      style={{
-        background: "#f5f6fa",
-      }}
-    >
+  let content = null;
+  if (!posts || posts.length === 0) {
+    content = (
       <Container>
         {<HeadingText title="News & Events" className={"mb-10"} />}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-rows-2 gap-16 mt-5 [&>*]:text-2xl">
@@ -43,6 +38,23 @@ const NewsAndEvents = async ({ posts }: { posts: Post[] }) => {
           ))}
         </div>
       </Container>
+    );
+  } else {
+    content = (
+      <Container>
+        <HeadingText title="No news available" />
+      </Container>
+    );
+  }
+
+  return (
+    <section
+      className="py-12 md:py-20"
+      style={{
+        background: "#f5f6fa",
+      }}
+    >
+      {content}
     </section>
   );
 };

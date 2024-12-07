@@ -35,9 +35,8 @@ export default async function Home({
     },
   });
 
-  const posts = queryClient.getQueryData([QueryKeys.POSTS]) as Post[];
-  const projects = queryClient.getQueryData([QueryKeys.PROJECTS]) as Project[];
-  // console.log(posts);
+  const posts = queryClient.getQueryData([QueryKeys.POSTS]) as Post[] || [];
+  const projects = queryClient.getQueryData([QueryKeys.PROJECTS]) as Project[] || [];
 
   return (
     <>
