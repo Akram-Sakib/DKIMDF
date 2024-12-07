@@ -28,7 +28,7 @@ const ProjectsPage = async ({ searchParams }: paramsProps) => {
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: [QueryKeys.POSTS],
+    queryKey: [QueryKeys.PROJECTS],
     queryFn: async () => {
       const res = await axiosInstance.get(
         `/projects?page=${page}&limit=${pageLimit}` +
@@ -37,8 +37,9 @@ const ProjectsPage = async ({ searchParams }: paramsProps) => {
       return res.data as IGenericResponse<Project[]>;
     },
   });
+  
 
-  const projects = queryClient.getQueryData([QueryKeys.POSTS]);
+  const projects = queryClient.getQueryData([QueryKeys.PROJECTS]);
 
   let content = null;
   if ((projects as any)?.data.length > 0) {

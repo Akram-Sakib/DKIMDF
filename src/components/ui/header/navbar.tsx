@@ -63,18 +63,15 @@ const Navbar = async () => {
                 width={50}
                 height={50}
               />
-              {/* <h1 className="text-xl font-bold hidden lg:block">
-                Samadhan Foundation
-              </h1> */}
             </Link>
           </div>
-          <nav className="flex items-center space-x-4 md:space-x-6 lg:space-x-8 text-lg">
+          <nav className="flex items-center space-x-2 lg:space-x-8">
             {filteredRoutes.map((route) => {
               return (
                 <Link
                   key={route.label}
                   href={route.href}
-                  className="hidden sm:block text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100 border-transparent px-2 rounded border"
+                  className="hidden sm:block text-xs lg:text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100 border-transparent px-2 rounded border"
                 >
                   {route.label}
                 </Link>
@@ -82,17 +79,6 @@ const Navbar = async () => {
             })}
           </nav>
           <div className="flex items-center gap-x-2 md:gap-x-3">
-            {/* <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Toggle Theme"
-              className="rounded-full"
-              // onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >
-              <Sun className="h-6 w-6 md:h-7 md:w-7 hidden dark:block transition-all" />
-              <Moon className="h-6 w-6 md:h-7 md:w-7 block dark:hidden transition-all" />
-            </Button> */}
-
             <HydrationBoundary state={dehydrate(queryClient)}>
               <ProfileButton />
             </HydrationBoundary>
